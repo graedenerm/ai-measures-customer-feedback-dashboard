@@ -1,0 +1,1107 @@
+[
+  {
+    "id": "ins_a4f2c8e1",
+    "locationId": 85437,
+    "findingId": "cand_struct_opp_449721421764",
+    "type": "baseload_structural",
+    "priorityScore": 0.843796,
+    "savingsKwhPerYear": 19060.0,
+    "savingsEurPerYear": 3354.56,
+    "confidence": 0.964,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": null,
+      "hoursPerWeek": 10,
+      "hoursByDay": {
+        "Fri": ["22:00-24:00"],
+        "Sat": ["00:00-06:00", "14:00-15:00"],
+        "Sun": ["22:00-23:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Night (High) [SC1]",
+      "consumptionKw": {
+        "median": 225.0,
+        "baseline": 75.0,
+        "p25": 145.0,
+        "p50": 225.0,
+        "p75": 255.0
+      },
+      "deltaKw": 150.0,
+      "deltaPct": 200.0
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "Stanz- und Pressteilefertigung mit mehreren Pressen- und Trafostationslinien",
+          "Druckluftversorgung über Kompressoren (Kompressor 1-3 messtechnisch erfasst)",
+          "Leistungsfaktor-Überwachung an Trafostationen T, E, M, S laufend",
+          "Untermesskonzept im Aufbau, Ziel: 80 % des Verbrauchs abgedeckt"
+        ]
+      },
+      "location": {
+        "id": 85437,
+        "title": "Heinrich Huhn Deutschland GmbH",
+        "streetName": "Hauptstr.",
+        "streetNumber": "44",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "51459044347", "energyType": "electricity", "isVirtual": false, "isDefault": true},
+        {"meterTitle": "Trafostation M", "deviceId": "Huhn_Drols_8", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafostation E", "deviceId": "Huhn_Drols_7", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafostation T", "deviceId": "Huhn_Drols_9", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Kompressor 1-3", "deviceId": "Huhn_Drols_1", "energyType": "electricity", "isVirtual": false, "isDefault": false}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2025-11-03",
+          "quote": "In Rothen/Drolshagen wurde eine Spitzenlast von 855 kW genannt. Wiederkehrendes Problem: sehr hohe Einzelspitze Anfang Januar. Danach im Jahr keine vergleichbaren Spitzen; zusätzlich auffällige Werte im Juli."
+        },
+        {
+          "date": "2026-02-18",
+          "quote": "Relevante Verbraucher/Anlagen: Pressen (Kaiser, Schuler, Müller, AIDA, Weingarten, Raster), Kompressoren als eigener wesentlicher Verbraucher. Eine Kaiser (große Presse) macht ca. 5-7 % des Stromverbrauchs aus."
+        }
+      ]
+    },
+    "title": "Dreifache Freitag- und Samstagsnacht-Grundlast ohne Regulärproduktion",
+    "description": "An Freitagen ab 22 Uhr und samstags zwischen 0 und 6 Uhr erreicht der Standort Drolshagen eine mediane Grundlast von 225 kW – das Dreifache der erreichbaren Baseline von 75 kW, obwohl kein Schichtbetrieb stattfindet. Die enorme Streuung (P25 = 145 kW, P75 = 255 kW) zeigt, dass an manchen Wochenendnächten nahezu Vollbetriebslast gemessen wird, während in anderen Nächten ein niedrigeres Niveau erreicht wird. Über das Jahr summiert sich das Einsparpotenzial auf 19.060 kWh (3.355 €/Jahr). Da das Submetering-System erst im Aufbau ist (Abdeckung aktuell ~40 %), lässt sich noch nicht eindeutig zuordnen, welche Anlage oder Gruppe diesen erheblichen Nacht-Cluster verursacht – die Zuordnung ist zu 100 % offen.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Pressen oder Maschinen (Kaiser, Schuler) laufen in Freitagnächten im Bereitschaftsbetrieb weiter, weil kein strukturierter Abschalt-Prozess für das Wochenende definiert ist."
+      },
+      {
+        "type": "problem",
+        "explanation": "Kompressoren (Kompressor 1-3) laufen nachts im Leerlauf, um den Betriebsdruck für eventuelle Samstagschichten aufrechtzuerhalten, obwohl dies mehrere Stunden vor Schichtbeginn nicht notwendig wäre."
+      },
+      {
+        "type": "problem",
+        "explanation": "Thermische Anlagen (Öfen, Temper- oder Reinigungsprozesse) sind so programmiert, dass sie freitags nach Produktionsschluss automatisch einen mehrstündigen Zyklus starten, der bis in die Nachtstunden reicht."
+      },
+      {
+        "type": "benign",
+        "explanation": "Einzelne Samstagfrühschichten (z. B. für Sonderaufträge oder Nacharbeiten) erfordern Vorlaufzeiten ab 0 Uhr, was die hohe Variabilität zwischen P25 = 145 kW und P75 = 255 kW erklärt."
+      }
+    ],
+    "deviceAttribution": {
+      "topDevices": [],
+      "subMeterCoveragePct": 40.41,
+      "unattributedPct": 100.0,
+      "coverageAssessment": "limited"
+    }
+  },
+  {
+    "id": "ins_7c3a9b2d",
+    "locationId": 85437,
+    "findingId": "cand_anom_sck_ed8a6bdfbf9f",
+    "type": "baseload_anomaly",
+    "priorityScore": 0.538303,
+    "savingsKwhPerYear": 9116.25,
+    "savingsEurPerYear": 1604.46,
+    "confidence": 0.6905,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": null,
+      "hoursPerWeek": 6,
+      "hoursByDay": {
+        "Mon": ["00:00-06:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekday Night (Low) [SC0]",
+      "consumptionKw": {
+        "median": 112.5,
+        "baseline": 65.0,
+        "p25": 80.0,
+        "p50": 105.0,
+        "p75": 180.0
+      },
+      "deltaKw": 47.5,
+      "deltaPct": 73.08,
+      "totalEvents": 135,
+      "recurrencePerWeek": 4.35,
+      "severityRatio": 3.0,
+      "topTimes": [
+        {"day": "monday", "hour": "05:00", "count": 27, "pct": 20.0},
+        {"day": "monday", "hour": "03:00", "count": 25, "pct": 18.5},
+        {"day": "monday", "hour": "04:00", "count": 24, "pct": 17.8},
+        {"day": "monday", "hour": "01:00", "count": 21, "pct": 15.6},
+        {"day": "monday", "hour": "02:00", "count": 21, "pct": 15.6}
+      ],
+      "topDates": [
+        {"date": "2025-05-12", "count": 24, "pct": 17.8},
+        {"date": "2025-03-31", "count": 23, "pct": 17.0},
+        {"date": "2025-04-07", "count": 22, "pct": 16.3},
+        {"date": "2025-06-30", "count": 22, "pct": 16.3},
+        {"date": "2026-01-26", "count": 18, "pct": 13.3}
+      ]
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "Stanz- und Pressteilefertigung mit mehreren Pressen- und Trafostationslinien",
+          "Druckluftversorgung über Kompressoren (Kompressor 1-3 messtechnisch erfasst)",
+          "Waschanlage Minomat als separater Messpunkt erfasst",
+          "Erweiterung des Untermesskonzepts auf 80 % des Verbrauchs geplant"
+        ]
+      },
+      "location": {
+        "id": 85437,
+        "title": "Heinrich Huhn Deutschland GmbH",
+        "streetName": "Hauptstr.",
+        "streetNumber": "44",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "51459044347", "energyType": "electricity", "isVirtual": false, "isDefault": true},
+        {"meterTitle": "Kompressor 1-3", "deviceId": "Huhn_Drols_1", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Waschmaschine Minomat", "deviceId": "Huhn_Drols_11", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafostation M", "deviceId": "Huhn_Drols_8", "energyType": "electricity", "isVirtual": false, "isDefault": false}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2025-12-10",
+          "quote": "Historisch gab es nur rudimentäres Verständnis; teils wurden hohe Stromkosten ohne klare Verursacherkenntnis akzeptiert (Beispiel: ca. 5.000 € Stromkosten/Monat ohne Transparenz über den Zweck/Verbraucher). Interne Sensibilisierung ist notwendig; Anomalie-Hinweise wurden anfangs nicht in Maßnahmen übersetzt."
+        },
+        {
+          "date": "2026-02-18",
+          "quote": "Kompressoren sollen als eigener wesentlicher Verbraucher betrachtet werden. Mindestens ein Messpunkt 'Kompressor 88' vorhanden."
+        }
+      ]
+    },
+    "title": "Anomale Verbrauchsspitzen treten ausschließlich in Montagnächten 0 bis 6 Uhr auf",
+    "description": "An Montagen zwischen 0 und 6 Uhr registriert der Standort Drolshagen 135 anomale Verbrauchsereignisse mit einer Wiederkehrrate von 4,35 pro Woche und einem Severity Ratio von 3,0 – das bedeutet, die Anomalien sind dreimal intensiver als der typische Cluster-Pegel. Überraschend ist das hochspezifische Muster: Die Ereignisse konzentrieren sich ausschließlich auf Montagnächte, nicht auf andere Wochentage oder Wochenenden. Die Top-Ereignisdaten stammen größtenteils aus dem Frühjahr und Frühsommer 2025 (Mai 17,8 %, März 31. 17,0 %, April 7. 16,3 %), was auf eine saisonale oder kampagnenbezogene Komponente hindeuten könnte. Das Einsparpotenzial beträgt 9.116 kWh (1.604 €/Jahr), bleibt jedoch wegen der noch unvollständigen Gerätezuordnung (~40 % Abdeckung) schwer lokalisierbar.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Automatische Reinigungsanlagen (z. B. Waschmaschine Minomat) laufen nach einem festen Wochenprogramm in der Nacht von Sonntag auf Montag – möglicherweise länger als nötig oder außerhalb des optimalen Zeitfensters."
+      },
+      {
+        "type": "problem",
+        "explanation": "Maschinensysteme fahren nachts automatisch hoch, um für den Montagmorgen-Schichtstart vorbereitet zu sein, obwohl Vorwärmzeiten von mehreren Stunden für die betreffenden Anlagen nicht erforderlich sind."
+      },
+      {
+        "type": "benign",
+        "explanation": "Sonderproduktionsaufträge mit Montag-Lieferterminen führen sporadisch zu durchgezogener Nachtproduktion von Sonntag auf Montag, was die Variabilität (P25 = 80 kW, P75 = 180 kW) erklärt."
+      },
+      {
+        "type": "benign",
+        "explanation": "Druckluftaufbau oder thermische Vorwärmung für energieintensive Pressen erfordert mehrere Stunden Vorlaufzeit, sodass der Betrieb bewusst in der Nacht vor dem ersten Wochentag gestartet wird."
+      }
+    ],
+    "deviceAttribution": {
+      "topDevices": [],
+      "subMeterCoveragePct": 39.78,
+      "unattributedPct": 100.0,
+      "coverageAssessment": "limited"
+    }
+  },
+  {
+    "id": "ins_f1e4a7d9",
+    "locationId": 85437,
+    "findingId": "cand_struct_opp_7eda7b0124d4",
+    "type": "baseload_structural",
+    "priorityScore": 0.895672,
+    "savingsKwhPerYear": 7786.25,
+    "savingsEurPerYear": 1370.38,
+    "confidence": 0.9775,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": null,
+      "hoursPerWeek": 31,
+      "hoursByDay": {
+        "Sat": ["15:00-24:00"],
+        "Sun": ["00:00-22:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Evening (Low) [SC0]",
+      "consumptionKw": {
+        "median": 90.0,
+        "baseline": 70.0,
+        "p25": 85.0,
+        "p50": 90.0,
+        "p75": 105.0
+      },
+      "deltaKw": 20.0,
+      "deltaPct": 28.57
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "Stanz- und Pressteilefertigung mit mehreren Pressen- und Trafostationslinien",
+          "ONI-Kühl- oder Prozessanlage als separater Messpunkt erfasst",
+          "Trafostation M als größter Einzelverbraucher im Submetering sichtbar",
+          "Leistungsfaktor-Überwachung an Trafostation M laufend"
+        ]
+      },
+      "location": {
+        "id": 85437,
+        "title": "Heinrich Huhn Deutschland GmbH",
+        "streetName": "Hauptstr.",
+        "streetNumber": "44",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "51459044347", "energyType": "electricity", "isVirtual": false, "isDefault": true},
+        {"meterTitle": "Trafostation M", "deviceId": "Huhn_Drols_8", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Oni", "deviceId": "Huhn_Drols_2", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafostation E", "deviceId": "Huhn_Drols_7", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafostation M - Scheinleistung", "deviceId": "Huhn_Drols_25", "energyType": null, "isVirtual": true, "isDefault": false}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2025-12-10",
+          "quote": "Drolshagen und Ense: Energieverbrauch ist 'live'/detailliert bekannt (inkl. Zuordnung 'wo' der Verbrauch entsteht)."
+        },
+        {
+          "date": "2026-02-12",
+          "quote": "Relevante Messpunkte/Anlagen aus Sicht des Teilnehmers: Trafostationen T, E und M. Messpunkt S betrifft eine einzelne Servomaschine, die nicht kompensiert ist."
+        }
+      ]
+    },
+    "title": "Trafostation M und ONI treiben Wochenend-Abendlast um 29 % über Baseline",
+    "description": "Samstags ab 15 Uhr und den gesamten Sonntag über liegt die Grundlast am Standort Drolshagen bei median 90 kW – 20 kW (29 %) über der erreichbaren Baseline von 70 kW. Bemerkenswert ist, dass die Submetering-Analyse hier erstmals klare Gerätezuordnungen liefert: Trafostation M trägt 53 % des Anomalie-Excess bei (hohe Konfidenz, 96 % Co-Occurrence-Rate), die ONI-Anlage 39 % (74 % Co-Occurrence-Rate). Beide Anlagen scheinen an Wochenendabenden systematisch oberhalb ihres normalen Pegels zu laufen, auch wenn im Betrieb regulär kein Vollbetrieb stattfindet. Das Einsparpotenzial beläuft sich auf 7.786 kWh (1.370 €/Jahr), wobei der nicht zugeordnete Anteil 0 % beträgt – die Analyse ist hier ungewöhnlich vollständig.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Trafostation M versorgt Anlagen, die am Wochenende im Leerlauf- oder Standby-Betrieb laufen und nicht gezielt abgeschaltet werden, da kein Abschaltprotokoll für diese Trafo-Gruppe existiert."
+      },
+      {
+        "type": "problem",
+        "explanation": "Die ONI-Anlage (vermutlich Kühlsystem oder Prozessanlage) läuft am Wochenende auf Produktionsniveau weiter, obwohl ein reduziertes Betriebsprogramm ausreichend wäre."
+      },
+      {
+        "type": "benign",
+        "explanation": "Einzelne Wochenendschichten oder Wartungsarbeiten an Maschinen hinter Trafostation M erfordern einen erhöhten Betrieb, was die Streuung zwischen P25 = 85 kW und P75 = 105 kW erklärt."
+      }
+    ],
+    "deviceAttribution": {
+      "topDevices": [
+        {"meterTitle": "Trafostation M", "contributionPct": 53.11, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.956},
+        {"meterTitle": "Oni", "contributionPct": 39.34, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 0.7358},
+        {"meterTitle": "Trafostation E - Scheinleistung", "contributionPct": 33.26, "confidence": "low", "role": "anomaly", "coOccurrenceRate": 0.846},
+        {"meterTitle": "Trafostation M - Scheinleistung", "contributionPct": 21.45, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 0.7076},
+        {"meterTitle": "Trafostation E", "contributionPct": 19.88, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 0.8808}
+      ],
+      "subMeterCoveragePct": 46.56,
+      "unattributedPct": 0.0,
+      "coverageAssessment": "partial"
+    }
+  },
+  {
+    "id": "ins_b2d5c8f0",
+    "locationId": 85437,
+    "findingId": "cand_struct_opp_e4d8eca2ab75",
+    "type": "baseload_structural",
+    "priorityScore": 0.597965,
+    "savingsKwhPerYear": 15566.25,
+    "savingsEurPerYear": 2739.66,
+    "confidence": 0.668,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": null,
+      "hoursPerWeek": 9,
+      "hoursByDay": {
+        "Sat": ["06:00-14:00"],
+        "Sun": ["23:00-24:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Morning (Medium) [SC1]",
+      "consumptionKw": {
+        "median": 145.0,
+        "baseline": 70.0,
+        "p25": 100.0,
+        "p50": 140.0,
+        "p75": 167.5
+      },
+      "deltaKw": 75.0,
+      "deltaPct": 107.14
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "Stanz- und Pressteilefertigung mit mehreren Pressen- und Trafostationslinien",
+          "Druckluftversorgung über Kompressoren (Kompressor 1-3 messtechnisch erfasst)",
+          "Ganzjährige Produktion mit Nachtschicht bei guter Auslastung",
+          "Langfristige Kundenverträge mit wiederkehrenden Stückzahlen als Planungsgrundlage"
+        ]
+      },
+      "location": {
+        "id": 85437,
+        "title": "Heinrich Huhn Deutschland GmbH",
+        "streetName": "Hauptstr.",
+        "streetNumber": "44",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "51459044347", "energyType": "electricity", "isVirtual": false, "isDefault": true},
+        {"meterTitle": "Trafostation E", "deviceId": "Huhn_Drols_7", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafostation T", "deviceId": "Huhn_Drols_9", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Kompressor 1-3", "deviceId": "Huhn_Drols_1", "energyType": "electricity", "isVirtual": false, "isDefault": false}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2026-03-06",
+          "quote": "Produktion läuft grundsätzlich ganzjährig (Jan-Dez); Flexibilität zur Verlagerung in günstige Spot-Preisfenster ist begrenzt. Nachtschicht bei guter Auslastung."
+        },
+        {
+          "date": "2025-11-03",
+          "quote": "Wiederkehrende Produkte mit jährlich vereinbarten Stückzahlen ermöglichen planbare Zyklen. Wunsch nach Forecast/Simulation: erwartete Last je Artikel/Maschine und zeitversetztes Einschalten."
+        }
+      ]
+    },
+    "title": "Samstagmorgen-Grundlast liegt doppelt so hoch wie die erreichbare Baseline",
+    "description": "Samstags von 6 bis 14 Uhr weist der Standort Drolshagen eine mediane Grundlast von 145 kW auf – das Doppelte der Baseline von 70 kW – mit einem Einsparpotenzial von 15.566 kWh (2.740 €/Jahr). Überraschend ist, dass dieser Cluster trotz vermeintlich reduzierter Samstagbelegung zu den kostspieligsten strukturellen Potenzialen gehört. Die erhebliche Streubreite (P25 = 100 kW, P75 = 167,5 kW) deutet darauf hin, dass die Samstagmorgen-Aktivität stark variiert – manchmal kaum mehr als Standby, manchmal beinahe Vollbetrieb. Die Gerätezuordnung ist aufgrund der noch begrenzten Submetering-Abdeckung (~27 %) nicht möglich, sodass nicht klar ist, welche Anlagen oder Trafostationen den Hauptbeitrag leisten.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Reguläre Samstagschichten laufen ohne klaren Abschaltzeitpunkt weiter, sodass nach dem offiziellen Schichtende Maschinen und Anlagen im Betrieb verbleiben."
+      },
+      {
+        "type": "problem",
+        "explanation": "Druckluftversorgung und Kühlanlagen bleiben über das gesamte Samstagmorgen-Fenster aktiv, obwohl die tatsächliche Produktionsauslastung deutlich geringer ist als der Energieverbrauch suggeriert."
+      },
+      {
+        "type": "benign",
+        "explanation": "Tatsächliche Samstagschichten für Kundenaufträge mit fest vereinbarten Stückzahlen erklären die hohe Variabilität (P25–P75) und das insgesamt erhöhte Niveau."
+      },
+      {
+        "type": "benign",
+        "explanation": "Wartungs- und Rüstarbeiten an Samstagen erfordern den Betrieb von Pressen oder Hydrauliksystemen, die ihrerseits Druckluft und Kühlung aktivieren."
+      }
+    ],
+    "deviceAttribution": {
+      "topDevices": [],
+      "subMeterCoveragePct": 27.33,
+      "unattributedPct": 100.0,
+      "coverageAssessment": "limited"
+    }
+  },
+  {
+    "id": "ins_e9a3c7b5",
+    "locationId": 85436,
+    "findingId": "cand_struct_opp_0d6db362ac91",
+    "type": "baseload_structural",
+    "priorityScore": 0.703379,
+    "savingsKwhPerYear": 6823.8,
+    "savingsEurPerYear": 1200.99,
+    "confidence": 0.830615,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": "summer",
+      "hoursPerWeek": 13,
+      "hoursByDay": {
+        "Sat": ["00:00-12:00"],
+        "Sun": ["22:00-23:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Night (High) [SC1] - Summer",
+      "consumptionKw": {
+        "median": 222.4,
+        "baseline": 111.2,
+        "p25": 178.4,
+        "p50": 221.4,
+        "p75": 271.8
+      },
+      "deltaKw": 111.2,
+      "deltaPct": 100.0
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "Metallverarbeitung und Stanzteilefertigung für die Automobilindustrie",
+          "Standort Herscheid (Teckentrup): Verbrauchszeitverlauf bekannt, Verursacher noch nicht transparent",
+          "Untermessung als zukünftiger Ausbauschritt vorgesehen (BAFA-Förderantrag)",
+          "Energieaudit für Herscheid/Teckentrup geplant"
+        ]
+      },
+      "location": {
+        "id": 85436,
+        "title": "Huhn Teckentrup Deutschland GmbH",
+        "streetName": "Elsetalstr.",
+        "streetNumber": "6",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "DE0002525884900000000000174050501", "energyType": "electricity", "isVirtual": false, "isDefault": true}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2025-12-10",
+          "quote": "Teckentrup: Verbrauch und zeitlicher Verlauf sind bekannt, aber nicht exakt die Verbrauchsorte/Verursacher ('wo'). Herscheid: Untermessung ist als zukünftiger Ausbauschritt vorgesehen."
+        },
+        {
+          "date": "2026-01-14",
+          "quote": "Standort Herscheid hat bislang noch keine Hardware für das Untermesskonzept. Hardware soll separat gefördert werden (neuer Antrag), da die bisherige Förderung/Angebotsbasis nur Software umfasst."
+        }
+      ]
+    },
+    "title": "Sommernacht Samstag 0 bis 12 Uhr: Grundlast doppelt so hoch wie Baseline",
+    "description": "Im Sommer liegt die Grundlast am Standort Herscheid von Samstagnacht (0 Uhr) bis Samstagmittag (12 Uhr) bei median 222,4 kW – exakt doppelt so hoch wie die erreichbare Baseline von 111,2 kW (Delta = 111,2 kW). Die breite Streuung (P25 = 178,4 kW, P75 = 271,8 kW) zeigt, dass in manchen Sommernächten fast Vollbetrieb herrscht, während in anderen deutlich weniger verbraucht wird. Dieses Muster fällt besonders auf, weil die erste Hälfte des Samstags normalerweise keine reguläre Produktion beinhaltet. Da der Standort bislang keine Untermessung hat, ist eine Zuordnung auf Gerätebene noch nicht möglich – das Einsparpotenzial von 6.824 kWh (1.201 €/Jahr) ist ohne weitere Messpunkte schwer zu aktivieren.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Anlagen oder Maschinen laufen nach dem Produktionsende am Freitagabend nicht ab und verbleiben bis Samstagmittag im aktiven Betrieb, da kein automatischer Abschaltvorgang implementiert ist."
+      },
+      {
+        "type": "problem",
+        "explanation": "Klimatisierungs- oder Kühlsysteme laufen im Sommer durchgängig auf höherer Leistung, um Temperaturvorgaben in der Produktionshalle einzuhalten – auch nachts und am Wochenende."
+      },
+      {
+        "type": "benign",
+        "explanation": "Tatsächliche Samstagfrühschichten in der Sommersaison (z. B. zur Erfüllung von Ferienproduktionszielen) erklären das stark variante Muster zwischen P25 = 178 kW und P75 = 272 kW."
+      }
+    ]
+  },
+  {
+    "id": "ins_d6f8a2e4",
+    "locationId": 85436,
+    "findingId": "cand_struct_opp_41b8a552ab3b",
+    "type": "baseload_structural",
+    "priorityScore": 0.680709,
+    "savingsKwhPerYear": 3897.43,
+    "savingsEurPerYear": 685.95,
+    "confidence": 0.821038,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": "autumn",
+      "hoursPerWeek": 13,
+      "hoursByDay": {
+        "Sat": ["00:00-12:00"],
+        "Sun": ["22:00-23:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Night (High) [SC1] - Autumn",
+      "consumptionKw": {
+        "median": 216.4,
+        "baseline": 101.6,
+        "p25": 182.1,
+        "p50": 213.0,
+        "p75": 254.0
+      },
+      "deltaKw": 114.8,
+      "deltaPct": 113.0
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "Metallverarbeitung und Stanzteilefertigung für die Automobilindustrie",
+          "Standort Herscheid (Teckentrup): Verbrauchszeitverlauf bekannt, Verursacher noch nicht transparent",
+          "Untermessung als zukünftiger Ausbauschritt vorgesehen",
+          "Energieaudit für Herscheid/Teckentrup geplant (19./20. März 2026)"
+        ]
+      },
+      "location": {
+        "id": 85436,
+        "title": "Huhn Teckentrup Deutschland GmbH",
+        "streetName": "Elsetalstr.",
+        "streetNumber": "6",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "DE0002525884900000000000174050501", "energyType": "electricity", "isVirtual": false, "isDefault": true}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2025-12-10",
+          "quote": "Teckentrup: Verbrauch und zeitlicher Verlauf sind bekannt, aber nicht exakt die Verbrauchsorte/Verursacher ('wo')."
+        },
+        {
+          "date": "2026-03-06",
+          "quote": "Anstehendes Energieaudit in Herscheid/Teckentrup am 19. und 20. (Monat nicht genannt)."
+        }
+      ]
+    },
+    "title": "Herbstliche Frühsamstags-Grundlast mehr als doppelt so hoch wie Baseline",
+    "description": "Im Herbst zeigt der Standort Herscheid dasselbe beunruhigende Muster wie im Sommer: Von Samstagnacht bis Samstagmittag (0–12 Uhr) liegt die mediane Grundlast bei 216,4 kW – das ist 113 % mehr als die Baseline von 101,6 kW. Das Muster ist saisonübergreifend stabil (Sommer: 222,4 kW, Herbst: 216,4 kW), was auf einen dauerhaften strukturellen Verbraucher hindeutet, der unabhängig von Jahreszeit und Produktionsbetrieb läuft. Auffällig ist die enge Streuung (P25 = 182,1 kW, P75 = 254 kW), die eine konsistente Ursache nahelegt – nicht zufällige Einzelereignisse. Da kein Submetering vorhanden ist, bleibt die Ursache unbekannt; angesichts des bevorstehenden Energieaudits wäre eine schnelle Ursachenermittlung besonders wertvoll.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Ein oder mehrere permanente Verbraucher (z. B. Heizung, Druckluft, Beleuchtung) sind dauerhaft aktiv und erklären die stabile saisonübergreifende Erhöhung gegenüber der Baseline."
+      },
+      {
+        "type": "problem",
+        "explanation": "Der Samstag wird regelmäßig für Reinigungs- oder Wartungsarbeiten genutzt, die maschinell intensive Vorbereitungsprozesse erfordern und nicht zeitoptimiert sind."
+      },
+      {
+        "type": "benign",
+        "explanation": "Regelmäßige Samstagschichten in Herbst- und Sommersaison für Kundenabrufmengen erklären den hohen Median-Verbrauch, während die breitere Streuung individuelle Schichtauslastungen widerspiegelt."
+      }
+    ]
+  },
+  {
+    "id": "ins_c5b1d9a7",
+    "locationId": 85436,
+    "findingId": "cand_anom_sck_b8e2d38d981a",
+    "type": "baseload_anomaly",
+    "priorityScore": 0.760914,
+    "savingsKwhPerYear": 3062.9,
+    "savingsEurPerYear": 539.07,
+    "confidence": 0.866615,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": "summer",
+      "hoursPerWeek": 35,
+      "hoursByDay": {
+        "Sat": ["12:00-24:00"],
+        "Sun": ["00:00-22:00", "23:00-24:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Afternoon (Low) [SC0] - Summer",
+      "consumptionKw": {
+        "median": 117.2,
+        "baseline": 97.2,
+        "p25": 109.6,
+        "p50": 116.4,
+        "p75": 121.6
+      },
+      "deltaKw": 20.0,
+      "deltaPct": 20.58,
+      "totalEvents": 56,
+      "recurrencePerWeek": 5.09,
+      "severityRatio": 2.82,
+      "topTimes": [
+        {"day": "sunday", "hour": "23:00", "count": 40, "pct": 71.4},
+        {"day": "saturday", "hour": "12:00", "count": 9, "pct": 16.1},
+        {"day": "sunday", "hour": "21:00", "count": 5, "pct": 8.9},
+        {"day": "saturday", "hour": "13:00", "count": 1, "pct": 1.8},
+        {"day": "sunday", "hour": "10:00", "count": 1, "pct": 1.8}
+      ],
+      "topDates": [
+        {"date": "2025-07-20", "count": 8, "pct": 14.3},
+        {"date": "2025-06-29", "count": 5, "pct": 8.9},
+        {"date": "2025-08-10", "count": 5, "pct": 8.9},
+        {"date": "2025-07-06", "count": 4, "pct": 7.1},
+        {"date": "2025-07-13", "count": 4, "pct": 7.1}
+      ]
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "Metallverarbeitung und Stanzteilefertigung für die Automobilindustrie",
+          "Standort Herscheid: Verbrauchszeitverlauf bekannt, Verursacher noch nicht transparent",
+          "Untermessung bislang nicht installiert"
+        ]
+      },
+      "location": {
+        "id": 85436,
+        "title": "Huhn Teckentrup Deutschland GmbH",
+        "streetName": "Elsetalstr.",
+        "streetNumber": "6",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "DE0002525884900000000000174050501", "energyType": "electricity", "isVirtual": false, "isDefault": true}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2025-12-10",
+          "quote": "Anomalie-Hinweise wurden anfangs nicht in Maßnahmen übersetzt. Interne Sensibilisierung/'Abholen' der Kolleginnen und Kollegen ist notwendig."
+        }
+      ]
+    },
+    "title": "71 % aller Sommer-Anomalien konzentrieren sich auf Sonntagabend 23 Uhr",
+    "description": "Unter 56 anomalen Ereignissen im Sommer-Wochenend-Cluster entfallen 40 Ereignisse (71,4 %) auf genau eine Stunde: Sonntag 23:00 Uhr. Diese extreme Konzentration auf einen einzigen Zeitpunkt ist hochungewöhnlich und deutet auf einen regelmäßigen, geplanten Vorgang hin, der punktgenau zu Wochenbeginn startet. Die Top-Ereignisdaten liegen fast alle im Juli 2025 (20. Juli: 14,3 %, 6. Juli: 7,1 %, 13. Juli: 7,1 %), was eine saisonale Verstärkung nahelegt. Das Einsparpotenzial beläuft sich auf 3.063 kWh (539 €/Jahr). Da der Standort noch keine Untermessung hat, ist unklar, welche Anlage um Sonntagmitternacht wiederholt anläuft.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Ein automatisches Wochenprogramm – z. B. für Reinigungsmaschinen, thermische Prozesse oder Kompressoren – startet jeden Sonntagabend um 23 Uhr, ohne dass dieser Zeitpunkt hinterfragt oder optimiert wurde."
+      },
+      {
+        "type": "problem",
+        "explanation": "Maschinenaufwärmprogramme sind so konfiguriert, dass sie pünktlich um Sonntagmitternacht starten, um für die Montagmorgenproduktion bereit zu sein – ein Vorlaufbedarf von mehreren Stunden wäre nicht zu rechtfertigen."
+      },
+      {
+        "type": "benign",
+        "explanation": "Tatsächliche Nachtschichten am frühen Montagmorgen beginnen um 23 Uhr am Sonntag und erklären die wiederkehrenden Anomalien – insbesondere in produktionsstarken Sommermonaten (Juli)."
+      }
+    ]
+  },
+  {
+    "id": "ins_a8e2c4d6",
+    "locationId": 85436,
+    "findingId": "cand_period_anom_anom_20260216",
+    "type": "period_anomaly",
+    "priorityScore": 0.745251,
+    "savingsKwhPerYear": null,
+    "savingsEurPerYear": null,
+    "confidence": 1.0,
+    "timeContext": {
+      "kind": "date_range",
+      "timezone": "Europe/Berlin",
+      "startDate": "2026-02-16T00:00:00",
+      "endDate": "2026-03-08T23:45:00",
+      "durationDays": 21
+    },
+    "findingDetail": {
+      "periodType": "ramp_up",
+      "meanKw": 351.1,
+      "baselineKw": 340.1,
+      "excessKw": 11.0,
+      "interpretation": "Ramp-up period with increasing consumption (21 days)"
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "Metallverarbeitung und Stanzteilefertigung für die Automobilindustrie",
+          "Standort Herscheid: Verbrauchszeitverlauf bekannt, Verursacher noch nicht transparent",
+          "Ganzjährige Produktion, saisonal stabil"
+        ]
+      },
+      "location": {
+        "id": 85436,
+        "title": "Huhn Teckentrup Deutschland GmbH",
+        "streetName": "Elsetalstr.",
+        "streetNumber": "6",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "DE0002525884900000000000174050501", "energyType": "electricity", "isVirtual": false, "isDefault": true}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2026-02-18",
+          "quote": "Energetische Ausgangsbasis (Baseline) festgelegt auf 2025 (Zeitdruck). Messdatenverfügbarkeit 2025: 'die meisten ab Juni', einige erst ab November."
+        },
+        {
+          "date": "2026-03-06",
+          "quote": "Energieaudit verlief gut; Auditor war von der digitalen Lösung positiv angetan."
+        }
+      ]
+    },
+    "title": "21-tägiger kontinuierlicher Verbrauchsanstieg ab Mitte Februar 2026",
+    "description": "Vom 16. Februar bis 8. März 2026 zeigt der Standort Herscheid einen 21-tägigen Ramp-up-Zeitraum mit einer mittleren Leistung von 351,1 kW gegenüber einer Baseline von 340,1 kW – ein kontinuierlicher Mehrverbrauch von 11 kW über drei Wochen. Solche graduellen Anstiege werden in der Regel nicht bemerkt, weil keine einzelne Stunde besonders auffällt, die Gesamtmenge jedoch auf 5.544 kWh Mehrverbrauch (976 €) summiert. Zeitlich fällt der Beginn dieses Anstiegs mit der Periode kurz vor dem Energieaudit zusammen (Audit-Vorbereitung und -Durchführung im Februar/März 2026), was eine betriebliche Ursache nahelegt. Ohne Submetering lässt sich nicht feststellen, ob ein spezifisches Gerät oder ein veränderte Betriebsweise dafür verantwortlich ist.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Eine neu in Betrieb genommene Anlage oder ein veränderter Betriebsablauf (z. B. zusätzliche Heizung oder Kompressor-Einstellung) erhöht seit Mitte Februar schrittweise den Grundverbrauch."
+      },
+      {
+        "type": "problem",
+        "explanation": "Sinkende Außentemperaturen im Februar/März führen zu erhöhter Hallenheizung oder elektrischer Beheizung von Ölen/Prozessmedien, die nicht temperaturgeregelt abgeschaltet werden."
+      },
+      {
+        "type": "benign",
+        "explanation": "Gestiegene Produktionsvolumina in Vorbereitung auf Q2-Kundenabrufe erklären den allmählichen Verbrauchsanstieg – ein natürliches Signal einer höheren Auslastung."
+      }
+    ]
+  },
+  {
+    "id": "ins_9f4b7e3a",
+    "locationId": 86056,
+    "findingId": "cand_trend_sck_239457c66bf9",
+    "type": "baseload_trend",
+    "priorityScore": 0.732742,
+    "savingsKwhPerYear": null,
+    "savingsEurPerYear": null,
+    "confidence": 0.856308,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": "autumn",
+      "hoursPerWeek": 30,
+      "hoursByDay": {
+        "Mon": ["00:00-06:00"],
+        "Sat": ["05:00-06:00", "17:00-24:00"],
+        "Sun": ["00:00-09:00", "17:00-24:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Night (Low) [SC1] - Autumn",
+      "longTermKwPerYear": 25.347638,
+      "longTermPctPerYear": 41.47,
+      "longTermSignificant": true,
+      "recent4wDirection": null,
+      "recent4wSlopePctPerWeek": null,
+      "directionsAgree": null,
+      "annualDriftKwh": 9885.58
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "PV-Anlage 540 kWp, Großteil Eigenverbrauch",
+          "ISO 50001 zertifiziert (als einziger Standort der Gruppe)",
+          "Pressen als wesentliche Lasttreiber (Schuler, Kaiser, Aida, Müller, Raster)",
+          "Batterie-Pilotprojekt für Peak-Shaving von ~150 kW in Planung"
+        ]
+      },
+      "location": {
+        "id": 86056,
+        "title": "Huhn Pauli Deutschland GmbH",
+        "streetName": "Hauptstr.",
+        "streetNumber": "24",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "DE00733059469V0000000000000075869", "energyType": "electricity", "isVirtual": false, "isDefault": true},
+        {"meterTitle": "Trafo 4", "deviceId": "Huhn_Ense_17", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafo 5", "deviceId": "Huhn_Ense_18", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Ha6 gesamt I30-10", "deviceId": "Huhn_Ense_16", "energyType": "electricity", "isVirtual": false, "isDefault": false}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2025-11-03",
+          "quote": "PV deckt viel Grundlast, verhindert aber Spitzenlasten in Wintermonaten nicht ausreichend. Auffällige Spitzen u. a. Februar und Oktober 2025."
+        },
+        {
+          "date": "2025-12-10",
+          "quote": "Drolshagen und Ense: Energieverbrauch ist 'live'/detailliert bekannt (inkl. Zuordnung 'wo' der Verbrauch entsteht)."
+        }
+      ]
+    },
+    "title": "Herbstliche Wochenendnacht-Grundlast steigt statistisch signifikant um 41 % pro Jahr",
+    "description": "Die Grundlast im Herbst-Wochenendnacht-Cluster am Standort Ense wächst mit einer statistisch signifikanten Rate von 41,5 % pro Jahr (25,3 kW/Jahr), was einem jährlichen Drift von 9.886 kWh entspricht. Diese Steigerung ist nicht saisonal und kein Ausreißer – der Langzeittrend ist statistisch bestätigt (long_term_significant = true). Besonders auffällig ist, dass dieser Anstieg ausgerechnet in der normalerweise produktionsarmen Zeit (Wochenendnächte, Herbst) stattfindet, wo man sinkende oder stabile Verbräuche erwarten würde. Halle 6 gesamt trägt 18 % zur strukturellen Grundlast bei, Trafo 4 und Trafo 5 je 14–18 %; über 50 % des strukturellen Verbrauchs bleibt jedoch nicht zugeordnet. Wenn dieser Trend anhält, wird die Wochenendnacht-Grundlast in 2–3 Jahren ein erheblich höheres Niveau erreichen als heute.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Halle 6 (Ha6 gesamt) hat schrittweise zusätzliche Anlagen oder eine neue Laseranlage aufgenommen, deren Standby- oder Grundlastverbrauch die Wochenendnacht-Last kontinuierlich erhöht."
+      },
+      {
+        "type": "problem",
+        "explanation": "Alterungseffekte an Kompressoren, Hydraulikaggregaten oder Kühlanlagen führen zu steigendem Leerlaufverbrauch, der sich über die Jahre akkumuliert und im Wochenendnacht-Cluster besonders sichtbar wird."
+      },
+      {
+        "type": "benign",
+        "explanation": "Gestiegene Produktionskapazitäten und neue Maschinen (z. B. geplante Servopresse) erhöhen den Gesamtgrundverbrauch auch in Nicht-Produktionszeiten, da mehr Systeme im Bereitschaftsmodus verbleiben."
+      }
+    ],
+    "deviceAttribution": {
+      "topDevices": [
+        {"meterTitle": "Ha6 gesamt I30-10", "contributionPct": 56.08, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.7917},
+        {"meterTitle": "Trafo 5", "contributionPct": 31.19, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.9821},
+        {"meterTitle": "Trafo 4", "contributionPct": 30.82, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.9821},
+        {"meterTitle": "12 Schuler", "contributionPct": 10.76, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 0.9286},
+        {"meterTitle": "84 Laseranlage", "contributionPct": 5.77, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 0.1964}
+      ],
+      "subMeterCoveragePct": 34.94,
+      "unattributedPct": 50.15,
+      "coverageAssessment": "limited"
+    }
+  },
+  {
+    "id": "ins_1d7c5a8f",
+    "locationId": 86056,
+    "findingId": "cand_anom_sck_239457c66bf9",
+    "type": "baseload_anomaly",
+    "priorityScore": 0.679961,
+    "savingsKwhPerYear": 1871.51,
+    "savingsEurPerYear": 329.39,
+    "confidence": 0.856308,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": "autumn",
+      "hoursPerWeek": 30,
+      "hoursByDay": {
+        "Mon": ["00:00-06:00"],
+        "Sat": ["05:00-06:00", "17:00-24:00"],
+        "Sun": ["00:00-09:00", "17:00-24:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Night (Low) [SC1] - Autumn",
+      "consumptionKw": {
+        "median": 61.12,
+        "baseline": 0.0,
+        "p25": 56.22,
+        "p50": 60.4,
+        "p75": 65.52
+      },
+      "deltaKw": 61.12,
+      "deltaPct": null,
+      "totalEvents": 168,
+      "recurrencePerWeek": 14.0,
+      "severityRatio": 0.96,
+      "topTimes": [
+        {"day": "saturday", "hour": "05:00", "count": 44, "pct": 26.2},
+        {"day": "monday", "hour": "05:00", "count": 9, "pct": 5.4},
+        {"day": "saturday", "hour": "21:00", "count": 8, "pct": 4.8},
+        {"day": "saturday", "hour": "22:00", "count": 8, "pct": 4.8},
+        {"day": "saturday", "hour": "20:00", "count": 7, "pct": 4.2}
+      ],
+      "topDates": [
+        {"date": "2025-09-14", "count": 54, "pct": 32.1},
+        {"date": "2025-09-13", "count": 29, "pct": 17.3},
+        {"date": "2025-09-15", "count": 24, "pct": 14.3},
+        {"date": "2025-11-29", "count": 19, "pct": 11.3},
+        {"date": "2025-09-06", "count": 4, "pct": 2.4}
+      ]
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "PV-Anlage 540 kWp, Großteil Eigenverbrauch",
+          "ISO 50001 zertifiziert",
+          "Pressen als wesentliche Lasttreiber (inkl. Schuler Servo 630)",
+          "Kompressor 808 als separater Messpunkt erfasst"
+        ]
+      },
+      "location": {
+        "id": 86056,
+        "title": "Huhn Pauli Deutschland GmbH",
+        "streetName": "Hauptstr.",
+        "streetNumber": "24",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "DE00733059469V0000000000000075869", "energyType": "electricity", "isVirtual": false, "isDefault": true},
+        {"meterTitle": "Ha6 gesamt I30-10", "deviceId": "Huhn_Ense_16", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafo 4", "deviceId": "Huhn_Ense_17", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafo 5", "deviceId": "Huhn_Ense_18", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "12 Schuler", "deviceId": "Huhn_Ense_1", "energyType": "electricity", "isVirtual": false, "isDefault": false}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2025-11-03",
+          "quote": "Pressen sind wesentliche Lasttreiber. Ad-hoc-Abschalten von Pressen ist nicht praktikabel: Anfahrprozess ca. 20 Minuten oder länger, bis verwertbare Teile produziert werden."
+        },
+        {
+          "date": "2025-12-10",
+          "quote": "Drolshagen und Ense: Energieverbrauch ist 'live'/detailliert bekannt (inkl. Zuordnung 'wo' der Verbrauch entsteht)."
+        }
+      ]
+    },
+    "title": "September-Anomalie-Cluster: 63 % aller Herbst-Anomalien in nur drei aufeinanderfolgenden Tagen",
+    "description": "Von 168 Anomalie-Ereignissen im herbstlichen Wochenendnacht-Cluster entfallen 63,7 % auf nur drei aufeinanderfolgende Tage im September 2025: den 14. (32,1 %), 13. (17,3 %) und 15. September (14,3 %). Dieser extreme Cluster ist höchst unwahrscheinlich durch normalen Produktionsbetrieb zu erklären und deutet auf ein singuläres Ereignis hin. Zusätzlich ist Samstag 05:00 Uhr die Spitzenanomalie-Stunde (26,2 % aller Events), was auf einen regelmäßigen frühmorgendlichen Prozessstart hindeutet. Die Geräteanalyse (bei 34,9 % Submetering-Abdeckung) zeigt mit hoher Konfidenz: Halle 6 gesamt trägt 56 % des Anomalie-Excess bei (Co-Occurrence 79 %), Trafo 5 und Trafo 4 je ~31 % (Co-Occurrence 98 %).",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Im September 2025 fand ein Sonderereignis statt (z. B. Inbetriebnahme, Umbau, Prüflauf), das Halle 6 und die Trafos 4/5 über mehrere Tage hinweg auf erhöhtem Niveau betrieb – ohne dass dieses Ereignis im Energiemanagement erfasst wurde."
+      },
+      {
+        "type": "problem",
+        "explanation": "Halle 6 (Ha6) startet regelmäßig einen Samstagmorgen-Prozess um 05:00 Uhr, der möglicherweise nicht koordiniert ist und außerhalb der regulären Betriebsplanung liegt."
+      },
+      {
+        "type": "benign",
+        "explanation": "Geplante Wartungsarbeiten oder ein Maschinentest im September 2025 über mehrere Tage erklären den konzentrierten Cluster – in diesem Fall wäre das Muster betrieblich begründet, sollte aber zukünftig dokumentiert werden."
+      }
+    ],
+    "deviceAttribution": {
+      "topDevices": [
+        {"meterTitle": "Ha6 gesamt I30-10", "contributionPct": 56.08, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.7917},
+        {"meterTitle": "Trafo 5", "contributionPct": 31.19, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.9821},
+        {"meterTitle": "Trafo 4", "contributionPct": 30.82, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.9821},
+        {"meterTitle": "12 Schuler", "contributionPct": 10.76, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 0.9286},
+        {"meterTitle": "84 Laseranlage", "contributionPct": 5.77, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 0.1964}
+      ],
+      "subMeterCoveragePct": 34.94,
+      "unattributedPct": 0.0,
+      "coverageAssessment": "partial"
+    }
+  },
+  {
+    "id": "ins_2e6f9c4b",
+    "locationId": 86056,
+    "findingId": "cand_struct_opp_9620190f5815",
+    "type": "baseload_structural",
+    "priorityScore": 0.789886,
+    "savingsKwhPerYear": 1651.41,
+    "savingsEurPerYear": 290.65,
+    "confidence": 0.856308,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": "autumn",
+      "hoursPerWeek": 30,
+      "hoursByDay": {
+        "Mon": ["00:00-06:00"],
+        "Sat": ["05:00-06:00", "17:00-24:00"],
+        "Sun": ["00:00-09:00", "17:00-24:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Night (Low) [SC1] - Autumn",
+      "consumptionKw": {
+        "median": 61.12,
+        "baseline": 0.0,
+        "p25": 56.22,
+        "p50": 60.4,
+        "p75": 65.52
+      },
+      "deltaKw": 61.12,
+      "deltaPct": null
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "PV-Anlage 540 kWp, Großteil Eigenverbrauch",
+          "ISO 50001 zertifiziert",
+          "Halle 6 mit Laseranlage (84 Laseranlage als Messpunkt erfasst)",
+          "Pressen-Trafos 4 und 5 als wesentliche Messpunkte"
+        ]
+      },
+      "location": {
+        "id": 86056,
+        "title": "Huhn Pauli Deutschland GmbH",
+        "streetName": "Hauptstr.",
+        "streetNumber": "24",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "DE00733059469V0000000000000075869", "energyType": "electricity", "isVirtual": false, "isDefault": true},
+        {"meterTitle": "Ha6 gesamt I30-10", "deviceId": "Huhn_Ense_16", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafo 4", "deviceId": "Huhn_Ense_17", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafo 5", "deviceId": "Huhn_Ense_18", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "84 Laseranlage", "deviceId": "Huhn_Ense_22", "energyType": "electricity", "isVirtual": false, "isDefault": false}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2026-02-18",
+          "quote": "Es gibt eine zweite Laserabteilung neu, die im Sankey/der Übersicht noch nicht enthalten ist. Laserbereich: Messstelle/Anlage '84 Laser' vorhanden."
+        },
+        {
+          "date": "2026-03-06",
+          "quote": "Ense hat ISO 50001, die anderen zwei Standorte nicht; Energieeinkauf/Optimierung wird als relevantes Thema für Audits gesehen."
+        }
+      ]
+    },
+    "title": "Halle 6 und Trafos 4/5 treiben herbstliche Wochenendnacht-Grundlast strukturell",
+    "description": "In herbstlichen Wochenendnächten und Montagfrüh (0–6 Uhr) liegt am Standort Ense eine konsistente Grundlast von median 61,1 kW vor, obwohl die erreichbare Baseline 0 kW beträgt – d. h. vollständiges Abschalten wäre theoretisch möglich. Die Submetering-Analyse identifiziert mit mittlerer Konfidenz: Halle 6 gesamt (18 %), Trafo 4 (17,8 %) und Trafo 5 (14,1 %) als strukturelle Verursacher. Bei den Anomalien (wenn die Last deutlich über den Median steigt) erhöhen sich die Konfidenzwerte auf hoch: Ha6 gesamt verantwortet dann 56 % des Excess, Trafo 5 und Trafo 4 je ~31 %. Die enge Streuung (P25 = 56 kW, P75 = 65 kW) zeigt einen sehr stabilen Verbraucher – kein zufälliges Muster, sondern ein systematisch aktiver Prozess. Für einen ISO-50001-zertifizierten Standort ist diese nicht zugeordnete Nacht-Grundlast eine relevante Baustelle.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "Halle 6 betreibt dauerhaft Beleuchtung, Lüftung oder die Laseranlage (84 Laseranlage) auch in Nacht- und Wochenendfenstern, obwohl kein Produktionsbedarf besteht."
+      },
+      {
+        "type": "problem",
+        "explanation": "Trafos 4 und 5 versorgen Maschinen, deren Steuerungen oder Hydrauliken im Standby-Modus nennenswert Strom verbrauchen, ohne dass ein Abschaltprozess implementiert ist."
+      },
+      {
+        "type": "benign",
+        "explanation": "Sicherheits- und Brandschutzeinrichtungen, Notbeleuchtung sowie Alarmsysteme erfordern einen Mindestbetrieb von Halle 6 und den Trafostationen auch außerhalb der Produktion."
+      }
+    ],
+    "deviceAttribution": {
+      "topDevices": [
+        {"meterTitle": "Ha6 gesamt I30-10", "contributionPct": 56.08, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.7917},
+        {"meterTitle": "Trafo 5", "contributionPct": 31.19, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.9821},
+        {"meterTitle": "Trafo 4", "contributionPct": 30.82, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 0.9821},
+        {"meterTitle": "12 Schuler", "contributionPct": 10.76, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 0.9286},
+        {"meterTitle": "84 Laseranlage", "contributionPct": 5.77, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 0.1964}
+      ],
+      "subMeterCoveragePct": 34.94,
+      "unattributedPct": 50.15,
+      "coverageAssessment": "limited"
+    }
+  },
+  {
+    "id": "ins_8c4f2a7e",
+    "locationId": 86056,
+    "findingId": "cand_struct_opp_275aef31f5f3",
+    "type": "baseload_structural",
+    "priorityScore": 0.778637,
+    "savingsKwhPerYear": 3631.3,
+    "savingsEurPerYear": 639.11,
+    "confidence": 0.752808,
+    "timeContext": {
+      "kind": "recurring_schedule",
+      "timezone": "Europe/Berlin",
+      "season": "autumn",
+      "hoursPerWeek": 14,
+      "hoursByDay": {
+        "Sat": ["10:00-17:00"],
+        "Sun": ["09:00-16:00"]
+      }
+    },
+    "findingDetail": {
+      "clusterName": "Weekend Afternoon (Low) [SC0] - Autumn",
+      "consumptionKw": {
+        "median": 19.97,
+        "baseline": 0.0,
+        "p25": 0.0,
+        "p50": 18.69,
+        "p75": 42.06
+      },
+      "deltaKw": 19.97,
+      "deltaPct": null
+    },
+    "context": {
+      "company": {
+        "industry": "Automobilzulieferer / Metallverarbeitung",
+        "activities": [
+          "PV-Anlage 540 kWp, Großteil Eigenverbrauch, nur kleine Mengen Einspeisung",
+          "PV Freiflächenanlage als separater Messpunkt erfasst",
+          "ISO 50001 zertifiziert",
+          "Pressen (Kaiser 400t, Nr. 8 Kaiser 315to, H&T) als Hauptverbraucher"
+        ]
+      },
+      "location": {
+        "id": 86056,
+        "title": "Huhn Pauli Deutschland GmbH",
+        "streetName": "Hauptstr.",
+        "streetNumber": "24",
+        "isMain": false
+      },
+      "meters": [
+        {"meterTitle": "Netzbezug", "deviceId": "DE00733059469V0000000000000075869", "energyType": "electricity", "isVirtual": false, "isDefault": true},
+        {"meterTitle": "PV Einspeisung", "deviceId": "50637991932", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "PV Freiflaeche", "deviceId": "Huhn_Ense_14", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "Trafo 4", "deviceId": "Huhn_Ense_17", "energyType": "electricity", "isVirtual": false, "isDefault": false},
+        {"meterTitle": "1  Kaiser", "deviceId": "Huhn_Ense_7", "energyType": "electricity", "isVirtual": false, "isDefault": false}
+      ],
+      "callTranscripts": [
+        {
+          "date": "2025-11-03",
+          "quote": "PV-Anlage mit 540 kWp: der Großteil des PV-Stroms wird selbst verbraucht, nur kleine Mengen werden eingespeist. Im Lastgang 2025 bis Anfang November sind PV-Effekte erkennbar; Einspeisung wird in den Daten nicht sauber ausgewiesen, erkennbar u. a. an unplausiblen Verbrauchswerten nahe 0 in Sommermonaten tagsüber."
+        },
+        {
+          "date": "2025-12-10",
+          "quote": "Ense: PV-Anlage vorhanden. PV deckt viel Grundlast, verhindert aber Spitzenlasten in Wintermonaten nicht ausreichend."
+        }
+      ]
+    },
+    "title": "PV-Erzeugung bestimmt herbstliche Wochenend-Nachmittagslast vollstaendig",
+    "description": "An herbstlichen Wochenend-Nachmittagen (Samstag 10–17 Uhr, Sonntag 9–16 Uhr) liegt der Netto-Verbrauch am Standort Ense bei median 20 kW mit einer Baseline von 0 kW – wenn die PV-Anlage voll einspeist, ist Null-Netzbezug erreichbar. Die Submetering-Analyse zeigt, dass PV Einspeisung mit hoher Konfidenz (Score 0,74) 100 % der strukturellen Grundlast erklärt (negative Korrelation r = -0,46): je mehr PV produziert, desto geringer der Netzbezug. Überraschend ist die enorme Streuung: P25 = 0 kW (volle PV-Deckung) versus P75 = 42 kW (Maschinen laufen trotz PV). Bei Anomalie-Ereignissen (Netzbezug weit über Median) sind es Trafo 4 (24,3 %, 100 % Co-Occurrence) und Trafo 5 (23,5 %, 100 % Co-Occurrence), die gemeinsam mit Kaiser-Pressen in diesen Stunden aktiv sind. Dies zeigt, dass Produktionsaktivitäten an Wochenendnachmittagen die PV-Einsparung zunichte machen können.",
+    "hypotheses": [
+      {
+        "type": "problem",
+        "explanation": "An Wochenendnachmittagen laufen Kaiser-Pressen und die durch Trafos 4/5 versorgten Anlagen im aktiven Betrieb, ohne dass die Produktion auf Stunden mit maximaler PV-Erzeugung abgestimmt wird."
+      },
+      {
+        "type": "problem",
+        "explanation": "Die PV-Ertragsvorhersage wird nicht in die Schichtplanung integriert, sodass energieintensive Prozesse nicht gezielt in PV-starke Herbststunden (11–15 Uhr) gelegt werden."
+      },
+      {
+        "type": "benign",
+        "explanation": "Reguläre Wochenendschichten oder Nacharbeiten erfordern den Betrieb von Trafos 4/5 und Pressen unabhängig von der PV-Erzeugung – die Korrelation mit hoher PV erklärt die P25 = 0-Momente, nicht die P75 = 42-kW-Momente."
+      }
+    ],
+    "deviceAttribution": {
+      "topDevices": [
+        {"meterTitle": "PV Einspeisung", "contributionPct": 100.0, "confidence": "high", "role": "structural", "coOccurrenceRate": null},
+        {"meterTitle": "PV Freiflaeche", "contributionPct": 100.0, "confidence": "medium", "role": "structural", "coOccurrenceRate": null},
+        {"meterTitle": "Trafo 4", "contributionPct": 24.27, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 1.0},
+        {"meterTitle": "Trafo 5", "contributionPct": 23.5, "confidence": "high", "role": "anomaly", "coOccurrenceRate": 1.0},
+        {"meterTitle": "1  Kaiser", "contributionPct": 19.23, "confidence": "medium", "role": "anomaly", "coOccurrenceRate": 1.0}
+      ],
+      "subMeterCoveragePct": 200.0,
+      "unattributedPct": 0.0,
+      "coverageAssessment": "good"
+    }
+  }
+]

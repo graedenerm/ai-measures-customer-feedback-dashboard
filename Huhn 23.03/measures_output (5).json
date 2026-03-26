@@ -1,0 +1,2660 @@
+[
+  {
+    "locationId": 85437,
+    "insightId": "ins_a4f2c8e1",
+    "title": "Wochenend-Abschaltprozess für Pressen und Produktionsanlagen einführen",
+    "shortDescription": "Freitagnacht-Grundlast von median 225 kW statt erreichbarer 75 kW Baseline – strukturiertes Abschalten der Pressen (Kaiser, Schuler, AIDA u. a.) schließt die Lücke",
+    "description": "Die statistische Analyse zeigt einen wiederkehrenden Hochlast-Cluster ('Weekend Night High [SC1]') an Freitagen ab 22 Uhr sowie samstags von 0–6 Uhr mit einer medianen Grundlast von 225 kW – das Dreifache der erreichbaren Baseline von 75 kW, obwohl kein Schichtbetrieb stattfindet. Die ausgeprägte Streuung (P25 = 145 kW, P75 = 255 kW) zeigt, dass an manchen Nächten nahezu Vollbetriebslast gemessen wird, während in anderen Nächten ein deutlich niedrigeres Niveau erreicht wird – ein klares Zeichen für inkonsistentes Abschaltverhalten. Laut Kundengespräch (Februar 2026) sind die Pressen (Kaiser, Schuler, Müller, AIDA, Weingarten, Raster) die dominierenden Einzelverbraucher; allein eine große Kaiser-Presse macht ca. 5–7 % des Gesamtstromverbrauchs aus. Da das Submetering-System aktuell erst ca. 40 % Abdeckung erreicht und die Quellenattribution zu 100 % offen ist, lässt sich der Pressenanteil an der Nachtlast nicht exakt beziffern – die Pressen sind jedoch als wahrscheinlichste Hauptursache anzusehen. Empfehlung: Verbindliche Abschaltroutine mit Betreiber-Checkliste für alle Pressenbediener am Freitagabend einführen und SPS-gestützte Automatik-Abschaltung nicht-produktiver Anlagen für Wochenendzeiten aktivieren.",
+    "yearlySavingsRangeFrom": 880,
+    "yearlySavingsRangeTo": 1760,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 5000,
+    "yearlySavingsEnergyRangeTo": 10000,
+    "evidences": [
+      "Cluster 'Weekend Night High [SC1]': Mediane Grundlast 225 kW vs. Baseline 75 kW → Delta 150 kW (200 % über Baseline)",
+      "Betroffene Zeiten: Fr 22–24 Uhr, Sa 0–6 Uhr, Sa 14–15 Uhr, So 22–23 Uhr = ~10 h/Woche × 52 = 520 h/Jahr",
+      "Statistisches Insight-Potenzial: 19.060 kWh/Jahr (3.355 €/Jahr bei 0,176 €/kWh); 5.000–10.000 kWh entsprechen 26–53 % dieses Potenzials",
+      "P25 = 145 kW / P75 = 255 kW: Schwankungsbreite zeigt, dass besseres Abschalten bereits gelegentlich praktiziert wird – es fehlt an Konsistenz",
+      "Submetering-Abdeckung ~40 %, Quellenattribution zu 100 % offen – Pressen laut Kundengespräch (Feb 2026) bekannte Hauptverbraucher"
+    ],
+    "amortisationPeriodInMonths": 2,
+    "reasoning": "Ein reiner Prozess- und Organisationseingriff (Checkliste, Schulung, SPS-Timer-Aktivierung) verursacht nahezu keine Investitionskosten und kann sofort umgesetzt werden. Die Amortisation liegt bei unter 3 Monaten. Die hohe Streuung zwischen P25 und P75 beweist, dass das Abschaltpotenzial real ist und an manchen Nächten bereits ausgeschöpft wird – es fehlt nur die Systematik. Wegen der noch unvollständigen Sub-Metering-Abdeckung wurde das Einsparpotenzial bewusst konservativ auf 26–53 % des statistischen Maximums angesetzt.",
+    "questions": [
+      {
+        "question": "Gibt es aktuell einen definierten Abschaltprozess für Pressen am Freitagabend vor dem Wochenende?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, ein formaler Prozess mit Checkliste ist vorhanden und wird kontrolliert"
+          },
+          {
+            "answer": "Informell – jeder Maschinenbediener entscheidet selbst"
+          },
+          {
+            "answer": "Teilweise – bestimmte Anlagen werden abgeschaltet, andere laufen weiter"
+          },
+          {
+            "answer": "Nein, Maschinen laufen standardmäßig bis Montag im Standby weiter"
+          }
+        ]
+      },
+      {
+        "question": "Welche Pressen oder Anlagen werden am Wochenende typischerweise im Bereitschaftsmodus belassen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Hauptsächlich die großen Pressen (z. B. Kaiser, Schuler, AIDA)"
+          },
+          {
+            "answer": "Überwiegend kleinere Maschinen und Peripheriegeräte"
+          },
+          {
+            "answer": "Alle Pressen gleichermaßen unabhängig von der Größe"
+          },
+          {
+            "answer": "Unbekannt – kein Überblick vorhanden"
+          }
+        ]
+      },
+      {
+        "question": "Findet an einzelnen Samstagen reguläre Produktion oder Nacharbeit für Sonderaufträge statt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Regelmäßig – fast jeden Samstag"
+          },
+          {
+            "answer": "Gelegentlich – einige Male pro Monat"
+          },
+          {
+            "answer": "Selten – nur bei Engpässen oder Sonderaufträgen"
+          },
+          {
+            "answer": "Nie – Wochenenden sind grundsätzlich produktionsfrei"
+          }
+        ]
+      }
+    ],
+    "confidence": 70,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_a4f2c8e1",
+    "title": "Kompressoren 1–3: Nachtlauf am Wochenende per Zeitsteuerung reduzieren",
+    "shortDescription": "Kompressoren 1–3 laufen wahrscheinlich freitagnachts im Leerlauf – Zeitsteuerung oder Druckabsenkung kann 3.000–6.000 kWh/Jahr einsparen",
+    "description": "Am Standort Drolshagen sind Kompressor 1–3 bereits als eigenständige Verbraucher messtechnisch erfasst. Laut Kundengespräch (Februar 2026) zählen die Kompressoren zu den wesentlichen Einzelverbrauchern neben den Pressen. Eine wahrscheinliche Ursache der wiederkehrenden Freitagnacht-Grundlast (median 225 kW, Cluster 'Weekend Night High [SC1]') ist der Leerlaufbetrieb der Kompressoren zur Aufrechterhaltung des Systemdrucks für potenzielle Samstagschichten – obwohl ein Druckaufbau erst kurz vor Schichtbeginn notwendig wäre. Die betroffenen Zeiten Fr 22 Uhr bis Sa 6 Uhr (8 h/Woche × 52 = 416 h/Jahr) entsprechen dem Kernzeitfenster der Anomalie. Da das Submetering erst ~40 % Abdeckung hat und die Quellenattribution zu 100 % offen ist, muss der Kompressor-Anteil zunächst durch Auswertung der vorhandenen Kompressor-Untermessdaten für die Freitagnacht-Zeitfenster quantifiziert werden. Empfehlung: Kompressor-Zeitprogramm anpassen (nächtliche Abschaltung oder Druckabsenkung Fr 22–Sa 5 Uhr) und Wiederanlauf automatisch auf Samstagschichtbeginn legen.",
+    "yearlySavingsRangeFrom": 528,
+    "yearlySavingsRangeTo": 1056,
+    "investmentRangeFrom": 500,
+    "investmentRangeTo": 2000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 3000,
+    "yearlySavingsEnergyRangeTo": 6000,
+    "evidences": [
+      "Kompressoren 1–3 als eigenständige Verbraucher messtechnisch erfasst (Untermesszähler Huhn_Drols_1 vorhanden)",
+      "Kundengespräch Feb 2026: 'Kompressoren als eigener wesentlicher Verbraucher' – neben Pressen einer der größten Einzelposten",
+      "Betroffenes Hauptzeitfenster Fr 22–Sa 6 Uhr: 8 h/Woche × 52 = 416 h/Jahr; bereits 10 kW Leerlaufreduktion = 4.160 kWh/Jahr",
+      "Mediane Nachtlast 225 kW bei 75 kW Baseline: Kompressoren könnten 15–40 kW zum Delta von 150 kW beitragen (10–27 %)",
+      "Submetering-Abdeckung ~40 %, Attribution 100 % offen – vorhandene Kompressor-Untermessdaten sollten für Fr-Nacht-Zeitfenster ausgewertet werden"
+    ],
+    "amortisationPeriodInMonths": 19,
+    "reasoning": "Kompressoren sind in Metallverarbeitungsbetrieben bekannte Nachtstromverbraucher, die oft unnötig auf Betriebsdruck gehalten werden. Da bereits ein Untermesszähler für Kompressor 1–3 vorhanden ist, kann der Nachtlast-Anteil schnell validiert werden, bevor investiert wird. Eine Zeitsteuerungsanpassung erfordert nur Software- und Parametrierarbeit (kein Hardware-Investment). Die breiteren Einsparbereiche und moderate Konfidenz (65) spiegeln die noch fehlende Quellenattribution wider.",
+    "questions": [
+      {
+        "question": "Laufen die Kompressoren 1–3 freitagnachts (22–6 Uhr) durchgehend im Normalbetrieb?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, durchgehend auf vollem Betriebsdruck"
+          },
+          {
+            "answer": "Ja, aber mit aktivierter Druckabsenkungsfunktion (Nacht-Modus)"
+          },
+          {
+            "answer": "Teilweise – einzelne Kompressoren laufen, andere sind abgeschaltet"
+          },
+          {
+            "answer": "Nein, es gibt bereits eine automatische Nachtabschaltung"
+          }
+        ]
+      },
+      {
+        "question": "Wie lange ist die Anlaufzeit der Kompressoren vor Samstags-Schichtbeginn mindestens erforderlich?",
+        "suggestedAnswers": [
+          {
+            "answer": "Weniger als 30 Minuten Vorlaufzeit ausreichend"
+          },
+          {
+            "answer": "Ca. 1–2 Stunden für Druckaufbau und Systemstabilisierung"
+          },
+          {
+            "answer": "Mehr als 2 Stunden – System benötigt lange Anlaufzeit"
+          },
+          {
+            "answer": "Kein Samstagsbetrieb – Kompressoren könnten bis Montag vollständig abgeschaltet bleiben"
+          }
+        ]
+      },
+      {
+        "question": "Verfügen die Kompressoren 1–3 über eine programmierbare Zeitsteuerung oder Druckabsenkungsfunktion?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, Zeitsteuerung vorhanden aber aktuell nicht genutzt"
+          },
+          {
+            "answer": "Ja, Druckabsenkungsfunktion (Eco-/Nacht-Modus) verfügbar"
+          },
+          {
+            "answer": "Nein, manuelle Steuerung notwendig"
+          },
+          {
+            "answer": "Unbekannt – muss beim Hersteller oder Wartungsdienstleister geprüft werden"
+          }
+        ]
+      }
+    ],
+    "confidence": 65,
+    "category": "PRESSURIZED_AIR",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_a4f2c8e1",
+    "title": "Automatische Nachtzyklen thermischer Anlagen und Reinigungssysteme überprüfen und verschieben",
+    "shortDescription": "Automatisch gestartete Nachtzyklen von Öfen, Temper- oder Teilereinigungsanlagen könnten zur Freitagnacht-Grundlast beitragen – Umprogrammierung spart 2.000–5.000 kWh/Jahr",
+    "description": "In der Stanz- und Pressteilefertigung sind typischerweise thermische Prozesse (Kammeröfen, Induktionsanlagen, Teilereinigungsmaschinen, Entfettungsanlagen) im Einsatz, die für Oberflächenbehandlung, Härtung oder Qualitätsvorbereitung genutzt werden. Diese Systeme sind häufig so konfiguriert, dass sie nach Produktionsende automatisch Reinigungs-, Wartungs- oder Aufheizzyklen starten – erfahrungsgemäß in den Stunden direkt nach Schichtende, also genau in dem Zeitfenster, das die Insight-Analyse als Hochlastcluster ausweist (Fr ab 22 Uhr, Sa 0–6 Uhr). Die mediane Grundlast von 225 kW (vs. 75 kW Baseline) bei gleichzeitig 100 % offener Quellenattribution und nur ~40 % Submetering-Abdeckung lässt einen Beitrag thermischer Anlagen nicht ausschließen. Eine systematische Überprüfung aller automatisch gesteuerten Wärme- und Reinigungsanlagen auf freitagnächtliche Programmzyklen ist der erste Schritt. Zyklen, die in produktionsfreien Nächten nicht zwingend erforderlich sind, sollten auf Tageszeiten der Woche verschoben oder die Standbytemperaturen für das Wochenende abgesenkt werden.",
+    "yearlySavingsRangeFrom": 352,
+    "yearlySavingsRangeTo": 880,
+    "investmentRangeFrom": 200,
+    "investmentRangeTo": 1000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 2000,
+    "yearlySavingsEnergyRangeTo": 5000,
+    "evidences": [
+      "Cluster 'Weekend Night High [SC1]': Fr 22–24 Uhr und Sa 0–6 Uhr decken sich exakt mit typischen Nachtreinigungszeiten in Metallverarbeitungsbetrieben nach Schichtende",
+      "Automotive-Zulieferer mit Stanz-/Pressteilen: Teilereinigung, Entfettung und Temperprozesse sind branchentypische Nacht-Automatikzyklen",
+      "Statistisches Gesamtpotenzial: 19.060 kWh/Jahr; thermische Anlagen könnten 10–26 % = 2.000–5.000 kWh/Jahr beisteuern",
+      "Submetering-Abdeckung nur ~40 %, Quellenattribution zu 100 % offen – thermische Einzelverbraucher sind aktuell nicht gemessen",
+      "Umprogrammierung von SPS-Timer-Zyklen erfordert typischerweise nur Wartungsaufwand (€200–1.000 für Programmierarbeit)"
+    ],
+    "amortisationPeriodInMonths": 12,
+    "reasoning": "Automatische Nachtreinigungszyklen thermischer Anlagen werden in Energieaudits häufig als versteckte Lastquelle identifiziert. Die Maßnahme ist rein organisatorisch und erfordert nur geringen Programmieraufwand. Da die Quellenattribution vollständig offen ist und das Submetering die thermischen Verbraucher noch nicht abdeckt, ist diese Hypothese am schwächsten belegt – daher niedrigste Konfidenz (55) und breite Einsparbereiche. Der erste Schritt (Prüfung der Programmpläne aller Wärmeanlagen) ist kostenlos und kann die Hypothese schnell bestätigen oder verwerfen.",
+    "questions": [
+      {
+        "question": "Welche thermischen Anlagen oder Reinigungsmaschinen laufen am Standort und sind diese mit automatischen Zeitprogrammen ausgestattet?",
+        "suggestedAnswers": [
+          {
+            "answer": "Teilereinigungsmaschinen mit automatischem Nacht-Reinigungszyklus"
+          },
+          {
+            "answer": "Kammer- oder Durchlauföfen für Härtung/Tempern mit Standby-Heizbetrieb"
+          },
+          {
+            "answer": "Keine thermischen Anlagen mit Automatikmodus vorhanden"
+          },
+          {
+            "answer": "Unbekannt – kein Überblick über Nacht-Automatikprogramme"
+          }
+        ]
+      },
+      {
+        "question": "Ist bekannt, ob thermische Anlagen oder Reinigungsanlagen freitagnachts automatisch Zyklen starten?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, es gibt automatische Nachtzyklen die direkt nach Schichtende starten"
+          },
+          {
+            "answer": "Möglicherweise – wurde noch nicht systematisch überprüft"
+          },
+          {
+            "answer": "Nein, alle thermischen Anlagen werden manuell abgeschaltet"
+          },
+          {
+            "answer": "Unbekannt – Dokumentation der Automatikprogramme fehlt"
+          }
+        ]
+      },
+      {
+        "question": "Könnten Reinigungs- oder Temper-Zyklen auf Wochentags-Tageszeiten verschoben werden, ohne den Produktionsablauf zu beeinträchtigen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, Verschiebung problemlos möglich"
+          },
+          {
+            "answer": "Teilweise – einige Zyklen sind produktionskritisch und müssen nachts laufen"
+          },
+          {
+            "answer": "Nein – Nachtbetrieb ist für Qualität oder Liefertreue zwingend erforderlich"
+          },
+          {
+            "answer": "Muss mit Produktionsleitung und Qualitätssicherung abgestimmt werden"
+          }
+        ]
+      }
+    ],
+    "confidence": 55,
+    "category": "HEATING",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_7c3a9b2d",
+    "title": "Waschanlage Minomat: Sonntagsnacht-Programm überprüfen und verkürzen",
+    "shortDescription": "Automatisches Wochenprogramm der Minomat läuft möglicherweise unnötig lange in der Nacht von Sonntag auf Montag",
+    "description": "Die Anomalieanalyse identifiziert wiederkehrende Verbrauchsspitzen ausschließlich in Montagnächten (00:00–06:00 Uhr) mit einem medianen Verbrauch von 112,5 kW gegenüber einem Basiswert von 65,0 kW (+73 %). Die Waschmaschine Minomat ist als separater Messpunkt (Huhn_Drols_11) erfasst und betreibt typischerweise ein festes Wochenprogramm. Der Verdacht liegt nahe, dass dieses Programm in der Nacht von Sonntag auf Montag läuft und durch unnötig lange Laufzeiten oder ineffiziente Zyklen zur Grundlasterhöhung beiträgt. Durch Auslesen der Programmzeiten, Anpassung der Startzeit und Verkürzung der Zyklen kann ein relevanter Teil des Einsparpotenzials von 9.116 kWh/Jahr realisiert werden. Da die Sub-Meter-Abdeckung bei nur 39,8 % liegt (begrenzte Datenlage), ist eine vollständige Ursachenzuordnung noch nicht möglich – die Minomat ist jedoch einer der wenigen identifizierten Verbraucher mit eigenem Messpunkt und damit ein vorrangig zu prüfender Kandidat.",
+    "yearlySavingsRangeFrom": 317,
+    "yearlySavingsRangeTo": 616,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 1800,
+    "yearlySavingsEnergyRangeTo": 3500,
+    "evidences": [
+      "Anomalie-Cluster 'Weekday Night (Low) [SC0]': medianer Verbrauch 112,5 kW vs. Baseline 65,0 kW → Delta +47,5 kW (+73 %), Einsparpotenzial laut Insight 9.116 kWh/Jahr (1.604 €/Jahr)",
+      "135 Ereignisse mit 4,35 Wiederkehrungen/Woche – Konzentration ausschließlich auf Montag 00:00–06:00 Uhr, kein anderer Wochentag betroffen",
+      "Severity Ratio 3,0: Anomalien sind dreimal intensiver als der typische Cluster-Pegel",
+      "Waschmaschine Minomat als separater Messpunkt (Huhn_Drols_11) erfasst – bekannter Kandidat mit festem Wochenprogramm",
+      "Sub-Meter-Abdeckung nur 39,8 % (limited): Ursache nicht vollständig zuordenbar; geschätzter Minomat-Anteil 1.800–3.500 kWh/Jahr (ca. 20–38 % des Gesamtpotenzials)"
+    ],
+    "amortisationPeriodInMonths": 6,
+    "reasoning": "Die strikte zeitliche Bindung der Anomalie an Montagnächte deutet auf einen automatisierten, wöchentlich geplanten Betriebsprozess hin. Waschanlagen mit Wochenprogrammen sind typische Kandidaten für genau dieses Muster. Da die Minomat bereits messtechnisch erfasst ist, lässt sich die Hypothese mit sehr geringem Aufwand durch Auslesen der Untermessdaten direkt verifizieren. Eine Programmoptimierung (Startzeit, Zykluszahl, Laufzeit) ist ohne externe Investition umsetzbar und bietet einen der schnellsten Amortisationspfade unter den identifizierten Maßnahmen.",
+    "questions": [
+      {
+        "question": "Wann läuft die Waschanlage Minomat laut aktuellem Wochenprogramm?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nur in der Nacht von Sonntag auf Montag (00:00–06:00 Uhr)"
+          },
+          {
+            "answer": "Mehrmals pro Woche nachts (u. a. Montagnacht)"
+          },
+          {
+            "answer": "Nur tagsüber / während der Schicht"
+          },
+          {
+            "answer": "Das Programm ist nicht bekannt / nicht dokumentiert"
+          }
+        ]
+      },
+      {
+        "question": "Wie lange dauert ein vollständiger Waschzyklus der Minomat?",
+        "suggestedAnswers": [
+          {
+            "answer": "Unter 2 Stunden"
+          },
+          {
+            "answer": "2–4 Stunden"
+          },
+          {
+            "answer": "Über 4 Stunden"
+          },
+          {
+            "answer": "Unbekannt"
+          }
+        ]
+      },
+      {
+        "question": "Ist eine Anpassung der Programmzeiten der Minomat ohne externen Techniker möglich?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, über das Bedienpanel direkt einstellbar"
+          },
+          {
+            "answer": "Nur durch den Wartungsdienstleister"
+          },
+          {
+            "answer": "Steuerung ist gesperrt / nicht zugänglich"
+          },
+          {
+            "answer": "Unbekannt"
+          }
+        ]
+      }
+    ],
+    "confidence": 55,
+    "category": "OTHER",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_7c3a9b2d",
+    "title": "Maschinenvorwärmzeiten für Montag-Frühschicht auf tatsächlichen Bedarf verkürzen",
+    "shortDescription": "Pressen und Fertigungsanlagen fahren zu früh in der Nacht hoch – Vorwärmzeit von 4–6 Stunden ist technisch nicht erforderlich",
+    "description": "Am Standort Drolshagen (Stanz- und Pressteilefertigung) beginnt die erste Schicht an Montagen nach einer produktionsfreien Nacht. Häufig sind in SPS-Systemen oder Zeitschaltuhren Vorwärmzeiten hinterlegt, die historisch auf der sicheren Seite dimensioniert wurden. Wenn Pressen, Hydraulikanlagen oder Steuerungssysteme bereits ab 00:00 oder 01:00 Uhr starten, obwohl 1–2 Stunden Aufwärmzeit technisch ausreichen, entstehen 3–5 Stunden unnötiger Betrieb pro Woche. Laut Kundenzitat vom Dezember 2025 wurden hohe Stromkosten historisch ohne klare Verursacherkenntnis akzeptiert – ein systematisches Anlauf-Management fehlt. Durch Überprüfung der tatsächlich benötigten Aufwärmzeiten je Anlage und entsprechende Anpassung der Startprogramme lässt sich ein wesentlicher Teil des Anomalie-Potenzials von 9.116 kWh/Jahr (1.604 €/Jahr) realisieren. Die Maßnahme erfordert Analyse, Abstimmung mit der Produktion und Anpassung der SPS-Programme oder Zeitschaltuhren.",
+    "yearlySavingsRangeFrom": 528,
+    "yearlySavingsRangeTo": 968,
+    "investmentRangeFrom": 500,
+    "investmentRangeTo": 2500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 3000,
+    "yearlySavingsEnergyRangeTo": 5500,
+    "evidences": [
+      "Anomalie-Delta +47,5 kW × 6 h/Woche × 52 Wochen ≈ 14.820 kWh statistisches Jahres-Maximalpotenzial; Insight-Einsparung 9.116 kWh/Jahr (1.604 €/Jahr)",
+      "Top-Ereignisstunden: 05:00 Uhr (20 %), 03:00 Uhr (18,5 %), 04:00 Uhr (17,8 %) – Verteilung über die gesamte Nacht deutet auf mehrstündigen Vorlaufbetrieb hin",
+      "Saisonale Häufung Frühjahr/Frühsommer 2025 (Mai 12.: 17,8 %, März 31.: 17 %, April 7.: 16,3 %) – möglicher Hinweis auf kampagnenbezogene Produktion mit verfrühtem Anlauf",
+      "Kundenzitat Dez. 2025: 'Historisch wurden hohe Stromkosten ohne klare Verursacherkenntnis akzeptiert' – kein systematisches Abschalt- oder Anlaufmanagement bekannt",
+      "Sub-Meter-Abdeckung 39,8 % (limited): Stanz- und Pressenlinien nicht einzeln erfasst – geschätzter Anteil 3.000–5.500 kWh/Jahr (ca. 33–60 % des Gesamtpotenzials)"
+    ],
+    "amortisationPeriodInMonths": 24,
+    "reasoning": "Metallverarbeitende Betriebe haben häufig SPS-Startzeiten, die aus der Inbetriebnahme stammen und nie optimiert wurden. Die ausschließliche Konzentration auf Montagnächte (keine anderen Wochentage) ist ein starkes Indiz für einen wöchentlich geplanten, automatischen Hochfahrprozess – und nicht für Sonderproduktion. Das Fehlen eines dokumentierten Anlaufmanagements (Kundenzitat) erhöht die Wahrscheinlichkeit, dass einfache Programmkorrekturen erhebliche Einsparungen ermöglichen. Der Investitionsbedarf liegt im mittleren Bereich (SPS-Programmierung, Abstimmung mit Produktion), die Amortisation über 24 Monate ist realistisch.",
+    "questions": [
+      {
+        "question": "Welche Anlagen werden aktuell automatisch vor der Montag-Frühschicht hochgefahren?",
+        "suggestedAnswers": [
+          {
+            "answer": "Pressanlagen und Hydrauliksysteme (automatischer Start)"
+          },
+          {
+            "answer": "Heizungs-, Klima- und Lüftungsanlagen"
+          },
+          {
+            "answer": "Alle Produktionsanlagen gleichzeitig über Zeitschaltuhr"
+          },
+          {
+            "answer": "Es gibt kein automatisches Hochfahren – Anlagen werden manuell gestartet"
+          },
+          {
+            "answer": "Unbekannt / nicht dokumentiert"
+          }
+        ]
+      },
+      {
+        "question": "Wie lange dauert die tatsächlich benötigte Vorwärmzeit für Pressen und kritische Anlagen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Unter 30 Minuten"
+          },
+          {
+            "answer": "30–60 Minuten"
+          },
+          {
+            "answer": "1–2 Stunden"
+          },
+          {
+            "answer": "Über 2 Stunden"
+          },
+          {
+            "answer": "Unbekannt – wurde nie gemessen"
+          }
+        ]
+      },
+      {
+        "question": "Wann beginnt die erste Produktionsschicht an Montagen?",
+        "suggestedAnswers": [
+          {
+            "answer": "05:00–06:00 Uhr"
+          },
+          {
+            "answer": "06:00–07:00 Uhr"
+          },
+          {
+            "answer": "07:00–08:00 Uhr"
+          },
+          {
+            "answer": "Nach 08:00 Uhr"
+          }
+        ]
+      }
+    ],
+    "confidence": 50,
+    "category": "OTHER",
+    "investmentType": "HIGH_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_7c3a9b2d",
+    "title": "Kompressoren-Nachtbetrieb für Montagnächte prüfen und zeitlich einschränken",
+    "shortDescription": "Druckluftversorgung durch Kompressoren 1–3 könnte unnötig früh für den Montag-Schichtstart anlaufen und 2.000–4.500 kWh/Jahr verursachen",
+    "description": "Die Kompressoranlage (Kompressor 1–3, Messpunkt Huhn_Drols_1) ist laut Kundenaussage vom Februar 2026 ein 'wesentlicher Verbraucher' am Standort und wird bereits separat messtechnisch erfasst. Kompressoren laufen in Industriebetrieben häufig nach einem festen Wochenprogramm oder starten durch automatische Druckabfall-Erkennung früh. In der Nacht von Sonntag auf Montag könnte der Druckluftbehälter nach dem Wochenend-Druckabfall ab Mitternacht wiederbefüllt werden – Stunden vor dem eigentlichen Schichtbeginn. Alternativ halten laufende Kompressoren den Nenndruck aufrecht, obwohl kein Verbraucher aktiv ist, und verursachen damit unnötigen Leerlaufbetrieb. Druckluftsysteme benötigen typischerweise 15–60 Minuten für den Druckaufbau, nicht 4–6 Stunden. Durch Programmierung eines gezielten Nacht-Abschalt-Fensters mit definiertem Wiederanlauf (z. B. 04:30 Uhr statt 00:00 Uhr) sowie eine Leckageprüfung kann der Nacht-Leerlauf deutlich reduziert werden. Die begrenzte Sub-Meter-Abdeckung (39,8 %) lässt keine direkte Quantifizierung des Kompressoren-Anteils zu; eine Auswertung des vorhandenen Untermessgeräts ist der erste empfohlene Schritt.",
+    "yearlySavingsRangeFrom": 352,
+    "yearlySavingsRangeTo": 792,
+    "investmentRangeFrom": 300,
+    "investmentRangeTo": 1500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 2000,
+    "yearlySavingsEnergyRangeTo": 4500,
+    "evidences": [
+      "Kundenzitat Feb. 2026: 'Kompressoren sollen als eigener wesentlicher Verbraucher betrachtet werden' – Kompressor 1–3 als Messpunkt Huhn_Drols_1 bereits erfasst",
+      "Anomalie-Delta +47,5 kW × 6 h/Woche × 52 Wochen ≈ 14.820 kWh statistisches Jahres-Maximalpotenzial; Insight-Einsparung 9.116 kWh/Jahr (1.604 €/Jahr)",
+      "135 Ereignisse mit Severity Ratio 3,0 – ausschließlich Montag 00:00–06:00 Uhr; kein anderer Wochentag betroffen, was auf wöchentlichen Automatikbetrieb hindeutet",
+      "Druckluftsysteme benötigen typischerweise 15–60 Minuten Druckaufbau – Nachtbetrieb von 4–6 Stunden ist technisch nicht erforderlich",
+      "Sub-Meter-Abdeckung 39,8 % (limited): Kompressoren-Anteil an der Anomalie nicht direkt quantifizierbar; geschätzter Anteil 2.000–4.500 kWh/Jahr (22–49 % des Gesamtpotenzials) – Verifikation über Huhn_Drols_1 empfohlen"
+    ],
+    "amortisationPeriodInMonths": 19,
+    "reasoning": "Kompressoren sind in der Metallverarbeitung häufige Hauptverursacher erhöhter Nachtgrundlasten, da sie bei kleinsten Leckagen anlaufen oder feste Wochenprogramme haben. Das exklusive Muster 'nur Montagnächte' passt zu einem Wochenprogramm-gesteuerten System, das vor dem ersten Schichttag hochfährt. Da der Messpunkt Huhn_Drols_1 bereits vorhanden ist, kann die Hypothese direkt anhand der historischen Untermessdaten geprüft werden – ohne zusätzliche Investition. Erst nach Verifikation sollte in eine Steuerungsanpassung oder Leckagenbehebung investiert werden.",
+    "questions": [
+      {
+        "question": "Laufen die Kompressoren (Kompressor 1–3) in der Nacht von Sonntag auf Montag durchgehend?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, die Kompressoren laufen die gesamte Nacht durch"
+          },
+          {
+            "answer": "Nein, die Kompressoren schalten sich ab und starten nur bei Druckabfall"
+          },
+          {
+            "answer": "Es gibt ein festgelegtes Startprogramm für den Montag-Schichtstart"
+          },
+          {
+            "answer": "Unbekannt – wurde noch nicht ausgewertet"
+          }
+        ]
+      },
+      {
+        "question": "Ab wann wird der volle Betriebsdruck für den Montag-Schichtstart benötigt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ab Mitternacht / 01:00 Uhr (langer Vorlauf geplant)"
+          },
+          {
+            "answer": "Ab 04:00–05:00 Uhr"
+          },
+          {
+            "answer": "Kurz vor Schichtbeginn (30–60 Min. vorher ausreichend)"
+          },
+          {
+            "answer": "Unbekannt"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es bekannte Druckluft-Leckagen, die zu unnötigem Nachtbetrieb der Kompressoren führen könnten?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, es sind Leckagen bekannt"
+          },
+          {
+            "answer": "Nein, das System gilt als dicht"
+          },
+          {
+            "answer": "Es wurde noch keine systematische Leckageprüfung durchgeführt"
+          },
+          {
+            "answer": "Unbekannt"
+          }
+        ]
+      },
+      {
+        "question": "Ist der Messpunkt Kompressor 1–3 (Huhn_Drols_1) aktuell aktiv und werden die Daten ausgewertet?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, Daten werden regelmäßig ausgewertet"
+          },
+          {
+            "answer": "Messpunkt ist aktiv, aber Daten wurden bisher nicht analysiert"
+          },
+          {
+            "answer": "Messpunkt ist aktuell nicht in Betrieb"
+          },
+          {
+            "answer": "Unbekannt"
+          }
+        ]
+      }
+    ],
+    "confidence": 52,
+    "category": "PRESSURIZED_AIR",
+    "investmentType": "HIGH_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_f1e4a7d9",
+    "title": "Trafostation M: Wochenend-Abschaltprotokoll einführen",
+    "shortDescription": "Trafostation M verursacht 53 % der Wochenend-Mehrleistung – ein strukturiertes Abschaltprotokoll kann die Grundlast um ~10 kW senken",
+    "description": "Die Sub-Meter-Analyse weist Trafostation M mit hoher Konfidenz (95,6 % Co-Occurrence-Rate) als Haupttreiber der Wochenend-Anomalie aus: Sie trägt 53,1 % zur Mehrleistung von 20 kW gegenüber der erreichbaren Baseline bei. Samstags ab 15 Uhr und den gesamten Sonntag liegt die Standortlast bei median 90 kW statt möglichen 70 kW. Da hinter Trafostation M Stanz- und Presslinien sowie Hilfsaggregate versorgt werden, die an Wochenenden keinen Vollbetrieb benötigen, ist das Problem in fehlenden oder inkonsistent angewendeten Abschaltprotokollen zu suchen. Die Streuung zwischen P25 = 85 kW und P75 = 105 kW bestätigt: In Best-Case-Perioden wird die 70-kW-Baseline bereits erreicht – die Machbarkeit ist belegt, es mangelt an Konsequenz. Ein schriftliches, maschinenspezifisches Abschaltprotokoll für das Ende der letzten Wochenschicht (Freitagabend bzw. Samstagmittag) kann Verbraucher systematisch in Standby oder Aus versetzen. Hinweis: Die Sub-Meter-Abdeckung beträgt 46,6 % – in nicht subgemesserten Bereichen könnten weitere Potenziale schlummern.",
+    "yearlySavingsRangeFrom": 600,
+    "yearlySavingsRangeTo": 800,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 1000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 3500,
+    "yearlySavingsEnergyRangeTo": 4500,
+    "evidences": [
+      "Sub-Meter-Analyse: Trafostation M trägt 53,1 % der Anomalie-Mehrleistung von 20 kW bei – hohe Konfidenz, 95,6 % Co-Occurrence-Rate am Wochenende",
+      "Zeitfenster der Anomalie: Sa 15:00–24:00 und So 00:00–22:00, insgesamt 31 h/Woche (1.612 h/Jahr)",
+      "Hochrechnung Einsparpotenzial Trafostation M: 53,1 % × 20 kW × 1.612 h = ~17.100 kWh/Jahr statistisches Maximum; konservative Modellschätzung (Insight): 3.500–4.500 kWh/Jahr umsetzbar",
+      "Streuung P25 = 85 kW bis P75 = 105 kW belegt inkonsistentes Abschaltverhalten – die erreichbare Baseline von 70 kW wird in Einzelperioden bereits erreicht",
+      "Laut Kundengespräch (Feb. 2026) ist der Verbrauch detailliert je Messpunkt bekannt; Trafostation M ist explizit als relevanter Messpunkt benannt"
+    ],
+    "amortisationPeriodInMonths": 2,
+    "reasoning": "Trafostation M ist der Haupttreiber der Wochenend-Anomalie mit höchster Konfidenz im gesamten Insight (95,6 % Co-Occurrence). Eine Abschaltprotokoll-Maßnahme erfordert keine technischen Investitionen, sondern lediglich Prozessorganisation und Mitarbeiterschulung. Die Machbarkeit ist empirisch belegt: In den besten Perioden wird die 70-kW-Baseline bereits eingehalten. Die Insight-Konfidenz von 97,8 % und die vollständige Gerätezuordnung (0 % unattributed) machen dies zur belastbarsten Einsparmaßnahme des Standorts.",
+    "questions": [
+      {
+        "question": "Gibt es aktuell ein schriftliches Abschaltprotokoll für die Anlagen hinter Trafostation M am Wochenende?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, ein schriftliches Protokoll ist vorhanden und wird regelmäßig befolgt"
+          },
+          {
+            "answer": "Es gibt informelle Absprachen, aber kein dokumentiertes Protokoll"
+          },
+          {
+            "answer": "Nein, die Anlage läuft standardmäßig durch das Wochenende"
+          },
+          {
+            "answer": "Nur für einzelne Maschinen existieren Abschaltregeln"
+          }
+        ]
+      },
+      {
+        "question": "Welche Verbraucher hinter Trafostation M müssen am Wochenende zwingend weiterlaufen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Keine – alle Anlagen können vollständig abgeschaltet werden"
+          },
+          {
+            "answer": "Nur Steuerungs- und Sicherheitssysteme (geringer Verbrauch)"
+          },
+          {
+            "answer": "Kühlsysteme für temperaturkritische Werkzeuge oder Materialien"
+          },
+          {
+            "answer": "Mehrere produktionskritische Aggregate, die nicht abschaltbar sind"
+          }
+        ]
+      },
+      {
+        "question": "Wer trägt am Standort die Verantwortung für das Abschalten der Anlagen vor dem Wochenende?",
+        "suggestedAnswers": [
+          {
+            "answer": "Die letzte Schicht ist verantwortlich, aber es gibt keine feste Kontrolle"
+          },
+          {
+            "answer": "Ein dedizierter Energieverantwortlicher kontrolliert die Abschaltung"
+          },
+          {
+            "answer": "Der Bereichsleiter entscheidet situativ"
+          },
+          {
+            "answer": "Es gibt keine klar definierte Zuständigkeit"
+          }
+        ]
+      }
+    ],
+    "confidence": 88,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_f1e4a7d9",
+    "title": "ONI-Anlage: Wochenend-Reduzierungsbetrieb aktivieren",
+    "shortDescription": "ONI-Prozessanlage trägt 39 % zur Wochenend-Mehrleistung bei – Umstellung auf reduzierten Betriebsmodus kann ~3.000 kWh/Jahr einsparen",
+    "description": "Die Sub-Meter-Analyse identifiziert die ONI-Anlage (Kühl- oder Prozessanlage, separater Messpunkt) als zweiten wesentlichen Treiber der Wochenend-Anomalie: Sie trägt 39,3 % der Mehrleistung bei (mittlere Konfidenz, 73,6 % Co-Occurrence-Rate). Das bedeutet, dass die ONI-Anlage samstags ab 15 Uhr und sonntags systematisch auf einem Niveau läuft, das dem Produktionsbetrieb ähnelt, obwohl nur eingeschränkte oder keine Fertigung stattfindet. Moderne ONI-Anlagen verfügen typischerweise über konfigurierbare Betriebsmodi (z. B. Absenkbetrieb, Nacht-/Wochenendbetrieb). Ziel ist es, die Steuerung so zu parametrieren oder mit einer Zeitschaltuhr zu koppeln, dass die Anlage ab Samstagmittag automatisch auf einen Reduzierungsbetrieb wechselt. Die mittlere Konfidenz bei der Gerätezuordnung empfiehlt eine Verbrauchsverifikation über die ONI-eigene Anzeige oder den Submeter 'Oni' (Gerät: Huhn_Drols_2) vor und nach der Maßnahme.",
+    "yearlySavingsRangeFrom": 440,
+    "yearlySavingsRangeTo": 620,
+    "investmentRangeFrom": 500,
+    "investmentRangeTo": 2000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 2500,
+    "yearlySavingsEnergyRangeTo": 3500,
+    "evidences": [
+      "Sub-Meter-Analyse: ONI-Anlage trägt 39,3 % der Anomalie-Mehrleistung bei – mittlere Konfidenz, 73,6 % Co-Occurrence-Rate am Wochenende",
+      "Hochrechnung: 39,3 % × 20 kW × 1.612 h/Jahr = ~12.670 kWh statistisches Maximum; Einsparpotenzial nach konservativer Schätzung 2.500–3.500 kWh/Jahr",
+      "ONI ist als separater Submeter-Messpunkt (Huhn_Drols_2) erfasst – direkte Verbrauchsverifikation vor/nach Maßnahme möglich",
+      "Gesamteinsparpotenzial des Insights: 7.786 kWh/Jahr (1.370 €/Jahr); ONI-Anteil entspricht ~39 % = 440–620 €/Jahr bei 0,176 €/kWh",
+      "Sub-Meter-Abdeckung beträgt 46,6 % – mittlere Konfidenz der ONI-Zuordnung empfiehlt Messverifikation nach Umsetzung"
+    ],
+    "amortisationPeriodInMonths": 23,
+    "reasoning": "Die ONI-Anlage ist der zweitstärkste Treiber der Wochenend-Anomalie und bietet mit einem dedizierten Submeter eine gute Messbarkeit. Die mittlere Konfidenz (73,6 % Co-Occurrence) ist ausreichend, um die Maßnahme zu rechtfertigen, erfordert aber eine Verbrauchsprüfung. Die Umsetzung (Parametrierung oder Zeitschaltuhr) ist technisch niedrigschwellig, sobald der Betriebsmodus der ONI-Anlage mit dem Hersteller/Instandhalter abgeklärt ist. Die Amortisation von ~23 Monaten ist akzeptabel für eine technische Optimierungsmaßnahme im Produktionsumfeld.",
+    "questions": [
+      {
+        "question": "In welchem Betriebsmodus läuft die ONI-Anlage aktuell an Wochenenden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Im normalen Produktionsbetrieb, da keine manuelle Umschaltung erfolgt"
+          },
+          {
+            "answer": "Bereits auf einen reduzierten Modus eingestellt"
+          },
+          {
+            "answer": "Vollständig abgeschaltet an bestimmten Wochenenden"
+          },
+          {
+            "answer": "Unbekannt – wir haben keinen direkten Einblick in die Betriebszustände"
+          }
+        ]
+      },
+      {
+        "question": "Bietet die ONI-Anlage einen konfigurierbaren Wochenend- oder Absenkbetriebsmodus?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, ein Spar-/Absenkbetrieb ist in der Steuerung vorhanden und nutzbar"
+          },
+          {
+            "answer": "Eine Reduzierungsoption ist vorhanden, wurde aber noch nie genutzt"
+          },
+          {
+            "answer": "Nein, die Anlage kennt nur einen Betriebsmodus"
+          },
+          {
+            "answer": "Wir müssen ONI oder den Instandhalter kontaktieren, um das zu klären"
+          }
+        ]
+      },
+      {
+        "question": "Wie kritisch ist die volle Kühl- oder Prozessleistung der ONI-Anlage am Wochenende?",
+        "suggestedAnswers": [
+          {
+            "answer": "Kaum – wenige oder keine Prozesse laufen am Wochenende, volle Leistung ist nicht erforderlich"
+          },
+          {
+            "answer": "Einige Maschinen benötigen Kühlung, aber mit deutlich reduzierter Kapazität"
+          },
+          {
+            "answer": "Bestimmte Materialien oder Werkzeuge müssen kontinuierlich temperiert werden"
+          },
+          {
+            "answer": "Die volle Leistung ist auch am Wochenende für Prozessstabilität erforderlich"
+          }
+        ]
+      },
+      {
+        "question": "Wer ist am Standort für die Einstellungen und Betriebsparameter der ONI-Anlage zuständig?",
+        "suggestedAnswers": [
+          {
+            "answer": "Interner Instandhalter / Energieverantwortlicher"
+          },
+          {
+            "answer": "Externer Wartungsdienstleister von ONI"
+          },
+          {
+            "answer": "Der Anlagenbediener aus der Produktion"
+          },
+          {
+            "answer": "Derzeit nicht klar definiert"
+          }
+        ]
+      }
+    ],
+    "confidence": 72,
+    "category": "OTHER",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_b2d5c8f0",
+    "title": "Samstagmorgen-Grundlast durch strukturiertes Abschaltprotokoll reduzieren",
+    "shortDescription": "Mediane Grundlast von 145 kW samstags 6–14 Uhr liegt 107 % über der erreichbaren Baseline von 70 kW – fehlendes Abschaltprotokoll als Hauptursache",
+    "description": "Samstags zwischen 6 und 14 Uhr weist der Standort Heinrich Huhn in Drolshagen eine mediane Grundlast von 145 kW auf – mehr als doppelt so hoch wie die nachgewiesene erreichbare Baseline von 70 kW. Die starke Streubreite (P25: 100 kW, P75: 167,5 kW) belegt, dass die Energieeffizienz am Samstagmorgen stark vom jeweiligen Schichtleiter und der Auftragslage abhängt: Manchmal läuft der Betrieb nahe Standby, manchmal fast im Vollbetrieb. Laut Kundengespräch sind zwar wiederkehrende Schichten für fest vereinbarte Stückzahlen eingeplant, jedoch fehlt ein verbindliches Abschaltprotokoll, das nach Schichtende einen geordneten Rückfahrprozess sicherstellt. Ein standardisiertes Protokoll – Checkliste je Schicht, klare Verantwortlichkeiten pro Anlage, automatische Erinnerung beim Schichtende – kann die Grundlast konsistent Richtung Baseline absenken. Die Sub-Metering-Abdeckung beträgt derzeit nur 27 %, sodass nicht eindeutig bestimmt werden kann, welche Einzelanlagen den größten Beitrag leisten. Die organisatorische Maßnahme ist daher als erste, sofort umsetzbare Stufe zu verstehen, die unabhängig von der Gerätezuordnung wirksam ist.",
+    "yearlySavingsRangeFrom": 1320,
+    "yearlySavingsRangeTo": 1848,
+    "investmentRangeFrom": 500,
+    "investmentRangeTo": 1500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 7500,
+    "yearlySavingsEnergyRangeTo": 10500,
+    "evidences": [
+      "Mediane Grundlast samstags 6–14 Uhr: 145 kW vs. erreichbare Baseline 70 kW – Delta: 75 kW (+107 %)",
+      "Gesamtpotenzial laut Analyse: 15.566 kWh/Jahr (2.740 €/Jahr) – realistische Umsetzung 50–67 % bei organisatorischer Maßnahme: 7.500–10.500 kWh/Jahr",
+      "Streubreite P25 = 100 kW bis P75 = 167,5 kW belegt inkonsistentes Abschaltverhalten: an guten Samstagen bereits nahe Baseline, an schlechten 2,4× darüber",
+      "9 h/Woche × 52 Wochen × geschätzte 30 kW durchschnittliche Senkung = 14.040 kWh/Jahr Brutto-Potenzial; nach Abzug notwendiger Betriebslasten 7.500–10.500 kWh/Jahr",
+      "Sub-Metering-Abdeckung 27 %: Gerätezuordnung noch eingeschränkt – organisatorisches Protokoll ist ohne diese Information sofort umsetzbar"
+    ],
+    "amortisationPeriodInMonths": 8,
+    "reasoning": "Die Variabilität zwischen P25 (100 kW) und P75 (167,5 kW) zeigt, dass besseres Abschalten bereits stattfindet – es fehlt an Konsistenz und Verbindlichkeit. Ein standardisiertes Abschaltprotokoll erfordert minimal Investitionen (Dokumentation, Schulung, ggf. einfache Erinnerungssysteme) und liefert sofortige, wiederholbare Ergebnisse. Da die Sub-Metering-Abdeckung mit 27 % begrenzt ist und keine Gerätezuordnung möglich war, ist diese organisatorische Maßnahme der logische Einstieg vor kapitalintensiveren technischen Maßnahmen.",
+    "questions": [
+      {
+        "question": "Gibt es am Standort ein dokumentiertes Abschaltprotokoll für Samstagschichten?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, schriftlich dokumentiert und regelmäßig überprüft"
+          },
+          {
+            "answer": "Informell vorhanden, aber nicht standardisiert"
+          },
+          {
+            "answer": "Nein, jeder Schichtleiter entscheidet selbst"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      },
+      {
+        "question": "Welche Anlagen laufen nach dem offiziellen Samstagsschichtende nachweislich weiter?",
+        "suggestedAnswers": [
+          {
+            "answer": "Druckluftversorgung und Kompressoren"
+          },
+          {
+            "answer": "Pressen und Hydrauliksysteme"
+          },
+          {
+            "answer": "Kühlanlagen und Klimatisierung"
+          },
+          {
+            "answer": "Verschiedene Anlagen ohne klare Dokumentation"
+          }
+        ]
+      },
+      {
+        "question": "Wie viele Samstage pro Jahr finden tatsächlich Produktionsschichten statt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Fast jeden Samstag (40–52 Samstage/Jahr)"
+          },
+          {
+            "answer": "Regelmäßig, aber nicht jede Woche (20–39 Samstage/Jahr)"
+          },
+          {
+            "answer": "Nur bei hoher Auslastung (< 20 Samstage/Jahr)"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      }
+    ],
+    "confidence": 62,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_b2d5c8f0",
+    "title": "Druckluftkompressoren 1–3 am Samstagmorgen bedarfsgerecht steuern",
+    "shortDescription": "Kompressoren 1–3 (messtechnisch erfasst) laufen samstags 6–14 Uhr wahrscheinlich nach Wochentags-Standardprogramm – unabhängig von der tatsächlichen Produktionslast",
+    "description": "Die Druckluftversorgung über die Kompressoren 1–3 ist am Standort Drolshagen messtechnisch erfasst und gilt in der Stanz- und Pressteilefertigung als wesentlicher Energieverbraucher. Samstags zwischen 6 und 14 Uhr liegt die Grundlast im Median bei 145 kW – 107 % über der erreichbaren Baseline von 70 kW. Bei einer Sub-Metering-Abdeckung von 27 % ist eine präzise Zuordnung zum Druckluftsystem noch nicht möglich, jedoch ist in der metallverarbeitenden Industrie die Druckluft typischerweise für 20–35 % des Gesamtverbrauchs verantwortlich. Wenn die Kompressoren samstags nach demselben Zeitprogramm wie an Wochentagen betrieben werden – also unabhängig von der tatsächlich abgerufenen Produktionslast –, kann durch eine zeitgesteuerte oder druckabhängige Abschaltung ein relevanter Teil der erhöhten Grundlast vermieden werden. Insbesondere während Pausen, Rüstzeiten oder nach dem offiziellen Schichtende bietet sich ein automatisches Absenken des Betriebsdrucks oder das Abschalten von Reservekompressoren an. Die Kundengespräche bestätigen den Wunsch nach zeitversetztem und bedarfsgerechtem Maschineneinsatz, was diese Maßnahme strategisch unterstützt.",
+    "yearlySavingsRangeFrom": 528,
+    "yearlySavingsRangeTo": 968,
+    "investmentRangeFrom": 1000,
+    "investmentRangeTo": 3000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 3000,
+    "yearlySavingsEnergyRangeTo": 5500,
+    "evidences": [
+      "Kompressoren 1–3 sind am Standort sub-gemetert – einzige messtechnisch erfasste Teilanlage und damit direkter Optimierungsansatzpunkt",
+      "Druckluft macht in der Metallverarbeitung typischerweise 20–35 % des Gesamtverbrauchs aus – bei 145 kW Medianlast ca. 29–51 kW potenzielle Kompressorlast samstags",
+      "Berechnetes Einsparpotenzial: 75 kW Delta × 27 % geschätzter Druckluftanteil × 9 h/Woche × 52 Wochen × 50 % Reduktion ≈ 4.726 kWh/Jahr; Bandbreite 3.000–5.500 kWh/Jahr",
+      "Kunden-Zitat (Nov. 2025): 'Wunsch nach Forecast/Simulation: erwartete Last je Artikel/Maschine und zeitversetztes Einschalten' – bestätigt strategische Passung einer bedarfsabhängigen Kompressorsteuerung",
+      "Sub-Metering-Abdeckung 27 %: konkrete Bestätigung des Kompressorbeitrags nach differenzierter Auswertung der Kompressor-1-3-Zähler empfohlen"
+    ],
+    "amortisationPeriodInMonths": 32,
+    "reasoning": "Kompressoren sind die einzige messtechnisch erfasste Teilanlage und damit der nächste logische Schritt nach einem allgemeinen Abschaltprotokoll. Eine zeitgesteuerte oder druckabhängige Abschaltung ist technisch überschaubar umsetzbar, sofern eine SPS- oder Zeitsteuerung vorhanden oder nachrüstbar ist. Die Streubreite (P25–P75 von 67,5 kW) deutet darauf hin, dass nicht jeder Samstag gleich produziert wird – eine bedarfsabhängige Druckluftsteuerung kann genau diese Variabilität nutzen, um Kompressoren gezielt aus- und einzuschalten.",
+    "questions": [
+      {
+        "question": "Laufen die Kompressoren 1–3 samstags nach demselben Zeitprogramm wie an Wochentagen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, identische Einstellungen wie an Wochentagen"
+          },
+          {
+            "answer": "Nein, am Samstag wird manuell ab- und eingeschaltet"
+          },
+          {
+            "answer": "Es gibt keine aktive Zeitsteuerung – Kompressoren laufen durch"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es am Samstagmorgen regelmäßige Zeitfenster ohne Druckluftbedarf (z. B. Pausen, Rüsten, nach Schichtende)?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, regelmäßige Unterbrechungen von mehr als 30 Minuten"
+          },
+          {
+            "answer": "Nur kurze Pausen (< 15 Minuten), zu kurz für Abschaltung"
+          },
+          {
+            "answer": "Nein, Druckluft wird samstags kontinuierlich benötigt"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      },
+      {
+        "question": "Sind die Kompressorsteuerungen bereits an ein Gebäudeleitsystem oder eine SPS angebunden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, vollständig vernetzt und fernsteuerbar"
+          },
+          {
+            "answer": "Teilweise – manueller Eingriff noch erforderlich"
+          },
+          {
+            "answer": "Nein, Kompressoren laufen stand-alone ohne externe Steuerung"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      }
+    ],
+    "confidence": 54,
+    "category": "PRESSURIZED_AIR",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85437,
+    "insightId": "ins_b2d5c8f0",
+    "title": "Selektiven Betrieb der Trafostationen E und T am Samstagmorgen analysieren und umsetzen",
+    "shortDescription": "Zwei sub-gemeterte Trafostationen (E und T) versorgen den Standort – bei reduzierter Samstagsfertigung könnte eine Station gezielt abgeschaltet werden",
+    "description": "Der Standort Heinrich Huhn betreibt mindestens zwei separate Trafostationen (E und T), die bereits messtechnisch erfasst sind. Bei einer medianen Samstagslast von 145 kW mit erheblicher Streubreite (P25: 100 kW, P75: 167,5 kW) besteht die Möglichkeit, dass beide Trafostationen samstags 6–14 Uhr durchgängig in Betrieb sind, obwohl die Produktionsintensität deutlich unterhalb eines normalen Wochentags liegt. Transformatoren erzeugen im Leerlauf kontinuierliche Eisenkern- und Wicklungsverluste (typisch 0,3–0,6 % der Nennleistung), die auch dann anfallen, wenn keine Last abgerufen wird. Wenn die Samstagsfertigung nur in bestimmten Hallenbereichen stattfindet, könnte eine Trafostation gezielt abgeschaltet werden – damit würden alle daran hängenden Verbraucher (Beleuchtung, Lüftung, Nebenaggregat) automatisch vom Netz genommen. Dieser Ansatz erfordert zunächst eine differenzierte Auswertung der vorhandenen Zählerdaten für Trafostation E und T, um festzustellen, welche Bereiche samstags tatsächlich Last abnehmen. Die vorhandene Sub-Metering-Infrastruktur ermöglicht diese Analyse ohne Zusatzinvestitionen.",
+    "yearlySavingsRangeFrom": 616,
+    "yearlySavingsRangeTo": 1056,
+    "investmentRangeFrom": 500,
+    "investmentRangeTo": 2000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 3500,
+    "yearlySavingsEnergyRangeTo": 6000,
+    "evidences": [
+      "Zwei separate Trafostationen (E und T) sind am Standort sub-gemetert – Lastdaten für differenzierte Samstagsanalyse ohne Zusatzinvestition verfügbar",
+      "Mediane Samstagslast 145 kW mit P25 = 100 kW: In mindestens 25 % der Samstagsfenster wird bereits eine deutlich reduzierte Last erreicht – deutet auf teilweise ungenutzte Trafostationskapazität hin",
+      "Baseline 70 kW = ca. 48 % der medianen Samstagslast; Differenz von 75 kW (52 %) als Potenzial für selektive Abschaltung einer Trafostation in Teilen des Betriebsfensters",
+      "Trafo-Leerlaufverluste: bei 1.000-kVA-Trafo ca. 1,5–3 kW Dauerverlust; über 9 h × 52 Wochen = 702–1.404 kWh/Jahr allein durch Leerlauf – zusätzlich zur Last der abgehängten Verbraucher",
+      "Einsparpotenzial (22–39 % des Gesamtpotenzials von 15.566 kWh/Jahr): 3.500–6.000 kWh/Jahr entspricht 616–1.056 €/Jahr bei 0,176 €/kWh"
+    ],
+    "amortisationPeriodInMonths": 18,
+    "reasoning": "Die vorhandenen Sub-Meter für Trafostation E und T liefern die Datenbasis für diese Analyse ohne weitere Messtechnikinvestitionen. Der Ansatz ist hochgradig komplementär zum Abschaltprotokoll (Maßnahme 1): Während das Protokoll das Verhalten regelt, schafft die selektive Trafostation-Abschaltung eine technische Absicherung. Bei mittlerem Betriebsstundenprofil und überschaubarem Schaltaufwand ist eine Amortisation innerhalb von 18 Monaten realistisch. Die Identifikation der tatsächlichen Lastverteilung auf Trafostationen E und T erhöht zugleich die Sub-Metering-Abdeckung für künftige Optimierungsmaßnahmen.",
+    "questions": [
+      {
+        "question": "Welche Hallenbereiche oder Produktionslinien werden samstags typischerweise betrieben?",
+        "suggestedAnswers": [
+          {
+            "answer": "Alle Bereiche wie an normalen Wochentagen"
+          },
+          {
+            "answer": "Nur ein Teil der Pressen-/Stanzlinien (< 50 % der Kapazität)"
+          },
+          {
+            "answer": "Wechselnd je nach Auftragslage – keine feste Struktur"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      },
+      {
+        "question": "Welche Verbraucher sind ausschließlich an Trafostation E bzw. T angeschlossen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Klare Trennung vorhanden (z. B. T = Produktion, E = Infrastruktur/Büro)"
+          },
+          {
+            "answer": "Gemischt – beide Stationen versorgen Produktionsanlagen"
+          },
+          {
+            "answer": "Unbekannt – keine aktuelle Schaltplanübersicht verfügbar"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      },
+      {
+        "question": "Wurden die Lastdaten der Trafostationen E und T für Samstage bereits systematisch ausgewertet?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, regelmäßige Auswertung und Abgleich vorhanden"
+          },
+          {
+            "answer": "Gelegentlich, aber keine strukturierte Analyse"
+          },
+          {
+            "answer": "Nein, bisher keine gezielte Samstagsauswertung"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      }
+    ],
+    "confidence": 54,
+    "category": "OTHER",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_e9a3c7b5",
+    "title": "Abschaltprotokoll nach Freitagsproduktion einführen",
+    "shortDescription": "Samstags-Grundlast von median 222 kW könnte durch konsequentes Abschalten auf Baseline-Niveau von 111 kW halbiert werden",
+    "description": "Die Analyse zeigt, dass am Standort Herscheid (Huhn Teckentrup) die Grundlast samstags von 0 bis 12 Uhr im Sommer mit einem Median von 222,4 kW exakt doppelt so hoch wie die erreichbare Baseline von 111,2 kW liegt (Delta = 111,2 kW). Die breite Streuung (P25 = 178,4 kW, P75 = 271,8 kW) deutet darauf hin, dass an manchen Samstagen ein nahezu vollständiger Produktionsbetrieb läuft, an anderen hingegen weniger. Eine plausible Ursache ist, dass Maschinen und Anlagen nach dem Produktionsende am Freitagabend nicht systematisch abgeschaltet werden und bis Samstagmittag im aktiven Betrieb verbleiben. Da bislang keine Untermessung vorhanden ist, können einzelne Verursacher noch nicht genau benannt werden. Ein verbindliches Abschaltprotokoll für alle nicht zwingend erforderlichen Verbraucher nach der letzten Freitagsschicht kann die erhöhte Grundlast in diesem Zeitfenster deutlich reduzieren. Empfehlung: Checkliste für Schichtende einführen, die alle abschaltbaren Aggregate und Maschinen umfasst; ergänzend zeitgesteuerte Abschaltautomatiken prüfen.",
+    "yearlySavingsRangeFrom": 600,
+    "yearlySavingsRangeTo": 900,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 3400,
+    "yearlySavingsEnergyRangeTo": 5100,
+    "evidences": [
+      "Sommer-Grundlast Sa 00:00–12:00 Uhr: Median 222,4 kW vs. erreichbare Baseline 111,2 kW – Delta 111,2 kW (100 %)",
+      "P25 = 178,4 kW und P75 = 271,8 kW zeigen hohes Einsparpotenzial, aber auch starke Schwankung – ein Teil der Samstage läuft nahezu im Vollbetrieb",
+      "Einsparpotenzial laut Insight: 6.824 kWh/Jahr = 1.201 €/Jahr (Energiepreis ~0,176 €/kWh)",
+      "Realistisch aktivierbarer Anteil durch Abschaltmaßnahmen (50–75 %): ca. 3.400–5.100 kWh/Jahr = 600–900 €/Jahr",
+      "Kundenzitat (10.12.2025): Verbrauchszeitverlauf bekannt, Verursacher jedoch noch nicht transparent – systematische Abschaltung ist erste aktivierbare Maßnahme ohne Untermessung"
+    ],
+    "amortisationPeriodInMonths": 4,
+    "reasoning": "Das Abschaltprotokoll erfordert kaum Investition (Prozessdokumentation, ggf. einfache Zeitschaltuhren) und kann kurzfristig umgesetzt werden. Die breite Streuung der Werte zeigt, dass an manchen Samstagen bereits ein besseres Abschalten stattfindet – dies belegt die Machbarkeit. Da keine Untermessung vorhanden ist, bleibt unklar, welche Verbraucher genau betroffen sind; dennoch ist ein strukturiertes Abschalten die direkt aktivierbare Maßnahme. Der Sparansatz von 50–75 % des statistischen Potenzials ist konservativ angesetzt, da Samstagsfrühschichten (benigne Hypothese) einen Teil des erhöhten Verbrauchs erklären können.",
+    "questions": [
+      {
+        "question": "Gibt es am Standort Herscheid ein dokumentiertes Abschaltprotokoll für das Schichtende am Freitagabend?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nein, Abschalten liegt im Ermessen der Mitarbeitenden"
+          },
+          {
+            "answer": "Es gibt eine informelle Absprache, aber keine verbindliche Checkliste"
+          },
+          {
+            "answer": "Ja, eine Checkliste existiert, wird aber nicht konsequent eingehalten"
+          },
+          {
+            "answer": "Ja, und es wird regelmäßig kontrolliert"
+          }
+        ]
+      },
+      {
+        "question": "Finden am Standort Herscheid reguläre Samstagfrühschichten statt (insbesondere im Sommer)?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nein, samstags findet grundsätzlich keine Produktion statt"
+          },
+          {
+            "answer": "Gelegentlich bei erhöhter Auftragslage (1–2 ×/Monat)"
+          },
+          {
+            "answer": "Ja, regelmäßig im Sommer (Ferienproduktion)"
+          },
+          {
+            "answer": "Ja, ganzjährig samstags Früh- oder Tagschicht"
+          }
+        ]
+      },
+      {
+        "question": "Welche Anlagentypen sind erfahrungsgemäß nach Produktionsende noch aktiv?",
+        "suggestedAnswers": [
+          {
+            "answer": "Pressen und Stanzmaschinen (mechanisch/hydraulisch)"
+          },
+          {
+            "answer": "Druckluftversorgung und Kompressoren"
+          },
+          {
+            "answer": "Beleuchtung und Hallentechnik"
+          },
+          {
+            "answer": "Mehrere Bereiche – kein genauer Überblick ohne Untermessung"
+          }
+        ]
+      }
+    ],
+    "confidence": 73,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_e9a3c7b5",
+    "title": "Kühlung und Klimatisierung am Sommerwochenende optimieren",
+    "shortDescription": "Sommerbedingte Dauerkühlung der Produktionshalle trägt wahrscheinlich zur erhöhten Samstags-Grundlast von 222 kW bei – Zeitprogramme anpassen",
+    "description": "Im Sommer liegt die Grundlast am Standort Herscheid samstags (0–12 Uhr) bei median 222,4 kW, obwohl keine reguläre Produktion stattfindet. Eine plausible Teilursache ist die Klimatisierung und Kühlung der Produktionsflächen: Im Sommer laufen Kälte- und Klimaanlagen häufig durchgehend, um Temperaturvorgaben einzuhalten – auch nachts und an Wochenenden, wenn keine Wärmequellen aus Maschinen oder Personal aktiv sind. Da am Standort noch keine Untermessung vorhanden ist, lässt sich der genaue Anteil der HLK-Anlage an der erhöhten Grundlast nicht direkt messen. Es wird empfohlen, die Zeitprogramme für Klimatisierung und Kühlung außerhalb der Produktionszeiten (Samstagsnacht/-morgen, Sonntagabend) zu überprüfen und auf ein Minimum zurückzufahren. Temperatur-Setpoints für Nicht-Produktionszeiten können in der Regel 3–5 °C angehoben werden, ohne Produktionsprozesse zu beeinträchtigen.",
+    "yearlySavingsRangeFrom": 300,
+    "yearlySavingsRangeTo": 600,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 1700,
+    "yearlySavingsEnergyRangeTo": 3400,
+    "evidences": [
+      "Erhöhte Grundlast tritt ausschließlich im Sommer-Cluster auf ('Weekend Night (High) [SC1] - Summer') – saisonaler Effekt spricht für klimatisierungsbedingte Ursache",
+      "Zeitfenster Sa 00:00–12:00 Uhr und So 22:00–23:00 Uhr: 13 h/Woche ohne Produktion mit median 222,4 kW statt 111,2 kW Baseline",
+      "Saisonale Grundlasterhöhung durch Kühlung ist typisch für metallverarbeitende Betriebe mit großen Hallenflächen",
+      "Einsparpotenzial HLK-Anteil (geschätzt 25–50 % des Deltas): 1.700–3.400 kWh/Jahr = 300–600 €/Jahr",
+      "Keine Untermessung vorhanden – Hypothese basiert auf saisonalem Muster und branchenüblichem Verhalten"
+    ],
+    "amortisationPeriodInMonths": 7,
+    "reasoning": "Das saisonal spezifische Muster (ausschließlich Sommer-Cluster betroffen) ist ein starkes Indiz für einen klimatisierungsbedingten Anteil an der erhöhten Grundlast. Die Maßnahme erfordert lediglich eine Anpassung von Steuerungsparametern, was mit minimalem Aufwand und Investition realisierbar ist. Die Konfidenz ist moderat, da ohne Untermessung keine direkte Zuordnung möglich ist. Das Einsparpotenzial wird konservativ auf 25–50 % des Gesamtdeltas geschätzt, da andere Verbraucher (Maschinen, Beleuchtung) ebenfalls beitragen dürften.",
+    "questions": [
+      {
+        "question": "Sind am Standort Herscheid Klimaanlagen oder Kühlaggregate für die Produktionshalle installiert, die im Sommer durchgehend laufen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, Kühlanlage läuft im Sommer 24/7 ohne Wochenendabsenkung"
+          },
+          {
+            "answer": "Ja, aber mit reduziertem Betrieb an Wochenenden"
+          },
+          {
+            "answer": "Nur Hallenlüftung, keine aktive Kühlung"
+          },
+          {
+            "answer": "Kühlung nur für spezifische Prozesse/Maschinen, nicht für Hallenklima"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es für die HLK-Anlage separate Zeitprogramme für Produktions- und Nicht-Produktionszeiten?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nein, ein Einheitsprogramm für alle Zeiten"
+          },
+          {
+            "answer": "Ja, Wochentag vs. Wochenende unterschieden"
+          },
+          {
+            "answer": "Ja, aber Sommer/Winter-Unterschied fehlt"
+          },
+          {
+            "answer": "Steuerung ist nicht bekannt / wird extern gewartet"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es Temperaturvorgaben für die Produktionshalle, die auch außerhalb der Produktionszeit eingehalten werden müssen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, aus Qualitäts-/Materialgründen (z. B. Werkzeugtemperatur, Maßhaltigkeit)"
+          },
+          {
+            "answer": "Ja, aus Brandschutz- oder Sicherheitsgründen"
+          },
+          {
+            "answer": "Nein, keine zwingenden Vorgaben außerhalb der Produktion"
+          },
+          {
+            "answer": "Unklar – muss mit dem Produktionsleiter geklärt werden"
+          }
+        ]
+      }
+    ],
+    "confidence": 62,
+    "category": "HEATING",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_e9a3c7b5",
+    "title": "Untermesskonzept umsetzen zur Identifikation der Wochenend-Grundlast",
+    "shortDescription": "Ohne Untermessung bleiben 6.824 kWh/Jahr Einsparpotenzial schwer aktivierbar – geplantes BAFA-gefördertes Konzept vorziehen",
+    "description": "Der Standort Herscheid weist eine strukturell erhöhte Sommernacht-Grundlast von 111,2 kW über dem erreichbaren Baseline-Niveau auf (Sa 00:00–12:00 Uhr, So 22:00–23:00 Uhr). Das statistische Einsparpotenzial beläuft sich auf 6.824 kWh/Jahr (1.201 €/Jahr). Der entscheidende Hemmfaktor ist das Fehlen einer Untermessung: Wie das Unternehmen selbst bestätigt hat (Zitat 10.12.2025), sind Verbrauchsorte und Verursacher ('wo') nicht bekannt. Ohne Gerätezuordnung können gezielte Abschaltmaßnahmen nur auf Basis von Hypothesen priorisiert werden. Das Unternehmen plant bereits ein Untermesskonzept als nächsten Ausbauschritt und hat einen BAFA-Förderantrag für die Hardware vorbereitet. Es wird empfohlen, diesen Antrag zeitnah einzureichen und mit der Installation zu beginnen, um das identifizierte Einsparpotenzial vollständig aktivieren zu können. Besonders kritisch zu messen sind Kompressoren/Druckluft, Klimatisierung sowie die größten Einzelaggregate der Metallverarbeitung.",
+    "yearlySavingsRangeFrom": 600,
+    "yearlySavingsRangeTo": 1200,
+    "investmentRangeFrom": 3000,
+    "investmentRangeTo": 8000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 3400,
+    "yearlySavingsEnergyRangeTo": 6800,
+    "evidences": [
+      "Kundenzitat (10.12.2025): 'Verbrauch und zeitlicher Verlauf sind bekannt, aber nicht exakt die Verbrauchsorte/Verursacher' – Untermessung als explizit geplanter nächster Schritt",
+      "Kundenzitat (14.01.2026): 'Hardware soll separat gefördert werden (neuer Antrag)' – BAFA-Förderantrag in Vorbereitung",
+      "Ohne Untermessung: Einsparpotenzial von 6.824 kWh/Jahr = 1.201 €/Jahr nur durch Hypothesen adressierbar – gerätespezifische Maßnahmen nicht möglich",
+      "Mit Untermessung: realistisch aktivierbares Potenzial 50–100 % des Deltas = 3.400–6.800 kWh/Jahr = 600–1.200 €/Jahr nach gezielten Abschaltmaßnahmen",
+      "Metallverarbeitende Betriebe haben typischerweise 3–6 dominante Großverbraucher (Pressen, Kompressoren, Klimatechnik), die gemeinsam 70–85 % der Grundlast erklären"
+    ],
+    "amortisationPeriodInMonths": 74,
+    "reasoning": "Die Umsetzung des Untermesskonzepts ist eine Investitionsmaßnahme mit langer Amortisationszeit, wenn nur das hier identifizierte Teilpotenzial betrachtet wird. Der eigentliche Mehrwert liegt jedoch darin, dass Untermessung standortweit alle Einsparpotenziale erst vollständig sichtbar und aktivierbar macht. Da das Unternehmen diese Maßnahme ohnehin plant und BAFA-Förderung anstrebt (potenziell 40–50 % Kostenzuschuss), ist die effektive Amortisationszeit deutlich kürzer. Die Maßnahme sollte als strategische Voraussetzung für alle weiteren Optimierungsschritte am Standort Herscheid verstanden werden.",
+    "questions": [
+      {
+        "question": "In welchem Status befindet sich der BAFA-Förderantrag für die Untermessungs-Hardware aktuell?",
+        "suggestedAnswers": [
+          {
+            "answer": "Antrag ist noch nicht gestellt – in Vorbereitung"
+          },
+          {
+            "answer": "Antrag wurde eingereicht, Bescheid steht aus"
+          },
+          {
+            "answer": "Förderung wurde bewilligt, Umsetzung noch nicht begonnen"
+          },
+          {
+            "answer": "Förderantrag wurde abgelehnt oder zurückgezogen"
+          }
+        ]
+      },
+      {
+        "question": "Welche Bereiche oder Anlagen sollen vorrangig mit Untermessung ausgestattet werden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Kompressoren und Druckluftversorgung"
+          },
+          {
+            "answer": "Pressen und Stanzanlagen (größte Einzelverbraucher)"
+          },
+          {
+            "answer": "Klimatisierung und Lüftungstechnik"
+          },
+          {
+            "answer": "Konzept noch nicht definiert – abhängig von Energieaudit"
+          }
+        ]
+      },
+      {
+        "question": "Ist das geplante Energieaudit für den Standort Herscheid/Teckentrup bereits terminiert?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, Termin steht fest (innerhalb der nächsten 3 Monate)"
+          },
+          {
+            "answer": "Ja, aber noch kein konkreter Termin"
+          },
+          {
+            "answer": "Nein, Audit ist noch in Planung"
+          },
+          {
+            "answer": "Audit wurde bereits durchgeführt"
+          }
+        ]
+      }
+    ],
+    "confidence": 83,
+    "category": "OTHER",
+    "investmentType": "HIGH_INTENSITY",
+    "effortLevel": "HIGH"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_d6f8a2e4",
+    "title": "Samstagsnacht-Grundlast durch strukturiertes Abschaltmanagement auf Baselineniveau senken",
+    "shortDescription": "Mediane Grundlast Sa. 0–12 Uhr liegt bei 216 kW – 113% über Baseline von 102 kW; ca. 3.900 kWh/Jahr statistisch nachweisbares Einsparpotenzial",
+    "description": "Die Analyse zeigt, dass die Grundlast am Standort Herscheid (Huhn Teckentrup Deutschland GmbH) im Zeitraum Samstagmitternacht bis Samstagmittag (00:00–12:00 Uhr) im Herbst bei median 216,4 kW liegt – und damit 114,8 kW bzw. 113% über der Baseline von 101,6 kW. Das Muster ist saisonübergreifend stabil (Sommer 222,4 kW, Herbst 216,4 kW) und weist eine enge Streuung auf (P25: 182,1 kW, P75: 254,0 kW), was auf eine oder wenige konsistente Ursachen hindeutet – keine zufälligen Einzelereignisse. Die wahrscheinlichste Erklärung sind dauerhaft aktive Verbraucher wie Druckluftversorgung, Heizung oder Beleuchtung, die auch außerhalb der Produktionszeiten in Betrieb sind. Da kein Submetering vorhanden ist, müssen die Verursacher zunächst durch das geplante Energieaudit (19./20. März 2026) oder gezielte Begehung identifiziert werden. Im Anschluss sollte ein verbindlicher Abschalt-Checklist-Prozess für Freitagabend implementiert werden, der sicherstellt, dass alle nicht produktionsnotwendigen Großverbraucher systematisch abgeschaltet werden. Bei ca. 13 Betriebsstunden pro Woche in diesem Zeitfenster ergibt sich bei einer realistischen Reduktion von 50–80% des Überschusses ein jährliches Einsparpotenzial von 1.700–3.100 kWh und 299–545 EUR.",
+    "yearlySavingsRangeFrom": 299,
+    "yearlySavingsRangeTo": 545,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 1700,
+    "yearlySavingsEnergyRangeTo": 3100,
+    "evidences": [
+      "Mediane Grundlast Sa. 00:00–12:00 Uhr: 216,4 kW vs. Baseline 101,6 kW → Überschuss 114,8 kW (+113%)",
+      "Muster saisonübergreifend stabil: Sommer 222,4 kW, Herbst 216,4 kW – deutet auf strukturellen, dauerhafen Verbraucher hin",
+      "Enge Streuung (P25: 182,1 kW, P75: 254,0 kW) weist auf konsistente Ursache hin, nicht auf zufällige Ereignisse",
+      "Betroffenes Zeitfenster: 13 Std./Woche × 52 Wochen = 676 Std./Jahr; 50–80% Reduktion des Überschusses ergibt 38.760–62.016 kWh theoretisches Jahrespotenzial",
+      "Statistisch gesichertes Mindestpotenzial laut Analyse: 3.897 kWh/Jahr (685,95 EUR/Jahr bei 0,176 EUR/kWh)"
+    ],
+    "amortisationPeriodInMonths": 2,
+    "reasoning": "Da es sich um ein verhaltensbezogenes Abschaltmanagement handelt, entstehen keine nennenswerten Investitionskosten. Der Einsparbetrag ist bereits mit konservativen 50–80% des statistisch nachgewiesenen Potenzials angesetzt, um der Unsicherheit Rechnung zu tragen (kein Submetering, Ursache unbekannt). Das saisonübergreifend stabile Muster und die enge Streuung erhöhen die Wahrscheinlichkeit, dass ein gezieltes Abschalten reale und unmittelbare Einsparungen erzielt. Der erste Schritt ist die Identifikation der Verursacher im Rahmen des bevorstehenden Energieaudits.",
+    "questions": [
+      {
+        "question": "Finden samstags zwischen 00:00 und 12:00 Uhr reguläre Produktionsschichten statt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nein, in diesem Zeitraum findet keine Produktion statt"
+          },
+          {
+            "answer": "Ja, Frühschicht beginnt regulär um ca. 06:00 Uhr"
+          },
+          {
+            "answer": "Unregelmäßig – nur bei hohem Auftragsvolumen"
+          },
+          {
+            "answer": "Es finden Reinigungs- oder Wartungsarbeiten statt, aber keine Produktion"
+          }
+        ]
+      },
+      {
+        "question": "Welche Großverbraucher sind bekanntermaßen auch am Wochenende dauerhaft in Betrieb?",
+        "suggestedAnswers": [
+          {
+            "answer": "Druckluftversorgung läuft kontinuierlich durch"
+          },
+          {
+            "answer": "Heizungs- und Lüftungsanlage läuft auf Betriebsniveau"
+          },
+          {
+            "answer": "Beleuchtung in Hallenbereichen ist nicht automatisch abgeschaltet"
+          },
+          {
+            "answer": "Nicht bekannt – fehlende Transparenz über Verbrauchsorte"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es bereits einen definierten Abschalt-Prozess für das Wochenende (Checkliste, Verantwortliche)?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nein, kein formaler Prozess vorhanden"
+          },
+          {
+            "answer": "Informeller Prozess, aber nicht dokumentiert oder verbindlich"
+          },
+          {
+            "answer": "Ja, Checkliste existiert, wird aber nicht konsequent befolgt"
+          },
+          {
+            "answer": "Ja, strukturierter Prozess mit Verantwortlichen"
+          }
+        ]
+      }
+    ],
+    "confidence": 72,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_d6f8a2e4",
+    "title": "Submetering installieren zur Identifikation der strukturellen Grundlastverursacher (114 kW Überschuss)",
+    "shortDescription": "Ohne Untermessung bleibt die Ursache des 114 kW Samstags-Grundlastüberschusses unbekannt – Submetering als Voraussetzung für gezielte und nachhaltige Reduktion",
+    "description": "Laut Kundenaussage (Dezember 2025) ist am Standort Herscheid (Huhn Teckentrup Deutschland GmbH) zwar der zeitliche Verbrauchsverlauf bekannt, die konkreten Verursacher jedoch nicht transparent. Aktuell existiert nur ein Hauptzähler (Netzbezug); Submetering ist als zukünftiger Schritt vorgesehen. Die vorliegende Analyse belegt einen strukturellen Überschuss von 114,8 kW im Zeitraum Sa. 00:00–12:00 Uhr, der saisonübergreifend stabil ist. Ohne Untermessung auf Maschinen-, Anlagen- oder Hallenebene ist eine gezielte Reduktion dieses Überschusses kaum möglich. Die Installation von Submetering – idealerweise synchronisiert mit dem geplanten Energieaudit am 19./20. März 2026 – würde es ermöglichen, die Verursacher zu lokalisieren und Einsparpotenziale von 10.000–25.000 kWh/Jahr (auf Basis einer realistischen 13–33% Reduktion des theoretischen Jahrespotenzials von ca. 77.600 kWh) durch gezielte Maßnahmen zu realisieren. Empfehlenswert ist die Priorisierung der Messung auf Druckluft, Heizung/Lüftung und energieintensive Fertigungsanlagen.",
+    "yearlySavingsRangeFrom": 1760,
+    "yearlySavingsRangeTo": 4400,
+    "investmentRangeFrom": 3000,
+    "investmentRangeTo": 7000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 10000,
+    "yearlySavingsEnergyRangeTo": 25000,
+    "evidences": [
+      "Kundenaussage (10.12.2025): 'Verbrauch und zeitlicher Verlauf bekannt, aber nicht exakt die Verbrauchsorte/Verursacher' – fehlende Messtransparenz bestätigt",
+      "Theoretisches Jahrespotenzial: 114,8 kW × 676 Std./Jahr = ca. 77.600 kWh/Jahr – nur durch Submetering gezielt adressierbar",
+      "Statistisch gesicherter Mindestwert der Anomalie: 3.897 kWh/Jahr; reales Potenzial bei vollständiger Ursachenbehebung deutlich höher",
+      "Muster stabil über zwei Saisons (Sommer + Herbst) mit enger Streuung – konsistenter Verursacher wahrscheinlich",
+      "Submetering als zukünftiger Ausbauschritt bereits intern vorgesehen (Unternehmenskontext); anstehendes Energieaudit (19./20. März) bietet optimalen Installationszeitpunkt"
+    ],
+    "amortisationPeriodInMonths": 20,
+    "reasoning": "Submetering ist am Standort Herscheid die notwendige Voraussetzung für jede weitere gezielte Einsparmaßnahme. Der 114,8 kW Überschuss ist strukturell und reproduzierbar – die Investition in Untermessung amortisiert sich über die nachgelagert ermöglichten Optimierungsmaßnahmen. Die Einsparschätzung basiert auf einer konservativen Annahme von 13–33% Reduktion des theoretischen Jahrespotenzials von ~77.600 kWh. Das bevorstehende Energieaudit erhöht die Synergiewirkung und den Nutzen der Investition erheblich.",
+    "questions": [
+      {
+        "question": "In welchem Umfang ist Submetering am Standort Herscheid bereits geplant oder budgetiert?",
+        "suggestedAnswers": [
+          {
+            "answer": "Noch nicht konkret budgetiert – nur als zukünftiger Schritt benannt"
+          },
+          {
+            "answer": "Budget für Teilinstallation (z. B. Hauptaggregrate) ist vorhanden"
+          },
+          {
+            "answer": "Vollständige Submessung ist für 2026 fest eingeplant"
+          },
+          {
+            "answer": "Wird erst nach Energieaudit entschieden"
+          }
+        ]
+      },
+      {
+        "question": "Welche Energiesysteme sollen bei der Submessung prioritär erfasst werden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Druckluftanlage (Kompressoren)"
+          },
+          {
+            "answer": "Heizung, Lüftung und Klimatisierung (HLK)"
+          },
+          {
+            "answer": "Einzelne Fertigungs- und Stanzanlagen"
+          },
+          {
+            "answer": "Beleuchtungssysteme und Infrastruktur"
+          },
+          {
+            "answer": "Noch nicht entschieden – Festlegung nach Energieaudit"
+          }
+        ]
+      },
+      {
+        "question": "Soll die Submetering-Installation mit dem Energieaudit am 19./20. März koordiniert werden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, Energieaudit soll konkrete Messpunkte definieren"
+          },
+          {
+            "answer": "Nein, Submetering läuft als separates Projekt"
+          },
+          {
+            "answer": "Energieaudit-Ergebnis wird zunächst abgewartet"
+          },
+          {
+            "answer": "Koordination ist noch nicht besprochen"
+          }
+        ]
+      }
+    ],
+    "confidence": 65,
+    "category": "OTHER",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "HIGH"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_d6f8a2e4",
+    "title": "Druckluftversorgung am Wochenende optimieren – mögliche Hauptursache der Samstagsnacht-Grundlast",
+    "shortDescription": "Dauerhaft aktive Druckluftanlage ist typischer Verursacher bei Metallverarbeitungsbetrieben mit ungeklärter Wochenend-Grundlast von +114 kW",
+    "description": "In der Metallverarbeitung und Stanzteilefertigung – wie bei Huhn Teckentrup Deutschland GmbH – gehört die Druckluftversorgung typischerweise zu den größten Energieverbrauchern (oft 20–40% des Gesamtverbrauchs) und läuft häufig auch außerhalb der Produktionszeiten durch, z. B. wegen Leckagen, unkontrollierter Abnehmer oder fehlender Abschaltautomatik. Der saisonübergreifend stabile Überschuss von 114,8 kW an Samstagnächten (00:00–12:00 Uhr) passt zum typischen Verhaltensmuster einer permanent betriebenen Druckluftanlage, die trotz fehlender Produktionslast auf konstantem Druck gehalten wird. Eine gezielte Überprüfung und Optimierung der Druckluftanlage – Abschalten der Kompressoren außerhalb der Betriebszeiten, Leckagecheck, Druckniveauabsenkung – kann bei einer konservativen Schätzung von 20–40 kW Reduktion des Überschusses ca. 9.000–18.000 kWh/Jahr einsparen. Die endgültige Bestätigung dieser Hypothese setzt ein Submetering auf Kompressorebene voraus, das idealerweise im Rahmen des Energieaudits (19./20. März 2026) veranlasst wird.",
+    "yearlySavingsRangeFrom": 1584,
+    "yearlySavingsRangeTo": 3168,
+    "investmentRangeFrom": 1000,
+    "investmentRangeTo": 5000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 9000,
+    "yearlySavingsEnergyRangeTo": 18000,
+    "evidences": [
+      "Struktureller Grundlastüberschuss von 114,8 kW (113%) an Sa. 00:00–12:00 Uhr – typisch für durchlaufende Druckluftanlage in Metallverarbeitungsbetrieben",
+      "Saisonübergreifend stabile Anomalie (Sommer: 222,4 kW, Herbst: 216,4 kW) spricht gegen produktionsbedingte Ursache und für dauerhafte Infrastruktur wie Druckluft",
+      "Hypothese des Insights: 'Ein oder mehrere permanente Verbraucher (z.B. Heizung, Druckluft, Beleuchtung) sind dauerhaft aktiv'",
+      "Einsparpotenzial bei 20–40 kW Druckluftreduktion × 676 Std./Jahr = 13.520–27.040 kWh/Jahr; konservative Umsetzung: 9.000–18.000 kWh/Jahr (ca. 1.584–3.168 EUR/Jahr)",
+      "Druckluft-Optimierungsmaßnahmen (Abschaltautomatik, Leckage-Audit, Druckniveauabsenkung) sind branchenüblich mit kurzer Amortisation von 6–18 Monaten"
+    ],
+    "amortisationPeriodInMonths": 14,
+    "reasoning": "Druckluft ist in der Metallverarbeitung der wahrscheinlichste Verursacher einer saisonübergreifend konstanten, produktionsunabhängigen Grundlasterhöhung dieser Größenordnung. Die Maßnahme kombiniert eine hypothesengestützte Priorisierung mit branchenüblichen Optimierungsansätzen. Da noch kein Submetering existiert, ist die Hypothese nicht bewiesen – daher geringere Konfidenz. Die Maßnahme kann bereits vor Bestätigung durch das Energieaudit als Prüfauftrag für den Vor-Ort-Termin am 19./20. März formuliert werden.",
+    "questions": [
+      {
+        "question": "Ist die Druckluftanlage am Standort Herscheid mit einer Wochenend-Abschaltautomatik ausgestattet?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nein, die Anlage läuft durchgehend 24/7"
+          },
+          {
+            "answer": "Ja, es gibt eine Zeitschaltuhr, aber sie ist nicht aktiv konfiguriert"
+          },
+          {
+            "answer": "Ja, Anlage schaltet außerhalb der Schichten automatisch ab"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      },
+      {
+        "question": "Wurde zuletzt ein systematisches Druckluft-Leckage-Audit durchgeführt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nein, noch nie oder vor mehr als 3 Jahren"
+          },
+          {
+            "answer": "Ja, innerhalb der letzten 12 Monate"
+          },
+          {
+            "answer": "Ja, aber Leckagen wurden nur teilweise behoben"
+          },
+          {
+            "answer": "Nicht bekannt"
+          }
+        ]
+      },
+      {
+        "question": "Auf welchem Druckniveau wird die Druckluftanlage am Wochenende betrieben?",
+        "suggestedAnswers": [
+          {
+            "answer": "Gleiches Druckniveau wie im Produktionsbetrieb (kein Absenken)"
+          },
+          {
+            "answer": "Druck wird am Wochenende auf Mindestversorgungsniveau abgesenkt"
+          },
+          {
+            "answer": "Anlage wird vollständig abgeschaltet, wenn keine Produktion läuft"
+          },
+          {
+            "answer": "Unbekannt – keine Transparenz über Wochenendeinstellungen"
+          }
+        ]
+      },
+      {
+        "question": "Wie hoch schätzen Sie den Anteil der Druckluftanlage am Gesamtstromverbrauch des Standorts?",
+        "suggestedAnswers": [
+          {
+            "answer": "Unter 10%"
+          },
+          {
+            "answer": "10–25%"
+          },
+          {
+            "answer": "25–40%"
+          },
+          {
+            "answer": "Über 40%"
+          },
+          {
+            "answer": "Unbekannt – kein Submetering vorhanden"
+          }
+        ]
+      }
+    ],
+    "confidence": 58,
+    "category": "PRESSURIZED_AIR",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_c5b1d9a7",
+    "title": "Automatikstart Sonntagabend 23 Uhr identifizieren und abschalten",
+    "shortDescription": "71 % aller Sommer-Anomalie-Ereignisse konzentrieren sich auf Sonntag 23:00 – ein regelmäßiger Anlaufvorgang erhöht die Grundlast um ~20 kW.",
+    "description": "Die statistische Analyse zeigt, dass 40 von 56 anomalen Ereignissen im Sommer-Wochenend-Cluster exakt auf Sonntag 23:00 Uhr fallen (71,4 %). Die Grundlast steigt zu diesem Zeitpunkt von 97,2 kW auf 117,2 kW an (+20,0 kW, +20,6 %). Diese extreme zeitliche Konzentration auf einen einzigen Wochenzeitpunkt ist ein klares Indiz für ein festes automatisches Wochenprogramm – typischerweise ein Reinigungsprogramm, ein thermischer Prozess, ein Kompressor-Druckaufbau oder ein Maschinenanlauf zur Vorbereitung der Montagsfrühschicht. Die saisonale Häufung im Juli 2025 (20. Juli: 14,3 %; 6./13. Juli: je 7,1 %) deutet zusätzlich auf eine produktionsabhängige Verstärkung hin. Da am Standort Herscheid keine Untermessung vorhanden ist, muss der Verursacher durch Analyse der Maschinensteuerungen (SPS-Zeitpläne) oder gezielte Begehung am Sonntagabend identifiziert werden. Anschließend kann das Programm entweder deaktiviert (falls für die Produktion nicht notwendig) oder auf frühestmögliche Montag-Startzeit verschoben werden. Das Gesamteinsparpotenzial des Clusters beläuft sich auf 3.063 kWh und 539 €/Jahr.",
+    "yearlySavingsRangeFrom": 264,
+    "yearlySavingsRangeTo": 387,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 1500,
+    "yearlySavingsEnergyRangeTo": 2200,
+    "evidences": [
+      "71,4 % aller 56 Sommer-Anomalie-Ereignisse treten exakt um Sonntag 23:00 Uhr auf (40 Ereignisse) – extreme zeitliche Konzentration auf eine einzige Stunde",
+      "Grundlastanstieg: +20,0 kW (Median 117,2 kW vs. Baseline 97,2 kW, +20,6 %); Schweregrad-Ratio: 2,82",
+      "Saisonale Häufung im Juli 2025: 20. Juli = 14,3 %, 6. Juli = 7,1 %, 13. Juli = 7,1 % aller Ereignisse – saisonale Produktionsverstärkung wahrscheinlich",
+      "Hochrechnung: 1.500–2.200 kWh/Jahr (50–70 % des statistischen Potenzials von 3.063 kWh) durch Abschalten oder Verschieben des Anlaufvorgangs realisierbar",
+      "Maßnahme erfordert keine Investition – Umprogrammierung eines Zeitplans reicht aus; laut Kundengespräch (10.12.2025) ist interne Sensibilisierung der Auslöser für ausbleibende Umsetzung"
+    ],
+    "amortisationPeriodInMonths": 3,
+    "reasoning": "Die zeitliche Präzision von 71 % aller Ereignisse auf exakt eine Uhrzeit ist statistisch kein Zufall, sondern ein Lehrbuchbeispiel für einen festen Wochenautomatismus. Da die Maßnahme nahezu keine Investition erfordert (Zeitplanänderung in SPS oder Maschinensteuerung), ist das Kosten-Nutzen-Verhältnis hervorragend. Das Kundengespräch vom 10.12.2025 bestätigt, dass Anomalie-Hinweise intern noch nicht ausreichend bearbeitet werden – diese Maßnahme ist ein geeigneter erster, niedrigschwelliger Schritt zur internen Sensibilisierung und Umsetzung.",
+    "questions": [
+      {
+        "question": "Welches Gerät oder System startet automatisch jeden Sonntagabend um ca. 23 Uhr?",
+        "suggestedAnswers": [
+          {
+            "answer": "Druckluftkompressor (Wochenprogramm oder Druckaufbau für Montag)"
+          },
+          {
+            "answer": "Reinigungsmaschine oder Teilewaschanlage"
+          },
+          {
+            "answer": "Thermischer Prozess / Ofen / Härterei-Anlage"
+          },
+          {
+            "answer": "Nicht bekannt – Begehung oder SPS-Analyse erforderlich"
+          },
+          {
+            "answer": "Tatsächliche Nachtschicht beginnt um 23 Uhr am Sonntag"
+          }
+        ]
+      },
+      {
+        "question": "Warum startet der Prozess sonntags um 23 Uhr und nicht erst am frühen Montagmorgen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Mehrere Stunden Vorlaufzeit sind für die Montagsfrühschicht technisch notwendig"
+          },
+          {
+            "answer": "Das Programm wurde historisch so eingestellt und seitdem nie überprüft"
+          },
+          {
+            "answer": "Es handelt sich um eine echte Nachtschicht – Produktion läuft sonntags ab 23 Uhr"
+          },
+          {
+            "answer": "Unbekannt – keine Dokumentation der Zeitpläne vorhanden"
+          }
+        ]
+      },
+      {
+        "question": "Wer ist am Standort Herscheid für Maschinensteuerung und SPS-Zeitprogramme verantwortlich?",
+        "suggestedAnswers": [
+          {
+            "answer": "Interner Instandhaltungsleiter / Betriebstechniker"
+          },
+          {
+            "answer": "Externer Dienstleister oder Anlagenhersteller"
+          },
+          {
+            "answer": "Produktions- oder Werksleitung"
+          },
+          {
+            "answer": "Verantwortlichkeit nicht klar geregelt"
+          }
+        ]
+      }
+    ],
+    "confidence": 75,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_c5b1d9a7",
+    "title": "Untermessung an Hauptverbrauchern installieren zur Verursacheridentifikation",
+    "shortDescription": "Fehlende Untermessung verhindert gezielte Optimierung – Subzähler an Kompressor, Reinigungsanlage und Wärmebehandlung machen den Sonntagabend-Verursacher transparent.",
+    "description": "Der Standort Herscheid verfügt aktuell nur über einen Netzbezug-Zähler und keinerlei Untermessung. Die wiederkehrende Anomalie von +20 kW an Sonntag 23:00 Uhr (71,4 % aller 56 Sommer-Ereignisse) kann damit keinem konkreten Verbraucher zugeordnet werden. In einem Automobilzulieferer mit Metallverarbeitung und Stanzteilefertigung sind die typischen Hauptverbraucher Druckluftkompressoren, Wärmebehandlungsanlagen (Härterei, Öfen) sowie Teilewasch- und Reinigungsanlagen. Durch Installation von Smart-Meter-Subzählern an diesen drei bis fünf Verbrauchersegmenten wird nicht nur der Verursacher der Sonntagabend-Anomalie eindeutig identifiziert, sondern eine dauerhafte Grundlage für alle zukünftigen Energieoptimierungen am Standort geschaffen. Laut Kundengespräch vom 10.12.2025 werden Anomalie-Hinweise intern bisher nicht in Maßnahmen übersetzt – mangelnde Messtransparenz ist ein Hauptgrund. Mit Untermessung können konkrete Einsparbeschlüsse auf Datenbasis getroffen werden.",
+    "yearlySavingsRangeFrom": 352,
+    "yearlySavingsRangeTo": 539,
+    "investmentRangeFrom": 2000,
+    "investmentRangeTo": 5000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 2000,
+    "yearlySavingsEnergyRangeTo": 3063,
+    "evidences": [
+      "Standort Herscheid hat aktuell keine Untermessung – nur ein Netzbezug-Hauptzähler vorhanden (laut Insight-Kontext bestätigt)",
+      "Ohne Subzähler bleibt der Verursacher der +20-kW-Anomalie an Sonntag 23:00 Uhr (71,4 % aller Ereignisse) unbekannt",
+      "Gesamteinsparpotenzial dieser Anomalie: 3.063 kWh/Jahr (539 €/Jahr) – ohne Verursacherwissen bleibt dies theoretisch",
+      "Kundenzitat 10.12.2025: 'Anomalie-Hinweise wurden anfangs nicht in Maßnahmen übersetzt – interne Sensibilisierung notwendig' – Transparenz als Voraussetzung",
+      "Typische Hauptverbraucher Metallverarbeitung/Automotive: Druckluftkompressoren, Härterei/Öfen, Wasch-/Reinigungsanlagen – alle aktuell ungemessen"
+    ],
+    "amortisationPeriodInMonths": 96,
+    "reasoning": "Ohne Untermessung bleiben alle Optimierungsmaßnahmen auf Verdacht angewiesen und intern schwer durchsetzbar. Die Investition amortisiert sich bezogen auf diese Einzelanomalie in ca. 8 Jahren, schafft jedoch dauerhaft Messtransparenz für alle zukünftigen Energieanalysen am Standort. In der Metallverarbeitung mit energieintensiven Prozessen (Druckluft, Wärmebehandlung) ist das langfristige Einsparpotenzial über alle Verbraucher deutlich größer als die hier quantifizierten 539 €/Jahr. Die Maßnahme ist daher als strategische Infrastrukturinvestition zu bewerten, nicht als Einzelmaßnahme.",
+    "questions": [
+      {
+        "question": "An welchen Verbrauchern sollten als erstes Subzähler installiert werden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Druckluftanlage / Kompressoren (vermutlich größter Einzelverbraucher)"
+          },
+          {
+            "answer": "Wärmebehandlungsanlagen / Öfen / Härterei"
+          },
+          {
+            "answer": "Reinigungsanlagen / Teilewaschanlage"
+          },
+          {
+            "answer": "Alle relevanten Bereiche gleichzeitig im Rahmen einer systematischen Installation"
+          },
+          {
+            "answer": "Zunächst Bestandsaufnahme aller Verbraucher, dann priorisierte Installation"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es am Standort bereits Pläne oder Budget für eine Untermessung?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, in der aktuellen Investitionsplanung vorgesehen"
+          },
+          {
+            "answer": "Nein, noch keine konkreten Pläne vorhanden"
+          },
+          {
+            "answer": "Teilweise – einzelne Bereiche sind bereits geplant"
+          },
+          {
+            "answer": "Wird aktuell geprüft / in Abstimmung"
+          }
+        ]
+      },
+      {
+        "question": "Welche Art von Messtechnik wird für die Untermessung bevorzugt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Smart Meter / IoT-Zähler mit automatischer Datenübertragung ins Energiemanagementsystem"
+          },
+          {
+            "answer": "Klassische Energiezähler mit manuellem Ablesen"
+          },
+          {
+            "answer": "Bestehendes Energiemanagementsystem soll durch Subzähler erweitert werden"
+          },
+          {
+            "answer": "Keine Präferenz – Empfehlung durch externen Energieberater gewünscht"
+          }
+        ]
+      }
+    ],
+    "confidence": 62,
+    "category": "OTHER",
+    "investmentType": "HIGH_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_a8e2c4d6",
+    "title": "Submetering installieren: Ursache des 11-kW-Ramp-ups identifizieren",
+    "shortDescription": "11 kW Dauerüberschreitung seit 16. Februar 2026 – ohne Submessung nicht lokalisierbar",
+    "description": "Seit dem 16. Februar 2026 verzeichnet der Standort Herscheid (Huhn Teckentrup Deutschland GmbH) einen kontinuierlichen Mehrverbrauch von 11 kW über 21 Tage (mittlere Leistung 351,1 kW vs. Baseline 340,1 kW). Dies entspricht einem Mehrverbrauch von 5.544 kWh in diesem Zeitraum (~976 €), der sich bei dauerhafter Fortschreibung auf bis zu 96.360 kWh/Jahr summieren kann (~16.959 €/Jahr). Da am Standort kein Submetering vorhanden ist, lässt sich laut Kundenaussage der Verursacher bislang nicht transparent machen. Die Installation von 3–5 Strommessgeräten an den Hauptverbrauchern (Druckluftanlage/Kompressor, Hallenheizung, Pressen, Prozessölheizungen, Nebenaggregate) ermöglicht die präzise Ursachenzuordnung und schafft die notwendige Datenbasis für alle weiteren gezielten Einsparmassnahmen.",
+    "yearlySavingsRangeFrom": 6000,
+    "yearlySavingsRangeTo": 12000,
+    "investmentRangeFrom": 4000,
+    "investmentRangeTo": 9000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 34000,
+    "yearlySavingsEnergyRangeTo": 68000,
+    "evidences": [
+      "21-tägiger Ramp-up: mittlere Leistung 351,1 kW vs. Baseline 340,1 kW = kontinuierlicher Überschuss von 11 kW",
+      "Akkumulierter Mehrverbrauch im Zeitraum: 11 kW × 504 h = 5.544 kWh ≈ 976 € (16.02.–08.03.2026)",
+      "Hochrechnung bei dauerhafter Fortschreibung: 11 kW × 8.760 h × 0,176 €/kWh = ~16.959 €/Jahr",
+      "Kundenaussage vom 18.02.2026: 'Verursacher noch nicht transparent' – kein Submetering vorhanden",
+      "Realistische Einsparchance nach Ursachenidentifikation und Behebung: 50–70 % des Potenzials = ca. 8.500–11.900 €/Jahr"
+    ],
+    "amortisationPeriodInMonths": 9,
+    "reasoning": "Ohne Submetering ist eine gezielte Optimierung des graduellen Ramp-ups nicht möglich. Die Maßnahme schafft die essenzielle Datenbasis für alle nachgelagerten Einsparprojekte. Bei einem potenziellen Jahresschaden von bis zu 17.000 € amortisieren sich Messgeräte im Wert von 4.000–9.000 € innerhalb eines Jahres. Der Einsatz im Automobilzulieferer-Umfeld mit ganzjähriger Produktion erhöht den Nutzen der kontinuierlichen Überwachung zusätzlich.",
+    "questions": [
+      {
+        "question": "Sind am Standort Herscheid bereits Submetering-Geräte für einzelne Verbrauchsgruppen vorhanden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nein, nur ein Gesamtzähler (Netzbezug)"
+          },
+          {
+            "answer": "Ja, für die Druckluftanlage"
+          },
+          {
+            "answer": "Ja, für die Hallenheizung"
+          },
+          {
+            "answer": "Teilweise, aber nicht für alle Hauptverbraucher"
+          },
+          {
+            "answer": "Unbekannt"
+          }
+        ]
+      },
+      {
+        "question": "Welche Verbrauchergruppen würden Sie am ehesten für den Anstieg ab Mitte Februar verantwortlich machen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Druckluft / Kompressor (z. B. veränderte Druckstufe oder Leckagen)"
+          },
+          {
+            "answer": "Hallenheizung oder Prozessölheizung"
+          },
+          {
+            "answer": "Neu in Betrieb genommene Maschine oder Anlage"
+          },
+          {
+            "answer": "Erhöhte Produktionsauslastung für Q2-Abrufe"
+          },
+          {
+            "answer": "Keine Einschätzung möglich"
+          }
+        ]
+      },
+      {
+        "question": "Wie hoch ist die Bereitschaft, in ein Submetering-System (3–5 Messpunkte) zu investieren?",
+        "suggestedAnswers": [
+          {
+            "answer": "Hoch – wir möchten schnellstmöglich Transparenz"
+          },
+          {
+            "answer": "Mittel – abhängig von konkretem Kostenangebot"
+          },
+          {
+            "answer": "Gering – erstmal Ursache durch Review klären"
+          },
+          {
+            "answer": "Wird intern geprüft"
+          }
+        ]
+      }
+    ],
+    "confidence": 65,
+    "category": "OTHER",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_a8e2c4d6",
+    "title": "Temperaturabhängige Heizlast regulieren: Hallenheizung und Prozessmedienbeheizung optimieren",
+    "shortDescription": "Unkontrollierte elektrische Heizsysteme als wahrscheinliche Ursache des Februar-Ramp-ups korrigieren",
+    "description": "Eine der plausiblen Ursachen für den kontinuierlichen 11-kW-Anstieg ab dem 16. Februar 2026 sind sinkende Außentemperaturen, die zu erhöhter Hallenheizung oder elektrischer Beheizung von Ölen und Prozessmedien führen – ohne bedarfsgeregelte Abschaltautomatik. In der Metallverarbeitung (Stanzteilefertigung) werden Prozessöle und Hydrauliköle häufig elektrisch vorgeheizt, wobei Thermostate oft nicht kalibriert oder Zeitschaltuhren nicht eingesetzt werden. Empfohlene Maßnahmen: (1) Überprüfung und Kalibrierung aller Heizthermostate in der Produktionshalle, (2) Installation von Zeitschaltuhren oder smarten Schaltern für Heizgeräte, die außerhalb der Betriebszeiten nicht benötigt werden, (3) Bedarfsanalyse der Prozessölheizungen mittels Temperaturloggern, um unnötige Dauerbeheizung zu identifizieren.",
+    "yearlySavingsRangeFrom": 2500,
+    "yearlySavingsRangeTo": 5500,
+    "investmentRangeFrom": 1500,
+    "investmentRangeTo": 4000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 14000,
+    "yearlySavingsEnergyRangeTo": 31000,
+    "evidences": [
+      "Ramp-up-Beginn Mitte Februar 2026 korreliert zeitlich mit typischer Kälteperiode (Außentemperaturen sinkend)",
+      "11-kW-Mehrverbrauch entspricht der typischen Leistung von 2–3 elektrischen Hallenheizstrahlern oder Prozessölheizungen",
+      "Heizperiode Nov.–Mrz. (~3.600 h): 11 kW × 3.600 h × 0,176 €/kWh = ~6.969 €/Jahr bei rein saisonalem Verbrauch",
+      "Einsparpotenzial durch Thermostatoptimierung und Zeitsteuerung: 40–60 % des saisonalen Anteils = ~2.800–4.200 €/Jahr",
+      "Branchentypisch Metallverarbeitung: Prozessölheizungen häufig ohne Temperaturfühler-Rückkopplung oder Nachtabsenkung"
+    ],
+    "amortisationPeriodInMonths": 8,
+    "reasoning": "Die Heizungshypothese ist plausibel, da der Ramp-up zeitlich mit einer Kälteperiode zusammenfällt und 11 kW der typischen Leistung elektrischer Heizsysteme in Produktionshallen entsprechen. Thermostatanpassungen und Zeitschaltuhren sind kostengünstige Maßnahmen mit kurzer Amortisationszeit. Die Unsicherheit besteht darin, dass ohne Submetering der Heizanteil am Gesamtramp-up nicht isoliert quantifiziert werden kann.",
+    "questions": [
+      {
+        "question": "Welche elektrischen Heizsysteme sind am Standort Herscheid in Betrieb?",
+        "suggestedAnswers": [
+          {
+            "answer": "Elektrische Deckenheizstrahler in der Produktionshalle"
+          },
+          {
+            "answer": "Elektrische Prozessöl- oder Hydraulikölheizung"
+          },
+          {
+            "answer": "Elektrische Fußbodenheizung (Büro oder Sozialbereich)"
+          },
+          {
+            "answer": "Keine elektrischen Heizsysteme"
+          },
+          {
+            "answer": "Mehrere der genannten Systeme kombiniert"
+          }
+        ]
+      },
+      {
+        "question": "Sind die vorhandenen Heizsysteme mit Thermostaten und automatischer Nachtabsenkung ausgestattet?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, vollständig automatisiert mit Zeitprogramm"
+          },
+          {
+            "answer": "Teilweise – einige mit Thermostat, andere ohne"
+          },
+          {
+            "answer": "Nein, überwiegend manuelle Steuerung"
+          },
+          {
+            "answer": "Unbekannt"
+          }
+        ]
+      },
+      {
+        "question": "Werden Prozessmedien (Öle, Kühlschmierstoffe) am Standort elektrisch beheizt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, und die Heizung läuft durchgehend (kein Thermostat)"
+          },
+          {
+            "answer": "Ja, aber mit Temperaturregelung"
+          },
+          {
+            "answer": "Nein"
+          },
+          {
+            "answer": "Unbekannt"
+          }
+        ]
+      }
+    ],
+    "confidence": 50,
+    "category": "HEATING",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 85436,
+    "insightId": "ins_a8e2c4d6",
+    "title": "Betriebsablauf-Review: Änderungen seit Mitte Februar 2026 identifizieren und korrigieren",
+    "shortDescription": "Graduellen 11-kW-Ramp-up durch Abgleich operativer Änderungen erklären und direkt abstellen",
+    "description": "Der 21-tägige Ramp-up ab dem 16. Februar 2026 fällt zeitlich mit der Energieaudit-Vorbereitungsphase zusammen (Audit laut Gesprächsnotiz vom 06.03.2026 gut verlaufen) und deutet auf eine betriebliche Ursache hin – etwa eine neu in Betrieb genommene Anlage, veränderte Kompressor-Sollwerte oder ein zusätzlicher Verbraucher, der für den Audit-Betrieb temporär zugeschaltet wurde und seitdem weiterläuft. Ein strukturierter Betriebsablauf-Review umfasst: (1) Abgleich von Maschinenstarts/-stillständen ab dem 10. Februar mit dem Lastgang des Netzbezugszählers, (2) Befragung der Schichtleiter zu Änderungen in Betriebszeiten, Compressor-Settings oder neu zugeschalteten Geräten, (3) Vergleich der aktuellen Lastgangkurve mit dem Vorjahreszeitraum Feb/Mrz 2025 (Basisdaten ab Juni 2025 laut Kundenaussage teilweise verfügbar). Wird eine operative Ursache gefunden, kann diese direkt abgestellt werden – ohne Investition in Hardware.",
+    "yearlySavingsRangeFrom": 2000,
+    "yearlySavingsRangeTo": 8000,
+    "investmentRangeFrom": 500,
+    "investmentRangeTo": 1500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 11000,
+    "yearlySavingsEnergyRangeTo": 45000,
+    "evidences": [
+      "Ramp-up-Beginn 16. Februar 2026 – zeitlich kongruent mit Energieaudit-Vorbereitung (Gesprächsnotiz 18.02.2026 und 06.03.2026)",
+      "11 kW kontinuierlicher Mehrverbrauch: bei dauerhafter operativer Ursache ca. 96.360 kWh/Jahr Potenzial (11 kW × 8.760 h)",
+      "Realistische Identifikations- und Korrekturchance bei operativer Ursache: 50–80 % des Excess = ~8.500–13.600 €/Jahr",
+      "Kein Submetering vorhanden – Verursacher bislang 'nicht transparent' (Kundenaussage 18.02.2026)",
+      "Baseline 2025 laut Kundengespräch ab Juni 2025 verfügbar: eingeschränkter Vorjahresvergleich für Feb/Mrz 2025 möglich"
+    ],
+    "amortisationPeriodInMonths": 2,
+    "reasoning": "Ein interner Betriebsablauf-Review ist die kostengünstigste und schnellste erste Maßnahme, da keine Hardware-Investition erforderlich ist. Die zeitliche Übereinstimmung des Ramp-ups mit der Audit-Vorbereitung legt nahe, dass eine konkrete, nachvollziehbare betriebliche Änderung stattgefunden hat. Wird diese identifiziert und rückgängig gemacht, sind die Einsparungen direkt wirksam. Die Bandbreite ist bewusst groß, da unklar ist, ob die Ursache dauerhaft oder nur temporär während der Audit-Phase aktiv war.",
+    "questions": [
+      {
+        "question": "Wurden im Zeitraum 10.–20. Februar 2026 neue Maschinen in Betrieb genommen oder bestehende Anlagen umgestellt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, eine neue Maschine / Anlage wurde in Betrieb genommen"
+          },
+          {
+            "answer": "Ja, Einstellungsänderung an bestehenden Anlagen (z. B. Kompressor-Sollwert)"
+          },
+          {
+            "answer": "Nein, keine bekannten Änderungen"
+          },
+          {
+            "answer": "Möglicherweise, aber nicht dokumentiert"
+          },
+          {
+            "answer": "Wird noch intern geprüft"
+          }
+        ]
+      },
+      {
+        "question": "Ist für den Standort Herscheid ein Energieverbrauchslogbuch oder eine Schichtdokumentation vorhanden, die für den Review genutzt werden kann?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, vollständig und digital geführt"
+          },
+          {
+            "answer": "Ja, aber nur als Papierdokumentation"
+          },
+          {
+            "answer": "Teilweise – unvollständig"
+          },
+          {
+            "answer": "Nein"
+          }
+        ]
+      },
+      {
+        "question": "Könnten gestiegene Produktionsvolumina für Q2-Kundenabrufe den Verbrauchsanstieg erklären?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, die Auslastung ist seit Mitte Februar deutlich gestiegen"
+          },
+          {
+            "answer": "Teilweise – leicht erhöhte Auslastung, aber kein starker Anstieg"
+          },
+          {
+            "answer": "Nein, die Produktion lief stabil"
+          },
+          {
+            "answer": "Unbekannt"
+          }
+        ]
+      }
+    ],
+    "confidence": 60,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_9f4b7e3a",
+    "title": "Halle 6 – Ursachenanalyse und Reduktion der wachsenden Wochenendnacht-Grundlast",
+    "shortDescription": "Ha6 gesamt verursacht 56% des anomalen Grundlasttrends – Bereitschaftsverbraucher identifizieren und systematisch abschalten",
+    "description": "Die Sub-Meter-Analyse zeigt, dass Ha6 gesamt 56,1% des steigenden Wochenendnacht-Grundlasttrends verursacht (hohe Konfidenz, Kookkurrenzrate 79,2%). Der Langzeittrend wächst mit 25,3 kW/Jahr und führt zu einem jährlichen Mehrverbrauch von ~9.886 kWh – statistisch signifikant bestätigt. Innerhalb von Halle 6 auffällig: Der Schuler-Pressbereich (12 Schuler) tritt in 92,9% der Anomaliephasen auf (10,8% Beitrag, mittlere Konfidenz), was auf dauerhaften Bereitschaftsbetrieb hindeutet. Die Laseranlage (84 Laseranlage) erscheint nur in 19,6% der Anomaliephasen (5,8% Beitrag) – ein Hinweis auf gelegentlich vergessene Abschaltungen. Aufgrund der limitierten Untermessungsabdeckung (34,9% gesamt) ist eine gezielte Vor-Ort-Analyse erforderlich. Empfohlene Maßnahmen: Bestandsaufnahme aller nachtaktiven Verbraucher in Halle 6, Nachrüstung von Zeitschaltern oder SPS-gesteuerten Abschaltsequenzen, Überprüfung von Kompressoren und Kühlaggregaten auf Alterungseffekte sowie Einführung einer verbindlichen Abschaltcheckliste nach Schichtende.",
+    "yearlySavingsRangeFrom": 528,
+    "yearlySavingsRangeTo": 1056,
+    "investmentRangeFrom": 2000,
+    "investmentRangeTo": 6000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 3000,
+    "yearlySavingsEnergyRangeTo": 6000,
+    "evidences": [
+      "Sub-Meter-Analyse: Ha6 gesamt verursacht 56,1% des anomalen Wochenendnacht-Grundlasttrends (hohe Konfidenz, Kookkurrenzrate 79,2%)",
+      "Langzeittrend: +25,3 kW/Jahr, jährlicher Drift von 9.886 kWh – statistisch signifikant (longTermSignificant = true)",
+      "12 Schuler: 10,8% Anomaliebeitrag bei 92,9% Kookkurrenz – Schuler-Presse ist nahezu durchgehend in Anomaliephasen aktiv",
+      "84 Laseranlage: 5,8% Beitrag, aber nur 19,6% Kookkurrenz – selektiver Nicht-Abschalt-Effekt in Randzeiten",
+      "Einsparpotenzial: 56,1% × 9.886 kWh ≈ 5.546 kWh/Jahr Trendanteil; realistisch 3.000–6.000 kWh/Jahr (60–100% Realisierungsquote, limitierte Abdeckung berücksichtigt)"
+    ],
+    "amortisationPeriodInMonths": 61,
+    "reasoning": "Ha6 gesamt ist der dominante Treiber des Trends (56,1%) mit hoher Konfidenz. Die hohe Kookkurrenzrate (79,2%) belegt eine strukturelle, wiederkehrende Ursache – kein Ausreißer. Schuler- und Laseranlagen sind als Teilursachen identifizierbar. Da das Unternehmen ISO 50001 zertifiziert ist und laut Transkript den Verbrauch in Ense live und detailliert kennt, ist die Diagnosetiefe für eine gezielte Maßnahme vorhanden. Wegen limitierter Sub-Meter-Abdeckung (34,9%) ist die Unsicherheit erhöht, weshalb ein breiterer Savings-Range und höherer Investitionsansatz (Analyse + Nachrüstung) gewählt wurde.",
+    "questions": [
+      {
+        "question": "Welche Anlagen in Halle 6 sind während der Wochenendnächte (Samstag/Sonntag, 17–9 Uhr) aktiv?",
+        "suggestedAnswers": [
+          {
+            "answer": "Schuler-Presse im Bereitschafts-/Heizbetrieb"
+          },
+          {
+            "answer": "Laseranlage aktiv oder nicht vollständig abgeschaltet"
+          },
+          {
+            "answer": "Kühl- und Hydrauliksysteme laufen dauerhaft"
+          },
+          {
+            "answer": "Druckluftsystem versorgt Halle 6 ganzwöchig"
+          },
+          {
+            "answer": "Unklar – keine Dokumentation vorhanden"
+          }
+        ]
+      },
+      {
+        "question": "Gab es in Halle 6 in den letzten 2–3 Jahren neue Anlagen, Kapazitätserweiterungen oder geänderte Bereitschaftsanforderungen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, neue Laseranlage oder Pressenanlage wurde integriert"
+          },
+          {
+            "answer": "Ja, bestehende Anlagen wurden erweitert oder umgerüstet"
+          },
+          {
+            "answer": "Nein, keine relevanten Änderungen bekannt"
+          },
+          {
+            "answer": "Unklar – keine vollständige Änderungsdokumentation"
+          }
+        ]
+      },
+      {
+        "question": "Werden Anlagen in Halle 6 nach Schichtende systematisch in einen definierten Abschalt- oder Energiesparzustand versetzt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, es gibt eine verbindliche Abschaltcheckliste"
+          },
+          {
+            "answer": "Teilweise – wird nicht bei allen Maschinen konsequent durchgeführt"
+          },
+          {
+            "answer": "Nein – Maschinen laufen kontinuierlich bis zur nächsten Schicht"
+          },
+          {
+            "answer": "Automatische Abschaltung per SPS/Zeitschalter vorhanden"
+          }
+        ]
+      }
+    ],
+    "confidence": 68,
+    "category": "OTHER",
+    "investmentType": "HIGH_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_9f4b7e3a",
+    "title": "Trafo 4 & Trafo 5 – Standby-Lasten durch strukturierte Wochenend-Abschaltprozeduren reduzieren",
+    "shortDescription": "Trafo 4 und Trafo 5 sind in 98,2% der Anomaliephasen aktiv – kombinierter Beitrag von ~62% deutet auf fehlende Abschaltprozesse hin",
+    "description": "Trafo 4 und Trafo 5 weisen je ~31% Anomaliebeitrag auf und zeigen mit einer Kookkurrenzrate von 98,2% (hohe Konfidenz) eine nahezu durchgehende Aktivität in den anomalen Wochenendnacht-Phasen. Dies ist ein starkes Indiz für systemische Bereitschaftslasten unter diesen Trafos, die ohne aktive Produktionstätigkeit unnötigerweise versorgt werden. Der kombinierte Anomaliebeitrag beider Trafos liegt bei ca. 62%. Da das Unternehmen laut Kundengespräch den Verbrauch standortgenau kennt ('live'/detailliert, inkl. Zuordnung), sollte die Einführung einer verbindlichen Abschaltprozedur – ggf. ergänzt durch automatische Timer- oder SPS-Steuerungen – unmittelbar umsetzbar sein. Empfehlung: Lastaufnahme unter Trafo 4 und Trafo 5 außerhalb der Produktionszeiten, Definition abschaltbarer vs. betriebsnotwendiger Verbraucher (z. B. Kühlung für temperaturkritische Anlagen), Einführung einer Wochenend-Abschaltroutine.",
+    "yearlySavingsRangeFrom": 440,
+    "yearlySavingsRangeTo": 880,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 1000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 2500,
+    "yearlySavingsEnergyRangeTo": 5000,
+    "evidences": [
+      "Trafo 4: 30,8% Anomaliebeitrag, Kookkurrenzrate 98,2% (hohe Konfidenz) – nahezu immer aktiv in Anomaliephasen",
+      "Trafo 5: 31,2% Anomaliebeitrag, Kookkurrenzrate 98,2% (hohe Konfidenz) – identisches Aktivierungsmuster wie Trafo 4",
+      "Kombinierter Anomaliebeitrag Trafo 4 + Trafo 5: ~62% × 9.886 kWh = ~6.129 kWh/Jahr Trendanteil",
+      "Zeitfenster: 30 h/Woche (Mo 00–06 Uhr, Sa/So Nacht) ohne reguläre Produktion – Verbrauch strukturell vermeidbar",
+      "Geschätzte realisierbare Einsparung: 2.500–5.000 kWh/Jahr bei überwiegend prozessualem Aufwand (keine/geringe Investition)"
+    ],
+    "amortisationPeriodInMonths": 9,
+    "reasoning": "Die extrem hohe Kookkurrenzrate beider Trafos (98,2%) macht zufällige Korrelation unwahrscheinlich. Es handelt sich um systematische Bereitschaftslasten, die in jeder Anomaliephase auftreten. Da das Unternehmen ISO 50001 zertifiziert ist und die Energieverbräuche standortgenau verfolgt, ist die organisatorische Infrastruktur für eine Abschaltprozedur bereits vorhanden. Die sehr niedrige Investitionsschwelle (primär Prozessdefinition und ggf. günstige Zeitschalter) führt zu einem kurzen Amortisationszeitraum von ca. 9 Monaten.",
+    "questions": [
+      {
+        "question": "Welche Verbraucher werden über Trafo 4 und Trafo 5 außerhalb der Produktionszeiten versorgt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Hydraulik- und Kühlsysteme für Pressen"
+          },
+          {
+            "answer": "Druckluftversorgung für den gesamten Bereich"
+          },
+          {
+            "answer": "Beleuchtung, Lüftung und Infrastruktur-Nebenverbraucher"
+          },
+          {
+            "answer": "Keine genaue Kenntnis – Verbrauchermatrix fehlt"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es betrieblich notwendige Verbraucher unter Trafo 4/5, die auch am Wochenende laufen müssen (z. B. Kühlung für temperaturkritische Materialien)?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, Kühlsysteme müssen durchgehend betrieben werden"
+          },
+          {
+            "answer": "Ja, IT/Steuerungsinfrastruktur benötigt kontinuierliche Versorgung"
+          },
+          {
+            "answer": "Nein, grundsätzlich könnten alle Lasten abgeschaltet werden"
+          },
+          {
+            "answer": "Teilweise – Trennung notwendig vs. abschaltbar noch nicht erfolgt"
+          }
+        ]
+      },
+      {
+        "question": "Existiert bereits eine dokumentierte Abschaltprozedur für das Wochenende an diesem Standort?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, vollständige Checkliste vorhanden und wird konsequent genutzt"
+          },
+          {
+            "answer": "Teilweise – informelle Praxis, aber keine verbindliche Dokumentation"
+          },
+          {
+            "answer": "Nein – kein strukturierter Prozess vorhanden"
+          },
+          {
+            "answer": "Automatische Abschaltung per Gebäudeleittechnik bereits im Einsatz"
+          }
+        ]
+      }
+    ],
+    "confidence": 74,
+    "category": "OTHER",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_9f4b7e3a",
+    "title": "Untermessungs-Infrastruktur ausweiten – 50% nicht zugeordnete Anomalie-Grundlast aufdecken",
+    "shortDescription": "Über 50% des wachsenden Grundlasttrends sind nicht sub-meter-zugeordnet – erweiterte Messpunkte machen Einsparpotenziale sichtbar und steuerbar",
+    "description": "Die Sub-Meter-Analyse deckt derzeit nur 34,9% des Verbrauchs ab (limitierte Abdeckung); 50,1% des anomalen Wochenendnacht-Trends bleibt ohne Gerätezuordnung. Das bedeutet: Selbst wenn alle identifizierten Verbraucher (Ha6, Trafo 4, Trafo 5) optimiert werden, bleiben potenziell mehr als die Hälfte des Trendanstiegs unkontrolliert. Das Unternehmen ist ISO 50001 zertifiziert und verfügt laut Kundengespräch bereits über eine detaillierte Verbrauchsüberwachung mit Zuordnung ('live' bekannt, inkl. wo der Verbrauch entsteht) – dies schafft eine gute Ausgangsbasis für eine gezielte Erweiterung. Empfehlung: Installation von 3–5 zusätzlichen Sub-Zählern in nicht erfassten Hallenbereichen und an identifizierten Großverbrauchern (Kompressoren, Kühlanlagen, Hydraulikaggregaten). Dies ermöglicht eine vollständige Ursachenanalyse des Trendanstiegs und schafft die Datengrundlage für weitere, quantifizierbare Effizienzmaßnahmen.",
+    "yearlySavingsRangeFrom": 704,
+    "yearlySavingsRangeTo": 1408,
+    "investmentRangeFrom": 3000,
+    "investmentRangeTo": 10000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 4000,
+    "yearlySavingsEnergyRangeTo": 8000,
+    "evidences": [
+      "50,1% des anomalen Grundlasttrends ist nicht sub-meter-zugeordnet – mehr als die Hälfte der Ursache bleibt unbekannt",
+      "Sub-Meter-Abdeckung beträgt nur 34,9% (limitierte Coverage-Bewertung) – signifikante Messlücken im Bestand",
+      "Jährlicher Drift: 9.886 kWh; 50,1% davon ≈ 4.953 kWh/Jahr nicht identifizierbare Trendursache",
+      "ISO 50001-Zertifizierung und laut Transkript bereits vorhandenes Live-Monitoring schaffen optimale Voraussetzungen für Messstellenerweiterung",
+      "Geschätzte realisierbare Einsparung nach Identifikation und Maßnahmenableitung: 4.000–8.000 kWh/Jahr (80–160% des nicht zugeordneten Driftanteils)"
+    ],
+    "amortisationPeriodInMonths": 74,
+    "reasoning": "Ohne Kenntnis der verursachenden Verbraucher können keine gezielten Abschaltmaßnahmen für den nicht zugeordneten Trendanteil eingeleitet werden. Die Messstellenerweiterung hat keinen direkten, sondern einen ermöglichenden Charakter: Sie schafft die Datengrundlage für weitere quantifizierbare Maßnahmen. Das Unternehmen ist aufgrund der ISO-50001-Zertifizierung und des vorhandenen Monitoring-Systems in einer privilegierten Position, die Erweiterung effizient zu integrieren. Der Amortisationszeitraum ist lang (~74 Monate), da die Einsparungen indirekt realisiert werden – der strategische Wert für die Trendumkehr überwiegt jedoch.",
+    "questions": [
+      {
+        "question": "In welchen Hallenbereichen oder an welchen Großverbrauchern fehlen aktuell Sub-Messzähler?",
+        "suggestedAnswers": [
+          {
+            "answer": "Kompressorenstation und Drucklufterzeugung"
+          },
+          {
+            "answer": "Kühlanlagen und Klimatechnik"
+          },
+          {
+            "answer": "Weitere Hallen außerhalb von Halle 6"
+          },
+          {
+            "answer": "Hydraulikaggregat-Gruppen an Pressen"
+          },
+          {
+            "answer": "Vollständige Messlücken-Analyse noch nicht durchgeführt"
+          }
+        ]
+      },
+      {
+        "question": "Plant das Unternehmen eine Erweiterung der Untermessungs-Infrastruktur im Rahmen des ISO-50001-Programms?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, konkrete Investitionsplanung bereits vorhanden"
+          },
+          {
+            "answer": "Ja, grundsätzlich vorgesehen aber noch nicht terminiert"
+          },
+          {
+            "answer": "Nein, aktuell kein Budget für Messstellenerweiterung eingeplant"
+          },
+          {
+            "answer": "Erweiterung wird im Zuge des Batterie-Pilotprojekts mitgeplant"
+          }
+        ]
+      },
+      {
+        "question": "Welche Systeme außerhalb von Halle 6, Trafo 4 und Trafo 5 könnten wesentliche Nacht-Grundlasten verursachen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Zentralkompressor läuft nachts für Leckage-Versorgung durch"
+          },
+          {
+            "answer": "Kühlanlagen für Werkzeug- oder Materiallagerung"
+          },
+          {
+            "answer": "Gebäudetechnik (Belüftung, Heizung, IT-Infrastruktur)"
+          },
+          {
+            "answer": "Keine weiteren wesentlichen Nacht-Verbraucher bekannt"
+          }
+        ]
+      }
+    ],
+    "confidence": 55,
+    "category": "OTHER",
+    "investmentType": "HIGH_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_1d7c5a8f",
+    "title": "September-Sonderereignis in Halle 6 analysieren und im ISO-50001-EnMS nacherfassen",
+    "shortDescription": "63 % aller Herbst-Wochenendnacht-Anomalien auf drei aufeinanderfolgende Septembertage konzentriert – Ursache in Halle 6 ungeklärt und im Energiemanagementsystem nicht dokumentiert",
+    "description": "Die Anomalie-Analyse identifiziert einen extremen Ereigniscluster: 63,7 % aller 168 Herbst-Wochenendnacht-Anomalie-Events entfallen auf lediglich drei aufeinanderfolgende Tage – den 13. September (17,3 %), 14. September (32,1 %) und 15. September 2025 (14,3 %). Ein solches Konzentrationsmuster ist durch normalen Produktionsbetrieb statistisch äußerst unwahrscheinlich und deutet klar auf ein singuläres Ereignis hin, etwa eine Inbetriebnahme, einen Prüflauf oder Umbauarbeiten. Die Sub-Meter-Analyse zeigt mit hoher Konfidenz: Ha6 gesamt trug mit 56,1 % Beitragsanteil (Co-Occurrence-Rate 79,2 %) die Hauptlast. Trafo 4 und Trafo 5 waren mit je ~31 % Beitragsanteil und einer Co-Occurrence-Rate von 98,2 % nahezu durchgehend aktiv. Als ISO-50001-zertifiziertes Unternehmen besteht eine Dokumentationspflicht für wesentliche Energieverbrauchsabweichungen. Empfohlene Maßnahmen: (1) Retrospektive Klärung des Ereignisses vom 13.–15. September 2025 in Halle 6, (2) Nacherfassung im Energiemanagementsystem mit Ursachenbeschreibung, (3) Einführung einer verbindlichen Meldepflicht für künftige Sonderereignisse mit messbaren Auswirkungen auf den Grundlastverbrauch.",
+    "yearlySavingsRangeFrom": 70,
+    "yearlySavingsRangeTo": 123,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 200,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 400,
+    "yearlySavingsEnergyRangeTo": 700,
+    "evidences": [
+      "63,7 % aller 168 Herbst-Wochenendnacht-Anomalie-Events auf drei aufeinanderfolgende Tage (13.–15.09.2025) konzentriert – statistisch hochsignifikantes Muster",
+      "Sub-Meter-Analyse: Ha6 gesamt verursacht 56,1 % des Anomalie-Überschussverbrauchs (Co-Occurrence 79,2 %, hohe Konfidenz)",
+      "Trafo 4 und Trafo 5 je ~31 % Beitragsanteil, Co-Occurrence 98,2 % – nahezu konstantaktive Beteiligung in allen Anomaliephasen des September-Clusters",
+      "Medianer Überschussverbrauch im Cluster: 61,1 kW bei einer Baseline von 0 kW (Vollstillstand erwartet)",
+      "Submetering-Abdeckung nur 34,9 % (partielle Abdeckung) – weitere Verbraucher möglicherweise nicht erfasst; Gesamtpotenzial kann höher liegen"
+    ],
+    "amortisationPeriodInMonths": 12,
+    "reasoning": "Das extreme Konzentrationsmuster auf drei Tage ist ein klares statistisches Signal für ein singuläres, nicht im EnMS erfasstes Ereignis. Da das Unternehmen ISO 50001 zertifiziert ist und nach eigener Aussage den Verbrauch detailliert kennt, besteht sowohl die Pflicht als auch die Infrastruktur zur Nacherfassung. Der Invest ist minimal (interner Personalaufwand); der Nutzen liegt in der Compliance-Sicherung und der Verbesserung der Datenqualität für das Energiecontrolling. Die Einsparpotenziale durch Verhinderung ähnlicher undokumentierter Ereignisse in der Zukunft sind konservativ auf 400–700 kWh/Jahr geschätzt.",
+    "questions": [
+      {
+        "question": "Was fand in Halle 6 vom 13.–15. September 2025 statt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Inbetriebnahme oder Testlauf einer neuen Maschine"
+          },
+          {
+            "answer": "Geplante Wartungs- oder Umbauarbeiten über mehrere Tage"
+          },
+          {
+            "answer": "Sonderproduktionsauftrag außerhalb des regulären Betriebsplans"
+          },
+          {
+            "answer": "Kein bekannter Anlass – Ursache unklar"
+          }
+        ]
+      },
+      {
+        "question": "Ist das Ereignis im Energiemanagementsystem (ISO 50001) dokumentiert?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, vollständig mit Ursache und Verbrauchsangabe erfasst"
+          },
+          {
+            "answer": "Teilweise dokumentiert, aber ohne Energiebezug"
+          },
+          {
+            "answer": "Nein, nicht dokumentiert"
+          }
+        ]
+      },
+      {
+        "question": "Welche Verbraucher in Halle 6 waren an Trafo 4 und Trafo 5 während des September-Ereignisses aktiv?",
+        "suggestedAnswers": [
+          {
+            "answer": "Produktionsmaschinen (Pressen, Bearbeitungszentren)"
+          },
+          {
+            "answer": "Lüftung, Heizung oder Klimatisierung"
+          },
+          {
+            "answer": "Kombination aus Maschinen und Infrastruktur"
+          },
+          {
+            "answer": "Unbekannt – keine Zuordnung möglich"
+          }
+        ]
+      }
+    ],
+    "confidence": 78,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_1d7c5a8f",
+    "title": "Wochenend-Grundlast in Halle 6 sowie an Trafo 4 und Trafo 5 durch strukturiertes Abschaltprotokoll senken",
+    "shortDescription": "Halle 6 verursacht 56 % der Anomalie-Grundlast, Trafo 4 und Trafo 5 je ~31 % mit 98 % Co-Occurrence – ein Wochenend-Abschaltprotokoll kann die wiederkehrende Nacht-Grundlast dauerhaft reduzieren",
+    "description": "Die Anomalie-Analyse zeigt einen strukturellen, wiederkehrenden Grundlastanstieg an Wochenendnächten und frühen Montagmorgenstunden (Samstag 17:00–24:00, Sonntag 00:00–09:00 und 17:00–24:00, Montag 00:00–06:00 Uhr) mit einem medianen Überschussverbrauch von 61,1 kW gegenüber einer erwarteten Nulllast. Die Sub-Meter-Analyse zeigt mit hoher Konfidenz: Ha6 gesamt ist mit 56,1 % Beitragsanteil (Co-Occurrence 79,2 %) der dominante Verbraucher. Trafo 4 und Trafo 5 treten mit je ~31 % Beitragsanteil und einer Co-Occurrence-Rate von 98,2 % nahezu in jeder Anomalieperiode auf – ein eindeutiges Signal für eine nicht betriebsnotwendige, strukturelle Wochenend-Grundlast. Besonders auffällig: Samstag 05:00 Uhr ist mit 26,2 % aller 168 Anomalie-Events die Spitzenstunde, was auf einen regelmäßigen, nicht koordinierten Frühstartprozess in Halle 6 hindeutet. Da laut Kundenaussage ein Ad-hoc-Abschalten von Pressen wegen des 20-minütigen Hochfahrprozesses nicht praktikabel ist, liegt der Hebel in der vorausschauenden Planung: Welche Aggregate können systematisch vor Wochenendende kontrolliert heruntergefahren und erst zum definierten Produktionsstart wieder hochgefahren werden? Empfohlen wird die Einführung eines verbindlichen Wochenend-Abschaltprotokolls mit klaren Checklisten, definierten Verantwortlichkeiten und zeitlich festgelegten Abschalt- und Anfahrfenstern für Halle 6, Trafo 4 und Trafo 5.",
+    "yearlySavingsRangeFrom": 158,
+    "yearlySavingsRangeTo": 246,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 900,
+    "yearlySavingsEnergyRangeTo": 1400,
+    "evidences": [
+      "Sub-Meter-Analyse: Ha6 gesamt trägt 56,1 % des Anomalie-Überschussverbrauchs bei (Co-Occurrence 79,2 %, hohe Konfidenz)",
+      "Trafo 4 und Trafo 5 je ~31 % Beitragsanteil, Co-Occurrence 98,2 % – praktisch jede Wochenendnacht-Anomalie enthält beide Trafos aktiv",
+      "Spitzenstunde Samstag 05:00 Uhr: 26,2 % aller 168 Anomalie-Events – Hinweis auf wiederkehrenden, nicht koordinierten Frühstartprozess",
+      "Medianer Überschussverbrauch 61,1 kW × 30 h/Woche × 52 Wochen ≈ 95.000 kWh/Jahr theoretisches Potenzial; statistisch ermitteltes realisierbares Potenzial: 1.872 kWh/Jahr",
+      "Submetering-Abdeckung 34,9 % (partielle Abdeckung): Einsparpotenzial könnte bei erweitertem Submetering höher ausfallen"
+    ],
+    "amortisationPeriodInMonths": 15,
+    "reasoning": "Die nahezu vollständige Co-Occurrence von Trafo 4 und Trafo 5 (98,2 %) in allen Anomalieperioden ist ein starkes Signal für eine strukturelle, nicht betriebsnotwendige Grundlast an Wochenendnächten. In Kombination mit dem regelmäßigen Samstag-05:00-Muster deutet alles auf fehlende Abschaltprozesse hin. Das Unternehmen verfügt laut eigener Aussage über detailliertes Live-Monitoring – die Datenbasis für ein gezieltes Abschaltprotokoll ist also vorhanden. Da Presse-Anfahrprozesse 20 Minuten und mehr benötigen, ist keine Ad-hoc-Abschaltung nötig, sondern ein geplantes, strukturiertes Vorgehen. Die Investition ist gering (Prozessdokumentation, Checklisten, Schulung), das Einsparpotenzial direkt realisierbar ohne Produktionseinschränkungen.",
+    "questions": [
+      {
+        "question": "Warum sind Trafo 4 und Trafo 5 an Wochenendnächten nahezu durchgehend aktiv?",
+        "suggestedAnswers": [
+          {
+            "answer": "Sie versorgen betriebsnotwendige Dauerverbraucher (z. B. Kühlung, Sicherheitsbeleuchtung)"
+          },
+          {
+            "answer": "Sie bleiben aus prozesstechnischen Gründen unter Last (z. B. Pressen im Standby)"
+          },
+          {
+            "answer": "Sie könnten planmäßig abgeschaltet werden, es fehlt aber ein verbindliches Protokoll"
+          },
+          {
+            "answer": "Ursache bisher nicht analysiert"
+          }
+        ]
+      },
+      {
+        "question": "Was startet in Halle 6 regelmäßig samstags um 05:00 Uhr?",
+        "suggestedAnswers": [
+          {
+            "answer": "Frühe Sonderschicht oder Wartungsprozess"
+          },
+          {
+            "answer": "Automatischer Anlauf von Maschinen oder Heizungssystemen"
+          },
+          {
+            "answer": "Geplanter Produktionsstart für Sonderaufträge"
+          },
+          {
+            "answer": "Unbekannt – nicht dokumentiert"
+          }
+        ]
+      },
+      {
+        "question": "Welche Anlagen in Halle 6 könnten am Wochenende vollständig ohne Produktionsauswirkungen abgeschaltet werden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Druckluftversorgung und Kompressoren"
+          },
+          {
+            "answer": "Lüftungs- und Klimaanlagen"
+          },
+          {
+            "answer": "Beleuchtung und nicht sicherheitsrelevante Hilfssysteme"
+          },
+          {
+            "answer": "Keine – alle Anlagen müssen durchlaufen"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es bereits ein Abschaltprotokoll oder eine Checkliste für das Wochenende in Halle 6?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, ein verbindliches Protokoll mit Verantwortlichkeiten ist vorhanden"
+          },
+          {
+            "answer": "Es gibt informelle Abläufe, aber kein dokumentiertes Protokoll"
+          },
+          {
+            "answer": "Nein, es gibt kein Abschaltprotokoll"
+          }
+        ]
+      }
+    ],
+    "confidence": 75,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_2e6f9c4b",
+    "title": "Halle 6: Verbindliches Abschaltprotokoll für Nacht- und Wochenendzeiten einführen",
+    "shortDescription": "Ha6 gesamt treibt 56% der herbstlichen Nacht-Lastspitzen mit hoher Konfidenz – ein verbindliches Abschaltprotokoll reduziert die strukturelle Wochenend-Grundlast",
+    "description": "Die Clusteranalyse 'Weekend Night (Low) [SC1] – Autumn' zeigt, dass am Standort Ense in herbstlichen Wochenendnächten (Samstag ab 17 Uhr, Sonntag 0–9 und 17–24 Uhr, Montag 0–6 Uhr) eine stabile Grundlast von median 61,1 kW vorliegt – obwohl die theoretisch erreichbare Baseline 0 kW beträgt. Die Sub-Metering-Analyse identifiziert 'Ha6 gesamt' mit hoher Konfidenz als primären Verursacher von 56,1% der Lastüberschreitungen (Co-Occurrence-Rate: 79,2%). Da keine Produktion in Halle 6 außerhalb der regulären Schichtzeiten stattfindet, ist die Grundlast auf nicht abgeschaltete Beleuchtung, Lüftungsanlagen, Kühleinheiten oder die in Halle 6 installierte '84 Laseranlage' zurückzuführen. Laut Kundenaussage vom 18.02.2026 ist eine neue zweite Laserabteilung in Betrieb genommen worden, deren Verbrauchsprofil noch nicht im Monitoring erfasst ist und damit eine zusätzliche unkontrollierte Quelle darstellt. Als ISO-50001-zertifizierter Standort sollte ein verbindliches Abschaltprotokoll erarbeitet werden, das alle nicht betriebsnotwendigen Verbraucher in Halle 6 – inkl. beider Laseranlagen – außerhalb der Produktionsfenster systematisch stillegt. Die enge Streuung (P25 = 56,2 kW, P75 = 65,5 kW) belegt einen systematischen, nicht zufälligen Verbrauch und damit klar adressierbares Einsparpotenzial.",
+    "yearlySavingsRangeFrom": 88,
+    "yearlySavingsRangeTo": 528,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 1000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 500,
+    "yearlySavingsEnergyRangeTo": 3000,
+    "evidences": [
+      "Sub-Metering-Analyse: Ha6 gesamt verursacht 56,1% der Lastüberschreitungen mit hoher Konfidenz (Co-Occurrence-Rate 79,2%)",
+      "Strukturelle Grundlast: Median 61,1 kW, P25 = 56,2 kW, P75 = 65,5 kW – enge Streuung belegt systematischen, dauerhaften Verbrauch",
+      "Theoretische Baseline 0 kW: vollständiges Abschalten ist physisch möglich, wird aber strukturell nicht erreicht",
+      "Betroffenes Zeitfenster: ~30 Stunden/Woche (Mo 0–6 Uhr, Sa 5–6 und 17–24 Uhr, So 0–9 und 17–24 Uhr) = 1.560 h/Jahr",
+      "Statistisches Einsparpotenzial laut Insight-Analyse: ~500–1.100 kWh/Jahr (€88–194); bei 40% Grundlastreduktion in Ha6-Anteil (18%): bis zu ~3.000 kWh/Jahr zusätzlich erschließbar"
+    ],
+    "amortisationPeriodInMonths": 19,
+    "reasoning": "Ha6 gesamt ist mit hoher Konfidenz und einer Co-Occurrence-Rate von 79,2% der dominante Treiber der Lastspitzen. Die Sub-Metering-Abdeckung ist zwar limitiert (34,9%), doch die hohe Konfidenz des Anomalie-Signals rechtfertigt direkte Maßnahmen. Ein reines Prozessprotokoll (SOP, Schichtende-Checkliste) verursacht nahezu keine Investitionskosten und ist für einen ISO-50001-Standort auditfähig dokumentierbar. Die konservative untere Sparspanne (€88/Jahr) basiert direkt auf dem statistischen Insight-Potenzial; die obere Grenze (€528/Jahr) reflektiert das physikalisch mögliche Potenzial bei 40%iger Reduktion des Ha6-Strukturanteils. Der Zeithorizont bis Amortisation ist kurz, da kaum Kapital eingesetzt wird.",
+    "questions": [
+      {
+        "question": "Welche Verbraucher in Halle 6 laufen außerhalb der Produktionszeiten weiter?",
+        "suggestedAnswers": [
+          {
+            "answer": "Beleuchtung und Lüftung im Dauer- oder Zeitschalterbetrieb"
+          },
+          {
+            "answer": "Die '84 Laseranlage' oder die neue zweite Laserabteilung im Standby-Betrieb"
+          },
+          {
+            "answer": "Kühl- und Klimaanlagen für temperatursensible Komponenten oder Werkzeuge"
+          },
+          {
+            "answer": "Kein klarer Überblick vorhanden – keine systematische Erfassung der Nachtverbraucher"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es für Halle 6 bereits eine dokumentierte Betriebsanweisung zur Abschaltung bei Schichtende?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, vollständig dokumentiert und regelmäßig im Rahmen von ISO 50001 auditiert"
+          },
+          {
+            "answer": "Teilweise vorhanden, aber nicht für alle Anlagen verbindlich"
+          },
+          {
+            "answer": "Nein, kein formales Protokoll vorhanden – Abschaltung erfolgt nach Ermessen des Schichtführers"
+          },
+          {
+            "answer": "Protokoll existiert, wird aber nicht konsequent eingehalten"
+          }
+        ]
+      },
+      {
+        "question": "Welche Mindestlast ist in Halle 6 aus Sicherheits- oder Brandschutzgründen außerhalb der Produktion erforderlich?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nur Notbeleuchtung und Sicherheitssysteme (< 5 kW)"
+          },
+          {
+            "answer": "Notbeleuchtung plus Lüftung zur Branderkennung (ca. 5–15 kW)"
+          },
+          {
+            "answer": "Temperaturüberwachung und Maschinenkühlung notwendig (> 15 kW)"
+          },
+          {
+            "answer": "Anforderungen noch nicht detailliert definiert"
+          }
+        ]
+      }
+    ],
+    "confidence": 65,
+    "category": "OTHER",
+    "investmentType": "NO_INTENSITY",
+    "effortLevel": "LOW"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_2e6f9c4b",
+    "title": "Trafos 4 und 5: Koordiniertes Maschinenabschalt- und Standby-Management im Wochenend-Stillstand",
+    "shortDescription": "Trafo 4 (31%) und Trafo 5 (31%) verursachen gemeinsam ~62% der Lastanomalien mit nahezu identischer Co-Occurrence-Rate von 98% – ein koordiniertes Abschaltregime eliminiert strukturellen Standby-Verbrauch der Pressenlinien",
+    "description": "Die Sub-Metering-Analyse weist Trafo 4 (30,8% Anomalie-Anteil) und Trafo 5 (31,2% Anomalie-Anteil) jeweils mit hoher Konfidenz als wesentliche Treiber der herbstlichen Wochenend-Grundlast aus. Die nahezu identische Co-Occurrence-Rate beider Trafos von jeweils 98,2% belegt, dass sie in fast allen Anomalie-Ereignissen zeitgleich aktiv sind – was auf eine gemeinsame Versorgungslogik oder einen koordinierten Prozess hindeutet. Als 'Pressen-Trafos 4 und 5' versorgen sie vermutlich hydraulische Steuerungen, Schmieranlagen und SPS-Systeme der Pressenlinien, die auch im Wochenend-Stillstand unter Spannung gehalten werden. Eine strukturierte Abschaltroutine – implementierbar als SPS-Zeitprogramm oder als verpflichtende Schichtende-Checkliste – könnte die strukturellen Anteile beider Trafos von zusammen ~32% der Grundlast (entsprechend ~19.000 kWh/Jahr Vollpotenzial) erheblich reduzieren. Maschinen mit berechtigtem Standby-Bedarf (z.B. Werkzeugtemperierung, Druckhaltung) sind vorab zu identifizieren und explizit auszunehmen. Für das ISO-50001-Audit bietet diese Maßnahme eine direkt messbare, dokumentierbare Einsparung im wesentlichen Energieverbraucherbereich.",
+    "yearlySavingsRangeFrom": 70,
+    "yearlySavingsRangeTo": 440,
+    "investmentRangeFrom": 500,
+    "investmentRangeTo": 3000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 400,
+    "yearlySavingsEnergyRangeTo": 2500,
+    "evidences": [
+      "Sub-Metering: Trafo 4 verursacht 30,8% und Trafo 5 verursacht 31,2% der Lastanomalien – jeweils hohe Konfidenz",
+      "Co-Occurrence-Rate 98,2% bei beiden Trafos: simultane Aktivierung in fast allen Anomalie-Ereignissen → koordinierter Eingriff möglich",
+      "Kombinierter struktureller Anteil Trafo 4+5: ~32% × 61,1 kW × 1.560 h/Jahr = ~29.900 kWh/Jahr adressierbares Vollpotenzial",
+      "Statistisches Einsparpotenzial aus Insight-Analyse: ~400–900 kWh/Jahr (€70–158/Jahr) als konservative Untergrenze",
+      "Herbst-Zeitfenster: 30 h/Woche ohne Produktion – strukturelle, nicht saisonale Natur des Standby-Verbrauchs anzunehmen"
+    ],
+    "amortisationPeriodInMonths": 82,
+    "reasoning": "Trafo 4 und 5 sind mit hoher Konfidenz und nahezu identischer Co-Occurrence (98,2%) als Einheit zu betrachten. Ihr gemeinsamer Anomalie-Anteil von ~62% macht sie zum zweitwichtigsten strukturellen Handlungsfeld nach Halle 6. Da beide Trafos zeitgleich schalten, lassen sich Abhilfemaßnahmen koordinieren. Die Investition für SPS-Zeitprogrammierung oder Abschaltanleitungen ist moderat. Die konservative Sparspanne (€70–440/Jahr) basiert auf dem statistischen Insight-Potenzial unter Berücksichtigung der limitierten Sub-Metering-Abdeckung (34,9%); das physikalische Vollpotenzial liegt deutlich höher. Die längere Amortisationszeit reflektiert die konservative Einsparzahl – bei Realisierung des vollen Strukturpotenzials verkürzt sich der Payback erheblich. ISO 50001 verlangt Maßnahmen für wesentliche Energieverbraucher, womit diese Maßnahme direkt auditrelevant ist.",
+    "questions": [
+      {
+        "question": "Welche Systeme im Bereich Trafos 4 und 5 bleiben am Wochenende aktiv und warum?",
+        "suggestedAnswers": [
+          {
+            "answer": "Nur SPS und Bedienpanele der Pressen im Standby-Modus"
+          },
+          {
+            "answer": "Hydrauliksysteme und Druckhaltefunktionen müssen aktiv bleiben"
+          },
+          {
+            "answer": "Gesamte Pressenlinie inkl. Peripherie bleibt im Standby"
+          },
+          {
+            "answer": "Kein klarer Überblick – keine systematische Erfassung des Wochenend-Standby"
+          }
+        ]
+      },
+      {
+        "question": "Sind die Pressenlinien im Bereich Trafos 4 und 5 für ein vollständiges Abschalten über das Wochenende technisch ausgelegt?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, vollständiges Abschalten ist problemlos möglich"
+          },
+          {
+            "answer": "Teilweise – einzelne Maschinen benötigen Mindest-Standby für Werkzeugtemperierung"
+          },
+          {
+            "answer": "Nein, längeres Abschalten erhöht Hochfahrzeit und Maschinenverschleiß spürbar"
+          },
+          {
+            "answer": "Unbekannt – technische Prüfung steht noch aus"
+          }
+        ]
+      },
+      {
+        "question": "Gibt es bereits SPS-Zeitprogramme oder automatisierte Abschaltsequenzen für die Pressenbereiche?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, vollautomatische Abschaltsequenzen sind bereits implementiert"
+          },
+          {
+            "answer": "Teilweise – manuelle Abschaltung durch Bediener, keine automatisierte Logik"
+          },
+          {
+            "answer": "Nein, SPS-Zeitprogramme müssten erst entwickelt und eingespielt werden"
+          },
+          {
+            "answer": "Steuerung läuft dauerhaft aus technischen oder produktionssicherheitlichen Gründen"
+          }
+        ]
+      }
+    ],
+    "confidence": 62,
+    "category": "OTHER",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_2e6f9c4b",
+    "title": "Sub-Metering-Infrastruktur erweitern: 50% unbekannte Wochenend-Grundlast am Standort Ense erschließen",
+    "shortDescription": "Nur 35% der strukturellen Wochenend-Grundlast ist durch Sub-Metering erfasst – Ausbau der Messinfrastruktur inkl. neuer Laserabteilung erschließt das verbleibende Einsparpotenzial und sichert ISO-50001-Auditfähigkeit",
+    "description": "Die aktuelle Sub-Metering-Abdeckung am Standort Ense beträgt lediglich 34,9% (coverageAssessment: 'limited'), wodurch 50,2% der strukturellen Wochenend-Grundlast keinem Einzelverbraucher zugeordnet werden kann. Bei einer median Grundlast von 61,1 kW über ~1.560 Stunden/Jahr sind rund 47.800 kWh/Jahr nicht-produzierender Energieverbrauch ohne Quellenidentifikation – dies entspricht ca. €8.400/Jahr (bei €0,176/kWh), die strukturell anfallen, ohne dass Ursache und Einsparpotenzial bekannt sind. Laut Kundenaussage vom 18.02.2026 ist eine neue zweite Laserabteilung in Betrieb, die bisher vollständig außerhalb des Monitorings liegt und als erstes zusätzliches Sub-Metering-Ziel priorisiert werden sollte. Darüber hinaus sind die Bereiche Druckluft, HVAC und weitere Nebenaggregate als Kandidaten für den unbekannten Anteil zu untersuchen. Der Ausbau der Messinfrastruktur ist für einen ISO-50001-zertifizierten Standort sowohl strategisch als auch auditrelevant: Die Norm fordert die Erfassung und Dokumentation aller wesentlichen Energieverbraucher (SEUs). Nicht erfasste Verbraucher stellen ein Compliance-Risiko bei externen Audits dar. Die Maßnahme ist direkter Enabler für präzisere Folgeanalysen und gezielte Optimierungsmaßnahmen.",
+    "yearlySavingsRangeFrom": 352,
+    "yearlySavingsRangeTo": 1760,
+    "investmentRangeFrom": 2000,
+    "investmentRangeTo": 8000,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 2000,
+    "yearlySavingsEnergyRangeTo": 10000,
+    "evidences": [
+      "Sub-Metering-Abdeckung nur 34,9% der Wochenend-Grundlast (coverageAssessment: 'limited') – 50,2% des Verbrauchs ohne Quellenidentifikation",
+      "Unbekannte Grundlast: 50,2% × 61,1 kW × 1.560 h/Jahr ≈ 47.800 kWh/Jahr ohne Zuordnung (≈ €8.400/Jahr)",
+      "Neue zweite Laserabteilung laut Kundenaussage (18.02.2026) noch nicht im Monitoring – potenziell relevanter Einzelverbraucher",
+      "ISO 50001 Auditrisiko: Wesentliche Energieverbraucher (SEUs) müssen erfasst und dokumentiert sein – fehlende Messpunkte gefährden die Zertifizierung",
+      "Einsparpotenzial nach Identifikation der Quellen: konservativ 2.000–10.000 kWh/Jahr (entspricht 10–20% des unbekannten Anteils als adressierbar)"
+    ],
+    "amortisationPeriodInMonths": 57,
+    "reasoning": "Mit einer Sub-Metering-Abdeckung von nur 34,9% und 50,2% unbekannten Verbrauchsanteilen ist die Messbasis für gezielte Optimierungen derzeit unzureichend. Die Erweiterung der Messpunkte ist eine strategische Voraussetzung, um das volle Einsparpotenzial des Standorts zu erschließen. Die angegebene Sparspanne (€352–1.760/Jahr) ist eine konservative Schätzung auf Basis von 10–20% Einsparung nach Identifikation – das tatsächliche Potenzial kann deutlich höher liegen. Die Maßnahme ist besonders relevant im ISO-50001-Kontext, wo laut Kundengespräch (06.03.2026) Energieeinkauf und Optimierung als Thema für Audits gesehen wird. Die Investition in Smart-Metering amortisiert sich über die Summe aller künftigen Maßnahmen, die sie erst ermöglicht.",
+    "questions": [
+      {
+        "question": "Welche Hauptverbraucher am Standort Ense sind aktuell NICHT durch Sub-Metering erfasst?",
+        "suggestedAnswers": [
+          {
+            "answer": "Neue zweite Laserabteilung (in Betrieb seit 2025/2026, kein Messpunkt)"
+          },
+          {
+            "answer": "Druckluftversorgung und Kompressoren"
+          },
+          {
+            "answer": "HVAC/Klimatisierung der Produktionshallen"
+          },
+          {
+            "answer": "Nebengebäude (Verwaltung, Sozialräume, Lager)"
+          }
+        ]
+      },
+      {
+        "question": "Hat der Standort Ense im Rahmen von ISO 50001 bereits einen Plan zur Erweiterung der Messpunkte?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, ein Erweiterungsplan liegt vor und ist budgetiert"
+          },
+          {
+            "answer": "Teilweise – neue Laserabteilung soll zeitnah mit Zähler versehen werden"
+          },
+          {
+            "answer": "Nein, aktuell kein konkreter Erweiterungsplan vorhanden"
+          },
+          {
+            "answer": "Thema wurde im Energieteam diskutiert, aber noch nicht priorisiert"
+          }
+        ]
+      },
+      {
+        "question": "Wie ist die neue zweite Laserabteilung aktuell energetisch eingebunden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Über den Hauptzähler Netzbezug erfasst, aber kein separates Sub-Metering"
+          },
+          {
+            "answer": "Über einen der vorhandenen Trafo-Messpunkte (4 oder 5) miterfasst"
+          },
+          {
+            "answer": "Komplett außerhalb des aktuellen Monitoring-Systems"
+          },
+          {
+            "answer": "Bereits ein Sub-Zähler geplant, aber noch nicht installiert"
+          }
+        ]
+      }
+    ],
+    "confidence": 45,
+    "category": "OTHER",
+    "investmentType": "HIGH_INTENSITY",
+    "effortLevel": "HIGH"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_8c4f2a7e",
+    "title": "PV-Erzeugungsprognose in Wochenend-Schichtplanung integrieren",
+    "shortDescription": "Energieintensive Prozesse an Wochenenden auf PV-Spitzenstunden (11–15 Uhr) ausrichten, um Netzbezug zu minimieren",
+    "description": "An herbstlichen Wochenendnachmittagen (Samstag 10–17 Uhr, Sonntag 9–16 Uhr) liegt der mediane Netzbezug bei 20 kW – obwohl P25 = 0 kW belegt, dass vollständige PV-Deckung erreichbar ist. Die Sub-Meter-Analyse (Deckungsgrad 200 %, keine unattribuierten Verbraucher) zeigt mit hoher Konfidenz: PV Einspeisung erklärt 100 % der strukturellen Grundlast (r = –0,46). Trotzdem steigt der Netzbezug auf bis zu 42 kW (P75), wenn Kaiser-Pressen und die durch Trafos versorgten Anlagen aktiv sind. Durch die Integration von PV-Echtzeitdaten oder -Tagesprognosen in die Schichtplanung können energieintensive Vorgänge – Pressvorgänge, Rüsten, Nacharbeit – gezielt in die PV-Spitzenstunden (ca. 11–15 Uhr) gelegt werden. So wird Eigenverbrauch maximiert und Netzbezug systematisch minimiert. Als ISO 50001-zertifizierter Betrieb besteht bereits eine Governance-Grundlage für eine verbindliche Energieeinsparregel im Schichtplan.",
+    "yearlySavingsRangeFrom": 317,
+    "yearlySavingsRangeTo": 440,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 500,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 1800,
+    "yearlySavingsEnergyRangeTo": 2500,
+    "evidences": [
+      "Analyse-Cluster 'Weekend Afternoon (Low) [SC0] – Autumn': medianer Netzbezug 20 kW bei 14 h/Woche an herbstlichen Wochenendnachmittagen",
+      "P25 = 0 kW belegt vollständige PV-Deckung als erreichbares Ziel; P75 = 42 kW zeigt Einfluss laufender Produktion auf Netzbezug",
+      "Sub-Meter-Analyse: PV Einspeisung erklärt 100 % der strukturellen Grundlast (hohe Konfidenz, r = –0,46) – Schichtzeiten außerhalb PV-Spitze sind direkt vermeidbar",
+      "Einsparungspotenzial: 3.631 kWh/Jahr (Gesamtpotenzial) × 50–70 % Umsetzungsgrad = ca. 1.800–2.500 kWh/Jahr ≈ €317–440/Jahr bei €0,176/kWh",
+      "Herbstsaison: ~13 Wochen × 14 h = 182 Stunden; Verlagerung von 10 kW mittlerem Überschussverbrauch auf PV-Spitze spart ~1.820 kWh/Jahr"
+    ],
+    "amortisationPeriodInMonths": 8,
+    "reasoning": "Die hohe Streuung zwischen P25 = 0 kW und P75 = 42 kW beweist, dass produktionsfreie Momente die PV-Deckung bereits vollständig nutzen. Das Optimierungspotenzial liegt nicht in neuen Technologien, sondern in einer konsequenten zeitlichen Koordination: Produktion in PV-Stunden legen, Stillstand auf PV-schwache Zeiten verlagern. Als ISO 50001-zertifizierter Betrieb hat Huhn Pauli die Prozessreife, um dies im Schichtplan formal zu verankern. Der Investitionsbedarf ist minimal (Prozessanpassung, ggf. einfaches PV-Dashboard); die Einsparungen von ~2.000 kWh/Jahr amortisieren sich innerhalb weniger Monate.",
+    "questions": [
+      {
+        "question": "Wie wird die Wochenendproduktion aktuell geplant?",
+        "suggestedAnswers": [
+          {
+            "answer": "Feste Schichtpläne unabhängig von PV-Erzeugung"
+          },
+          {
+            "answer": "Flexible Planung, aber ohne Berücksichtigung von Energieaspekten"
+          },
+          {
+            "answer": "PV-Daten werden bereits teilweise in die Planung einbezogen"
+          },
+          {
+            "answer": "Keine reguläre Wochenendproduktion, nur sporadische Nacharbeit"
+          }
+        ]
+      },
+      {
+        "question": "Welche Prozesse laufen typischerweise an Wochenendnachmittagen auf den Kaiser-Pressen?",
+        "suggestedAnswers": [
+          {
+            "answer": "Regelmäßige Schichtproduktion (Eilaufträge, Kapazitätsausgleich)"
+          },
+          {
+            "answer": "Rüst- und Einrichtarbeiten für die Folgewoche"
+          },
+          {
+            "answer": "Nacharbeit und Qualitätssicherung"
+          },
+          {
+            "answer": "Kein geplanter Betrieb, nur bei Bedarf"
+          }
+        ]
+      },
+      {
+        "question": "Steht eine PV-Echtzeitanzeige oder Tagesprognose für die Schichtplanung zur Verfügung?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, PV-Daten sind im EMS oder Dashboard sichtbar"
+          },
+          {
+            "answer": "PV-Monitoring vorhanden, aber nicht für Schichtplanung genutzt"
+          },
+          {
+            "answer": "Keine direkte Anzeige für Schichtverantwortliche"
+          },
+          {
+            "answer": "In Planung im Rahmen von ISO 50001-Maßnahmen"
+          }
+        ]
+      }
+    ],
+    "confidence": 75,
+    "category": "OTHER",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "MEDIUM"
+  },
+  {
+    "locationId": 86056,
+    "insightId": "ins_8c4f2a7e",
+    "title": "Verbindliches Abschaltprotokoll für Trafo 4 und Trafo 5 an produktionsfreien Wochenendnachmittagen",
+    "shortDescription": "Trafo 4 (24,3 %) und Trafo 5 (23,5 %) bei fehlender Wochenendproduktion abschalten und Netzbezug auf PV-gedeckte 0 kW senken",
+    "description": "Die Sub-Meter-Analyse zeigt mit hoher Konfidenz: Trafo 4 verursacht 24,3 % und Trafo 5 verursacht 23,5 % des erhöhten Netzbezugs bei Anomalie-Ereignissen – beide mit 100 % Co-Occurrence-Rate, d. h. sie sind bei jedem Ereignis mit erhöhtem Netzbezug aktiv. Zusammen erklären Trafo 4 und Trafo 5 rund 48 % der Spitzenlasten an Wochenendnachmittagen. An Stunden ohne Produktionsbedarf verbleiben diese Trafos unnötig unter Spannung. Ein verbindliches Abschaltprotokoll – Checkliste mit verantwortlicher Person und fester Uhrzeit (z. B. spätestens 10 Uhr samstags) – stellt sicher, dass an produktionsfreien Wochenendnachmittagen der Netzbezug auf nahe 0 kW fällt, da die PV-Anlage die verbleibende Grundlast vollständig decken kann (belegt durch P25 = 0 kW). Das ISO 50001-Zertifikat bietet den idealen Rahmen, um ein solches Protokoll formal im Energiemanagementsystem zu verankern.",
+    "yearlySavingsRangeFrom": 141,
+    "yearlySavingsRangeTo": 229,
+    "investmentRangeFrom": 0,
+    "investmentRangeTo": 300,
+    "unit": "kWh",
+    "yearlySavingsEnergyRangeFrom": 800,
+    "yearlySavingsEnergyRangeTo": 1300,
+    "evidences": [
+      "Sub-Meter-Analyse: Trafo 4 verursacht 24,3 % des Anomalie-Netzbezugs mit 100 % Co-Occurrence (hohe Konfidenz)",
+      "Sub-Meter-Analyse: Trafo 5 verursacht 23,5 % des Anomalie-Netzbezugs mit 100 % Co-Occurrence (hohe Konfidenz)",
+      "Kombinierter Anteil Trafo 4+5: ~48 % der Anomalie-Last – größter steuerbarer Einzelfaktor an Wochenendnachmittagen",
+      "Einsparung: 3.631 kWh/Jahr × 22–36 % Trafo-Anteil = ca. 800–1.300 kWh/Jahr ≈ €141–229/Jahr bei €0,176/kWh",
+      "P25 = 0 kW beweist: bei abgeschalteten Trafos und Pressen ist vollständige PV-Deckung und Null-Netzbezug erreichbar"
+    ],
+    "amortisationPeriodInMonths": 7,
+    "reasoning": "Die 100%ige Co-Occurrence-Rate bedeutet, dass Trafo 4 und Trafo 5 bei jedem Anomalie-Ereignis aktiv sind – ein starker Indikator für unnötigen Standby-Betrieb an produktionsfreien Stunden. Der Eingriff erfordert keine Investitionen in Technik, sondern lediglich ein dokumentiertes Abschaltprotokoll, das im ISO 50001-Rahmen bereits etabliert werden kann. Das Einsparungspotenzial von ~1.000 kWh/Jahr ist moderat, aber mit minimalem Aufwand realisierbar und kann als erste, schnell umsetzbare Maßnahme dienen, bevor eine weitergehende Schichtplanoptimierung greift.",
+    "questions": [
+      {
+        "question": "Gibt es produktionstechnische Gründe, warum Trafo 4 oder Trafo 5 an Wochenendnachmittagen unter Spannung bleiben?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, regelmäßige Wochenendproduktion erfordert Trafo-Betrieb"
+          },
+          {
+            "answer": "Nur bei Sonderaufträgen und Nacharbeit sporadisch notwendig"
+          },
+          {
+            "answer": "Standby-Betrieb für schnellen Anlauf am Montagmorgen"
+          },
+          {
+            "answer": "Kein bekannter technischer Grund für permanenten Betrieb"
+          }
+        ]
+      },
+      {
+        "question": "Haben Trafo 4 und Trafo 5 zugängliche Hauptschalter für eine einfache manuelle Abschaltung?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, einfach zugängliche Abschalter vorhanden"
+          },
+          {
+            "answer": "Abschaltung möglich, aber technisch aufwändig oder zeitintensiv"
+          },
+          {
+            "answer": "Keine einfache Abschaltoption ohne Eingriff in die Elektroanlage"
+          },
+          {
+            "answer": "Automatische Abschaltung bereits teilweise implementiert"
+          }
+        ]
+      },
+      {
+        "question": "Existiert im Rahmen des ISO 50001-Systems bereits ein dokumentiertes Abschalt- oder Energiesparprogramm für Wochenenden?",
+        "suggestedAnswers": [
+          {
+            "answer": "Ja, formales Abschaltprotokoll mit Verantwortlichen vorhanden"
+          },
+          {
+            "answer": "Informelle Regelung, aber ohne schriftliche Dokumentation"
+          },
+          {
+            "answer": "Nein, kein systematisches Wochenend-Abschaltprotokoll"
+          },
+          {
+            "answer": "In Entwicklung als Teil der ISO 50001-Maßnahmen"
+          }
+        ]
+      }
+    ],
+    "confidence": 78,
+    "category": "OTHER",
+    "investmentType": "MEDIUM_INTENSITY",
+    "effortLevel": "LOW"
+  }
+]
