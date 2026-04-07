@@ -63,11 +63,6 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
   const [comprehensibility, setComprehensibility] = useState<MetricValue | null>(null)
   const [relevance, setRelevance]                 = useState<MetricValue | null>(null)
   const [plausibility, setPlausibility]           = useState<MetricValue | null>(null)
-  const [ratingTitle, setRatingTitle]             = useState<MetricValue | null>(null)
-  const [ratingDescription, setRatingDescription] = useState<MetricValue | null>(null)
-  const [ratingHypotheses, setRatingHypotheses]   = useState<MetricValue | null>(null)
-  const [ratingReasoning, setRatingReasoning]     = useState<MetricValue | null>(null)
-  const [ratingQuestions, setRatingQuestions]     = useState<MetricValue | null>(null)
 
   const [comment, setComment] = useState('')
 
@@ -78,8 +73,6 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
   const resetForm = () => {
     setPhase('idle'); setImpression(null); setShowDetails(false)
     setComprehensibility(null); setRelevance(null); setPlausibility(null)
-    setRatingTitle(null); setRatingDescription(null); setRatingHypotheses(null)
-    setRatingReasoning(null); setRatingQuestions(null)
     setComment('')
     setDetailSuccess(false); setError(null)
   }
@@ -118,11 +111,6 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
       comprehensibility: toDb(comprehensibility),
       relevance: toDb(relevance),
       plausibility: toDb(plausibility),
-      ratingTitle: toDb(ratingTitle),
-      ratingDescription: toDb(ratingDescription),
-      ratingHypotheses: itemType === 'insight' ? toDb(ratingHypotheses) : undefined,
-      ratingReasoning:  itemType === 'measure' ? toDb(ratingReasoning)  : undefined,
-      ratingQuestions:  itemType === 'measure' ? toDb(ratingQuestions)  : undefined,
       notes: comment || undefined,
     })
     setDetailLoading(false)
@@ -202,26 +190,30 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
 
           {showDetails && !detailSuccess && (
             <div className="flex flex-col gap-3 rounded-xl border p-3" style={{ borderColor: '#E5E5E5', backgroundColor: '#FAFAFA' }}>
-              <MetricRating label="Verständlichkeit" description="Ist die Erklärung klar?"        value={comprehensibility} onChange={setComprehensibility} />
-              <MetricRating label="Relevanz"          description="Relevant & umsetzbar?"          value={relevance}          onChange={setRelevance} />
-              <MetricRating label="Plausibilität"     description="Klingt es schlüssig?"           value={plausibility}      onChange={setPlausibility} />
-
-              <div className="border-t pt-3" style={{ borderColor: '#E5E5E5' }}>
-                <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>Details</p>
-                <div className="flex flex-col gap-2.5">
-                  <MetricRating label="Titel"        description="Ist der Titel treffend?"            value={ratingTitle}       onChange={setRatingTitle} />
-                  <MetricRating label="Beschreibung" description="Beschreibung vollständig?"           value={ratingDescription} onChange={setRatingDescription} />
-                  {itemType === 'insight' && (
-                    <MetricRating label="Hypothesen" description="Hypothesen plausibel?"              value={ratingHypotheses}  onChange={setRatingHypotheses} />
-                  )}
-                  {itemType === 'measure' && (
-                    <>
-                      <MetricRating label="Begründung" description="Begründung nachvollziehbar?"      value={ratingReasoning}   onChange={setRatingReasoning} />
-                      <MetricRating label="Fragen"      description="Fragen relevant?"                value={ratingQuestions}   onChange={setRatingQuestions} />
-                    </>
-                  )}
-                </div>
-              </div>
+              <MetricRating
+                label="Verständlichkeit"
+                description={itemType === 'insight'
+                  ? 'Verstehen Sie Aussage und wissen, welche Konsequenzen sich für Sie ergeben?'
+                  : 'Verstehen Sie die Maßnahme und wissen, welche Konsequenzen sich für Sie ergeben?'}
+                value={comprehensibility}
+                onChange={setComprehensibility}
+              />
+              <MetricRating
+                label="Relevanz"
+                description={itemType === 'insight'
+                  ? 'Ist die Erkenntnis relevant für Sie?'
+                  : 'Ist die Maßnahme relevant für Sie?'}
+                value={relevance}
+                onChange={setRelevance}
+              />
+              <MetricRating
+                label="Plausibilität"
+                description={itemType === 'insight'
+                  ? 'Ist die Erkenntnis inhaltlich richtig?'
+                  : 'Ist die Maßnahme inhaltlich richtig?'}
+                value={plausibility}
+                onChange={setPlausibility}
+              />
 
               {/* Comment field */}
               <div className="border-t pt-3" style={{ borderColor: '#E5E5E5' }}>
