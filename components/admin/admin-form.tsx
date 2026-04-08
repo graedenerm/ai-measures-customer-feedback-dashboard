@@ -321,7 +321,7 @@ export function AdminForm({ existingCompanies }: AdminFormProps) {
             </div>
 
             <div>
-              <label style={labelStyle}>Measures JSON *</label>
+              <label style={labelStyle}>Measures JSON</label>
               <input
                 type="file"
                 accept=".json,application/json"
@@ -349,7 +349,7 @@ export function AdminForm({ existingCompanies }: AdminFormProps) {
 
         <button
           type="submit"
-          disabled={loading || !companyName || !slug || !password || !insightsJson || !measuresJson}
+          disabled={loading || !companyName || !slug || !password || !insightsJson}
           style={{
             width: '100%',
             padding: '12px',
