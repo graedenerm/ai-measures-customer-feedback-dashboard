@@ -93,7 +93,6 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
     if (result.success) {
       setPhase('saved')
       setShowDetails(true)   // auto-expand details
-      onSuccess?.()
     } else {
       setPhase('idle')
       setError(result.error ?? 'Fehler beim Speichern.')

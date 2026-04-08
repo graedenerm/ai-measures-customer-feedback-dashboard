@@ -12,7 +12,7 @@ export function CustomerHeader({ companyName }: CustomerHeaderProps) {
   const { evaluatorName, setEvaluatorName } = useEvaluator()
 
   return (
-    <header className="sticky top-0 z-50 border-b shadow-sm" style={{ backgroundColor: '#00095B', borderColor: 'rgba(26,47,238,0.25)' }}>
+    <header className="sticky top-0 z-50 shadow-sm" style={{ backgroundColor: '#00095B' }}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
         {/* Branding */}
         <div className="flex items-center gap-4">
