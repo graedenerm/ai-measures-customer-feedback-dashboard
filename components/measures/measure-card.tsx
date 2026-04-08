@@ -204,32 +204,6 @@ function MeasureDetailModal({
             </div>
           )}
 
-          {/* Questions */}
-          {questions.length > 0 && (
-            <div>
-              <div className="flex items-center gap-1.5 mb-2">
-                <FileText className="size-3.5" style={{ color: '#737373' }} />
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#737373' }}>Fragen</span>
-              </div>
-              <div className="flex flex-col gap-3">
-                {questions.map((q, i) => (
-                  <div key={i} className="rounded-lg border px-3 py-2.5" style={{ backgroundColor: '#FAFAFA', borderColor: '#F0F0F0' }}>
-                    <p className="text-xs font-semibold leading-snug mb-1.5" style={{ color: '#00095B' }}>{q.question}</p>
-                    {q.suggestedAnswers && q.suggestedAnswers.length > 0 && (
-                      <ul className="flex flex-col gap-1">
-                        {q.suggestedAnswers.map((a, j) => (
-                          <li key={j} className="flex items-start gap-1.5 text-[11px]" style={{ color: '#737373' }}>
-                            <span className="mt-[5px] size-1 shrink-0 rounded-full bg-gray-300" />
-                            {a.answer}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
           {/* Rating */}
           <div className="border-t pt-4" style={{ borderColor: '#F0F0F0' }}>
