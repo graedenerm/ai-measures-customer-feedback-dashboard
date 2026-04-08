@@ -307,7 +307,7 @@ export function MeasureCard({ measure, index, onEvaluationSubmitted, compact }: 
               {measure.title}
             </h4>
             {measure.short_description && (
-              <p className="mt-1 text-xs leading-relaxed line-clamp-2" style={{ color: '#737373' }}>
+              <p className="mt-1 text-xs leading-relaxed line-clamp-2" style={{ color: '#000000' }}>
                 {measure.short_description}
               </p>
             )}
