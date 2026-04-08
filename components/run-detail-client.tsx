@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import { MapPin, ChevronRight } from 'lucide-react'
+import { MapPin, ChevronRight, Lightbulb, Wrench } from 'lucide-react'
 import { InsightList } from '@/components/insights/insight-list'
+import { MeasureInlineCard } from '@/components/measures/measure-inline-card'
 import type { RunDetail } from '@/lib/types'
 
 interface RunDetailClientProps {
@@ -25,8 +26,8 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
     return map
   }, [run.locations])
 
-  const hasMultipleLocations = locationIds.length > 1
   const [activeLocation, setActiveLocation] = useState<string>('all')
+  const [view, setView] = useState<'insights' | 'measures'>('insights')
 
   const handleEvaluationSubmitted = () => router.refresh()
 
@@ -45,12 +46,17 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
       ? run.insights
       : run.insights.filter((i) => i.location_id === activeLocation)
 
+  const visibleMeasures = useMemo(
+    () => visibleInsights.flatMap((i) => i.measures),
+    [visibleInsights]
+  )
+
   return (
     <div className="p-6 max-w-6xl mx-auto w-full">
 
-      {/* ── Location selector ── */}
-      {hasMultipleLocations && (
-        <div className="mb-8">
+      {/* ── Location selector (always shown) ── */}
+      {locationIds.length > 0 && (
+        <div className="mb-6">
           <p className="mb-3 text-xs font-bold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
             Standort auswählen
           </p>
@@ -126,8 +132,64 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
         </div>
       )}
 
-      {/* ── Insight list ── */}
-      <InsightList insights={visibleInsights} onEvaluationSubmitted={handleEvaluationSubmitted} />
+      {/* ── View toggle ── */}
+      <div className="mb-6 flex gap-2">
+        {(
+          [
+            { key: 'insights', label: 'Erkenntnisse', Icon: Lightbulb, count: visibleInsights.length },
+            { key: 'measures', label: 'Maßnahmen',    Icon: Wrench,    count: visibleMeasures.length },
+          ] as const
+        ).map(({ key, label, Icon, count }) => {
+          const active = view === key
+          return (
+            <button
+              key={key}
+              onClick={() => setView(key)}
+              className="flex items-center gap-2 rounded-xl border-2 px-4 py-2.5 text-sm font-semibold transition-all"
+              style={{
+                borderColor: active ? '#1A2FEE' : '#E5E5E5',
+                backgroundColor: active ? 'rgba(26,47,238,0.06)' : '#FFFFFF',
+                color: active ? '#1A2FEE' : '#737373',
+                boxShadow: active ? '0 0 0 3px rgba(26,47,238,0.1)' : 'none',
+              }}
+            >
+              <Icon className="size-4" />
+              {label}
+              <span
+                className="rounded-full px-1.5 py-0.5 text-[11px] font-bold"
+                style={{
+                  backgroundColor: active ? '#1A2FEE' : '#F0F0F0',
+                  color: active ? '#FFFFFF' : '#737373',
+                }}
+              >
+                {count}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* ── Content ── */}
+      {view === 'insights' ? (
+        <InsightList insights={visibleInsights} onEvaluationSubmitted={handleEvaluationSubmitted} />
+      ) : (
+        <div className="flex flex-col gap-4">
+          {visibleMeasures.length === 0 ? (
+            <div className="flex items-center justify-center rounded-xl border border-dashed p-16 text-center" style={{ borderColor: '#E5E5E5' }}>
+              <p className="text-sm" style={{ color: '#737373' }}>Keine Maßnahmen verfügbar.</p>
+            </div>
+          ) : (
+            visibleMeasures.map((measure, i) => (
+              <MeasureInlineCard
+                key={measure.id}
+                measure={measure}
+                index={i}
+                onEvaluationSubmitted={handleEvaluationSubmitted}
+              />
+            ))
+          )}
+        </div>
+      )}
     </div>
   )
 }

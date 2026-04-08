@@ -73,6 +73,7 @@ interface InsightCardProps {
 
 export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCardProps) {
   const [expanded, setExpanded] = useState(false)
+  const [detailOpen, setDetailOpen] = useState(false)
 
   const ts = typeStyle(insight.type)
   const cs = confidenceStyle(insight.confidence)
@@ -82,6 +83,7 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
     : null
 
   const raw = insight.raw_json as Record<string, unknown>
+  const summary = typeof raw?.summary === 'string' ? raw.summary : null
   const hypotheses = Array.isArray(raw?.hypotheses)
     ? (raw.hypotheses as { type: string; explanation: string }[]).filter(h => h.type && h.explanation)
     : []
@@ -145,9 +147,9 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
                 {insight.title}
               </h3>
 
-              {insight.description && !expanded && (
+              {(summary || insight.description) && !expanded && (
                 <p className="mt-1 text-xs leading-relaxed line-clamp-2" style={{ color: '#737373' }}>
-                  {insight.description}
+                  {summary ?? insight.description}
                 </p>
               )}
 
@@ -225,14 +227,30 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
                     </div>
                   )}
 
-                  {/* Full description */}
+                  {/* Summary — shown directly if available */}
+                  {summary && (
+                    <p className="text-[13px] leading-relaxed" style={{ color: '#444444' }}>{summary}</p>
+                  )}
+
+                  {/* Detailanalyse — collapsible, contains full description */}
                   {insight.description && (
                     <div>
-                      <div className="flex items-center gap-1.5 mb-2">
-                        <Target className="size-3.5" style={{ color: '#1A2FEE' }} />
-                        <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#1A2FEE' }}>Analyse</span>
-                      </div>
-                      <p className="text-[13px] leading-relaxed" style={{ color: '#444444' }}>{insight.description}</p>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setDetailOpen((p) => !p) }}
+                        className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-opacity hover:opacity-70"
+                        style={{ color: '#1A2FEE' }}
+                      >
+                        <Target className="size-3.5" />
+                        Detailanalyse
+                        {detailOpen
+                          ? <ChevronUp className="size-3.5" />
+                          : <ChevronDown className="size-3.5" />}
+                      </button>
+                      {detailOpen && (
+                        <p className="mt-2 text-[13px] leading-relaxed" style={{ color: '#444444' }}>
+                          {insight.description}
+                        </p>
+                      )}
                     </div>
                   )}
 

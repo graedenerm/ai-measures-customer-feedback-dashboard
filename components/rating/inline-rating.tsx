@@ -27,6 +27,8 @@ const impressionConfig = [
     value: 'positive' as const,
     icon: ThumbsUp,
     label: 'Positiv',
+    descriptionInsight: 'Die Erkenntnis ist korrekt und hilfreich',
+    descriptionMeasure: 'Die Maßnahme ist plausibel und umsetzbar',
     selectedBg: '#059669',
     selectedBorder: '#059669',
     hoverClass: 'hover:border-emerald-400 hover:bg-emerald-50',
@@ -36,6 +38,8 @@ const impressionConfig = [
     value: 'neutral' as const,
     icon: Minus,
     label: 'Neutral',
+    descriptionInsight: 'Die Erkenntnis bringt keinen Mehrwert',
+    descriptionMeasure: 'Die Maßnahme bringt keinen Mehrwert',
     selectedBg: '#52525b',
     selectedBorder: '#52525b',
     hoverClass: 'hover:border-zinc-400 hover:bg-zinc-50',
@@ -45,6 +49,8 @@ const impressionConfig = [
     value: 'negative' as const,
     icon: ThumbsDown,
     label: 'Negativ',
+    descriptionInsight: 'Die Erkenntnis ist inkorrekt',
+    descriptionMeasure: 'Die Maßnahme ist nicht umsetzbar oder relevant',
     selectedBg: '#dc2626',
     selectedBorder: '#dc2626',
     hoverClass: 'hover:border-red-400 hover:bg-red-50',
@@ -137,9 +143,10 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
           Gesamteindruck
         </p>
         <div className="flex flex-col gap-2">
-          {impressionConfig.map(({ value, icon: Icon, label, selectedBg, selectedBorder, hoverClass, hoverColor }) => {
+          {impressionConfig.map(({ value, icon: Icon, label, descriptionInsight, descriptionMeasure, selectedBg, selectedBorder, hoverClass, hoverColor }) => {
             const isSelected = impression === value
             const isSaving   = phase === 'saving' && isSelected
+            const description = itemType === 'insight' ? descriptionInsight : descriptionMeasure
             return (
               <button
                 key={value}
@@ -147,7 +154,7 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
                 disabled={phase === 'saving'}
                 onClick={() => handleImpressionClick(value)}
                 className={cn(
-                  'flex items-center gap-3 rounded-xl border-2 px-4 py-3 text-sm font-semibold transition-all disabled:opacity-60',
+                  'flex items-center gap-3 rounded-xl border-2 px-4 py-3 text-left transition-all disabled:opacity-60',
                   isSelected ? '' : cn('border-gray-200 bg-white', hoverClass),
                 )}
                 style={isSelected
@@ -157,10 +164,15 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
                 {isSaving
                   ? <Loader2 className="size-5 shrink-0 animate-spin" />
                   : <Icon className="size-5 shrink-0" />}
-                {label}
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold leading-tight">{label}</span>
+                  <span className="text-[11px] font-normal leading-snug" style={{ opacity: isSelected ? 0.85 : 0.7 }}>
+                    {description}
+                  </span>
+                </div>
                 {/* Saved tick */}
                 {phase === 'saved' && isSelected && (
-                  <CheckCircle2 className="ml-auto size-4 opacity-80" />
+                  <CheckCircle2 className="ml-auto size-4 shrink-0 opacity-80" />
                 )}
               </button>
             )
