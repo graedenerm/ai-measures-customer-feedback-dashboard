@@ -145,8 +145,8 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
                 {insight.title}
               </h3>
 
-              {insight.description && (
-                <p className={`mt-1 text-xs leading-relaxed ${expanded ? '' : 'line-clamp-2'}`} style={{ color: '#737373' }}>
+              {insight.description && !expanded && (
+                <p className="mt-1 text-xs leading-relaxed line-clamp-2" style={{ color: '#737373' }}>
                   {insight.description}
                 </p>
               )}
