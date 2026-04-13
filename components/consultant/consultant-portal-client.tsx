@@ -32,7 +32,7 @@ export function ConsultantPortalClient({
 }: ConsultantPortalClientProps) {
   const [evaluations, setEvaluations] = useState<ConsultantEvaluation[]>(initialEvaluations)
   const [tab, setTab] = useState<Tab>('toRate')
-  const [layout, setLayout] = useState<Layout>('list')
+  const [layout, setLayout] = useState<Layout>('card')
   const [cardIndex, setCardIndex] = useState(0)
   const [reEvalTarget, setReEvalTarget] = useState<ReEvalTarget | null>(null)
 
