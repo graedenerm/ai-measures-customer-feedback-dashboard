@@ -39,6 +39,7 @@ export async function uploadConsultantInsights(
   const inserts: InsertConsultantInsight[] = rawInsights.map((raw) => ({
     consultant_portal_id: portalId,
     source_file: sourceFile,
+    original_insight_id: raw.id ?? null,
     insight_title: raw.title,
     insight_description: raw.description ?? null,
     insight_raw: raw as unknown as Record<string, unknown>,

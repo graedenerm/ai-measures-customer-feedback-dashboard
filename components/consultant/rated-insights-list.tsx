@@ -1,10 +1,12 @@
 'use client'
 
+import { Pencil } from 'lucide-react'
 import type { ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-types'
 
 interface RatedInsightsListProps {
   insights: ConsultantInsight[]
   evaluations: ConsultantEvaluation[]
+  onReEvaluate: (insight: ConsultantInsight, evaluation: ConsultantEvaluation) => void
 }
 
 function scoreCell(value: number | null) {
@@ -21,7 +23,7 @@ function scoreCell(value: number | null) {
   )
 }
 
-export function RatedInsightsList({ insights, evaluations }: RatedInsightsListProps) {
+export function RatedInsightsList({ insights, evaluations, onReEvaluate }: RatedInsightsListProps) {
   const evalMap = new Map(evaluations.map((e) => [e.consultant_insight_id, e]))
   const ratedInsights = insights.filter((i) => evalMap.has(i.id))
 
@@ -38,7 +40,7 @@ export function RatedInsightsList({ insights, evaluations }: RatedInsightsListPr
       <table className="w-full text-left" style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ backgroundColor: '#f8f9ff', borderBottom: '1px solid #E5E5E5' }}>
-            {['#', 'Erkenntnis', 'Verständl.', 'Plausib.', 'Aktionab.', 'Gesamt', 'Kommentar', 'Bewertet'].map((h) => (
+            {['#', 'Erkenntnis', 'Verständl.', 'Plausib.', 'Aktionab.', 'Gesamt', 'Kommentar', 'Bewertet', ''].map((h) => (
               <th
                 key={h}
                 style={{
@@ -60,22 +62,16 @@ export function RatedInsightsList({ insights, evaluations }: RatedInsightsListPr
           {ratedInsights.map((insight, idx) => {
             const ev = evalMap.get(insight.id)!
             return (
-              <tr
-                key={insight.id}
-                style={{ borderBottom: '1px solid #F0F0F0' }}
-              >
+              <tr key={insight.id} style={{ borderBottom: '1px solid #F0F0F0' }}>
                 {/* # */}
                 <td style={{ padding: '10px 14px', fontSize: '12px', color: '#AEAEAE', fontWeight: 600 }}>
                   {idx + 1}
                 </td>
 
-                {/* Title */}
+                {/* Title — no source file */}
                 <td style={{ padding: '10px 14px', minWidth: '200px', maxWidth: '280px' }}>
                   <p style={{ fontSize: '12px', fontWeight: 600, color: '#00095B', lineHeight: 1.4 }}>
                     {insight.insight_title}
-                  </p>
-                  <p style={{ fontSize: '10px', color: '#9ca3af', marginTop: '2px' }}>
-                    {insight.source_file}
                   </p>
                 </td>
 
@@ -88,10 +84,7 @@ export function RatedInsightsList({ insights, evaluations }: RatedInsightsListPr
                 {/* Comment */}
                 <td style={{ padding: '10px 14px', maxWidth: '200px' }}>
                   {ev.notes ? (
-                    <p
-                      style={{ fontSize: '11px', color: '#737373', lineHeight: 1.4 }}
-                      title={ev.notes}
-                    >
+                    <p style={{ fontSize: '11px', color: '#737373', lineHeight: 1.4 }} title={ev.notes}>
                       {ev.notes.length > 60 ? ev.notes.slice(0, 60) + '…' : ev.notes}
                     </p>
                   ) : (
@@ -106,6 +99,19 @@ export function RatedInsightsList({ insights, evaluations }: RatedInsightsListPr
                       day: '2-digit', month: 'short', year: 'numeric',
                     })}
                   </p>
+                </td>
+
+                {/* Ändern button */}
+                <td style={{ padding: '10px 14px' }}>
+                  <button
+                    type="button"
+                    onClick={() => onReEvaluate(insight, ev)}
+                    className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors hover:bg-blue-50"
+                    style={{ borderColor: '#E5E5E5', color: '#1A2FEE' }}
+                    title="Bewertung ändern"
+                  >
+                    <Pencil className="size-3" /> Ändern
+                  </button>
                 </td>
               </tr>
             )

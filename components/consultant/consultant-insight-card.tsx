@@ -5,7 +5,7 @@ import {
   TrendingUp, AlertTriangle, Shield, Euro, Zap,
   Info, Target, ChevronDown, ChevronUp, CheckCircle2,
 } from 'lucide-react'
-import { ConsultantRatingForm } from './consultant-rating-form'
+import { ConsultantRatingForm, type InitialRatingValues } from './consultant-rating-form'
 import type { ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-types'
 
 // ── Style helpers (mirrors the existing insight-card.tsx helpers) ──────────────
@@ -52,6 +52,9 @@ interface ConsultantInsightCardProps {
   evaluation: ConsultantEvaluation | null
   evaluatorName: string
   onRated: (evaluation: ConsultantEvaluation) => void
+  // When set, shows the rating form pre-filled for re-evaluation (UPDATE mode)
+  existingEvaluationId?: string
+  initialValues?: InitialRatingValues
 }
 
 export function ConsultantInsightCard({
@@ -60,6 +63,8 @@ export function ConsultantInsightCard({
   evaluation,
   evaluatorName,
   onRated,
+  existingEvaluationId,
+  initialValues,
 }: ConsultantInsightCardProps) {
   // Detailanalyse open by default (as requested)
   const [detailOpen, setDetailOpen] = useState(true)
@@ -210,9 +215,9 @@ export function ConsultantInsightCard({
 
             {/* Mobile rating (below content) */}
             <div className="border-t pt-4 lg:hidden" style={{ borderColor: '#F0F0F0' }}>
-              {evaluation
+              {evaluation && !existingEvaluationId
                 ? <RatedSummary evaluation={evaluation} />
-                : <ConsultantRatingForm insightId={insight.id} evaluatorName={evaluatorName} onSubmitted={onRated} />}
+                : <ConsultantRatingForm insightId={insight.id} evaluatorName={evaluatorName} onSubmitted={onRated} existingEvaluationId={existingEvaluationId} initialValues={initialValues} />}
             </div>
           </div>
         </div>
@@ -223,9 +228,9 @@ export function ConsultantInsightCard({
           style={{ borderColor: '#F0F0F0', backgroundColor: '#FAFCFF' }}
         >
           <div className="p-5 h-full">
-            {evaluation
+            {evaluation && !existingEvaluationId
               ? <RatedSummary evaluation={evaluation} />
-              : <ConsultantRatingForm insightId={insight.id} evaluatorName={evaluatorName} onSubmitted={onRated} />}
+              : <ConsultantRatingForm insightId={insight.id} evaluatorName={evaluatorName} onSubmitted={onRated} existingEvaluationId={existingEvaluationId} initialValues={initialValues} />}
           </div>
         </div>
 

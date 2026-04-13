@@ -14,6 +14,7 @@ export interface ConsultantInsight {
   id: string
   consultant_portal_id: string
   source_file: string
+  original_insight_id: string | null   // id from the pipeline JSON — allows matching with insights table
   insight_title: string
   insight_description: string | null
   insight_raw: Record<string, unknown> | null

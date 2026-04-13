@@ -53,6 +53,45 @@ export async function submitConsultantEvaluation(
   }
 }
 
+// ─── Update (re-evaluation) ───────────────────────────────────────────────────
+
+export async function updateConsultantEvaluation(
+  evaluationId: string,
+  data: {
+    verstaendlichkeit: number | null
+    plausibilitaet: number | null
+    aktionabilitaet: number | null
+    gesamteindruck: number | null
+    notes?: string
+  }
+): Promise<SubmitConsultantEvaluationResult> {
+  try {
+    const supabase = await createClient()
+
+    const { data: result, error } = await supabase
+      .from('evaluations_consultant')
+      .update({
+        verstaendlichkeit: data.verstaendlichkeit,
+        plausibilitaet: data.plausibilitaet,
+        aktionabilitaet: data.aktionabilitaet,
+        gesamteindruck: data.gesamteindruck,
+        notes: data.notes?.trim() || null,
+      })
+      .eq('id', evaluationId)
+      .select('*')
+      .single()
+
+    if (error || !result) {
+      return { success: false, error: error?.message ?? 'Fehler beim Aktualisieren.' }
+    }
+
+    return { success: true, evaluation: result as ConsultantEvaluation }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unbekannter Fehler'
+    return { success: false, error: message }
+  }
+}
+
 // ─── Read ─────────────────────────────────────────────────────────────────────
 
 export async function getEvaluationsForPortal(
