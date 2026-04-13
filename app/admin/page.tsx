@@ -15,9 +15,20 @@ export default async function AdminPage() {
             <p className="text-base font-bold text-white">ecoplanet Admin</p>
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>Kundenportal-Verwaltung</p>
           </div>
-          <span className="rounded-full px-3 py-1 text-xs font-medium text-white" style={{ backgroundColor: 'rgba(26,47,238,0.5)' }}>
-            {companies.length} {companies.length === 1 ? 'Kunde' : 'Kunden'}
-          </span>
+          <div className="flex items-center gap-3">
+            <a
+              href="/admin/consultant"
+              style={{
+                fontSize: '12px', color: 'rgba(255,255,255,0.7)', textDecoration: 'none',
+                padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.2)',
+              }}
+            >
+              Consultant-Portale →
+            </a>
+            <span className="rounded-full px-3 py-1 text-xs font-medium text-white" style={{ backgroundColor: 'rgba(26,47,238,0.5)' }}>
+              {companies.length} {companies.length === 1 ? 'Kunde' : 'Kunden'}
+            </span>
+          </div>
         </div>
       </div>
 
