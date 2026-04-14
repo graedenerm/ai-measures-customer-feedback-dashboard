@@ -4,6 +4,7 @@ import { useState } from 'react'
 import {
   TrendingUp, AlertTriangle, Shield, Euro, Zap,
   Info, Target, ChevronDown, ChevronUp, CheckCircle2,
+  Calendar, Activity,
 } from 'lucide-react'
 import { ConsultantRatingForm, type InitialRatingValues } from './consultant-rating-form'
 import type { ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-types'
@@ -70,16 +71,29 @@ export function ConsultantInsightCard({
   const [detailOpen, setDetailOpen] = useState(true)
 
   const raw = insight.insight_raw ?? {}
-  const type = (raw.type as string | undefined) ?? 'structural'
+
+  // Support both old camelCase format and new flat snake_case format
+  const type = (raw.finding_type as string | undefined) ?? (raw.type as string | undefined) ?? 'structural'
   const ts = typeStyle(type)
   const confidence = (raw.confidence as number | null | undefined) ?? null
   const cs = confidenceStyle(confidence)
-  const savingsEur = (raw.savingsEurPerYear as number | null | undefined) ?? null
-  const savingsKwh = (raw.savingsKwhPerYear as number | null | undefined) ?? null
+  const savingsEur = (raw.savings_eur as number | null | undefined) ?? (raw.savingsEurPerYear as number | null | undefined) ?? null
+  const savingsKwh = (raw.savings_kwh as number | null | undefined) ?? (raw.savingsKwhPerYear as number | null | undefined) ?? null
   const summary = typeof raw.summary === 'string' ? raw.summary : null
   const hypotheses = Array.isArray(raw.hypotheses)
     ? (raw.hypotheses as { type: string; explanation: string }[]).filter((h) => h.type && h.explanation)
     : []
+
+  // Trend-specific fields (only present in new format)
+  const trendActive = typeof raw.active === 'boolean' ? raw.active : null
+  const trendStartDate = typeof raw.trend_start_date === 'string' ? raw.trend_start_date : null
+  const trendEndDate = typeof raw.trend_end_date === 'string' ? raw.trend_end_date : null
+  const trendNumPeriods = typeof raw.trend_num_periods === 'number' ? raw.trend_num_periods : null
+  const slopePerPeriod = typeof raw.slope_per_period === 'number' ? raw.slope_per_period : null
+  const slopePct = typeof raw.slope_percent_per_period === 'number' ? raw.slope_percent_per_period : null
+  const periodUnit = typeof raw.period_unit === 'string' ? raw.period_unit : null
+  const findingUnit = typeof raw.finding_unit === 'string' ? raw.finding_unit : null
+  const hasTrendDetails = trendStartDate !== null || slopePerPeriod !== null || trendActive !== null
 
   return (
     <div
@@ -113,6 +127,13 @@ export function ConsultantInsightCard({
                 {cs && (
                   <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: cs.bg, color: cs.text }}>
                     <Shield className="size-2.5" /> Konfidenz {cs.label}
+                  </span>
+                )}
+                {trendActive !== null && (
+                  <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={trendActive
+                    ? { backgroundColor: 'rgba(5,150,105,0.08)', color: '#059669' }
+                    : { backgroundColor: 'rgba(0,0,0,0.04)', color: '#737373' }}>
+                    <Activity className="size-2.5" /> {trendActive ? 'Aktiv' : 'Beendet'}
                   </span>
                 )}
                 {savingsEur !== null && (
@@ -209,6 +230,42 @@ export function ConsultantInsightCard({
                       </div>
                     )
                   })}
+                </div>
+              </div>
+            )}
+
+            {/* Trend Details */}
+            {hasTrendDetails && (
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <Calendar className="size-3.5" style={{ color: '#737373' }} />
+                  <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#737373' }}>Trend-Details</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {trendStartDate && trendEndDate && (
+                    <div className="rounded-lg border px-3 py-2" style={{ borderColor: '#F0F0F0', backgroundColor: '#FAFAFA' }}>
+                      <p className="text-[10px] font-medium uppercase tracking-wider mb-0.5" style={{ color: '#AEAEAE' }}>Zeitraum</p>
+                      <p className="text-[12px] font-semibold" style={{ color: '#00095B' }}>
+                        {new Date(trendStartDate).toLocaleDateString('de-DE', { day: '2-digit', month: 'short' })}
+                        {' – '}
+                        {new Date(trendEndDate).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </p>
+                      {trendNumPeriods !== null && (
+                        <p className="text-[10px] mt-0.5" style={{ color: '#AEAEAE' }}>{trendNumPeriods} {periodUnit ?? 'Perioden'}</p>
+                      )}
+                    </div>
+                  )}
+                  {slopePerPeriod !== null && (
+                    <div className="rounded-lg border px-3 py-2" style={{ borderColor: '#F0F0F0', backgroundColor: '#FAFAFA' }}>
+                      <p className="text-[10px] font-medium uppercase tracking-wider mb-0.5" style={{ color: '#AEAEAE' }}>Anstieg / {periodUnit ?? 'Periode'}</p>
+                      <p className="text-[12px] font-semibold font-mono" style={{ color: '#00095B' }}>
+                        {slopePerPeriod.toLocaleString('de-DE', { maximumFractionDigits: 1 })} {findingUnit ?? ''}
+                      </p>
+                      {slopePct !== null && (
+                        <p className="text-[10px] mt-0.5" style={{ color: '#AEAEAE' }}>+{slopePct.toLocaleString('de-DE', { maximumFractionDigits: 1 })} %</p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             )}

@@ -1,10 +1,11 @@
 import { getConsultantPortals } from '@/actions/consultant-portals'
+import { getCompanies } from '@/actions/runs'
 import { ConsultantAdminClient } from '@/components/admin/consultant-admin-client'
 
 export const metadata = { title: 'Admin – Consultant Portale' }
 
 export default async function ConsultantAdminPage() {
-  const portals = await getConsultantPortals()
+  const [portals, companies] = await Promise.all([getConsultantPortals(), getCompanies()])
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#f8f9ff' }}>
@@ -28,7 +29,7 @@ export default async function ConsultantAdminPage() {
       </div>
 
       <div className="mx-auto max-w-3xl px-6 py-8">
-        <ConsultantAdminClient portals={portals} />
+        <ConsultantAdminClient portals={portals} companies={companies} />
       </div>
     </div>
   )

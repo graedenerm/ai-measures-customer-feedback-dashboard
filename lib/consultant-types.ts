@@ -7,6 +7,7 @@ export interface ConsultantPortal {
   slug: string
   password: string
   evaluator_name: string
+  company_id: string | null   // FK → companies.id; set at portal creation
   created_at: string
 }
 
@@ -14,7 +15,8 @@ export interface ConsultantInsight {
   id: string
   consultant_portal_id: string
   source_file: string
-  original_insight_id: string | null   // id from the pipeline JSON — allows matching with insights table
+  original_insight_id: string | null   // id/insight_id from the pipeline JSON
+  original_location_id: number | null  // location_id/locationId from the pipeline JSON
   insight_title: string
   insight_description: string | null
   insight_raw: Record<string, unknown> | null

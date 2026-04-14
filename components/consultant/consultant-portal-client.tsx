@@ -9,6 +9,29 @@ import type { InitialRatingValues } from './consultant-rating-form'
 
 type Tab = 'toRate' | 'rated'
 type Layout = 'list' | 'card'
+type TypeFilter = 'all' | 'anomaly' | 'trend' | 'structural'
+type ConfidenceFilter = 'all' | '0-25' | '25-50' | '50-75' | '75-100'
+type ActiveFilter = 'all' | 'active' | 'ended'
+
+// ── Filter helpers ────────────────────────────────────────────────────────────
+
+function getRawType(raw: Record<string, unknown> | null): TypeFilter {
+  const t = ((raw?.finding_type ?? raw?.type ?? '') as string).toLowerCase()
+  if (t.includes('anomaly')) return 'anomaly'
+  if (t.includes('trend'))   return 'trend'
+  return 'structural'
+}
+
+function getRawConfidencePct(raw: Record<string, unknown> | null): number | null {
+  const c = raw?.confidence
+  if (typeof c !== 'number') return null
+  return c > 1 ? c : c * 100
+}
+
+function getRawActive(raw: Record<string, unknown> | null): boolean | null {
+  const a = raw?.active
+  return typeof a === 'boolean' ? a : null
+}
 
 interface ReEvalTarget {
   insight: ConsultantInsight
@@ -36,6 +59,11 @@ export function ConsultantPortalClient({
   const [cardIndex, setCardIndex] = useState(0)
   const [reEvalTarget, setReEvalTarget] = useState<ReEvalTarget | null>(null)
 
+  // Filters
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>('all')
+  const [confidenceFilter, setConfidenceFilter] = useState<ConfidenceFilter>('all')
+  const [activeFilter, setActiveFilter] = useState<ActiveFilter>('all')
+
   const ratedIds = new Set(evaluations.map((e) => e.consultant_insight_id))
   const toRate = insights.filter((i) => !ratedIds.has(i.id))
   const evalMap = new Map(evaluations.map((e) => [e.consultant_insight_id, e]))
@@ -44,11 +72,40 @@ export function ConsultantPortalClient({
   const totalCount = insights.length
   const progress = totalCount > 0 ? Math.round((ratedCount / totalCount) * 100) : 0
 
+  // Apply filters (progress/counts always reflect all insights)
+  const filteredInsights = insights.filter((insight) => {
+    const raw = insight.insight_raw ?? {}
+
+    if (typeFilter !== 'all' && getRawType(raw) !== typeFilter) return false
+
+    if (confidenceFilter !== 'all') {
+      const pct = getRawConfidencePct(raw)
+      if (pct === null) return false
+      if (confidenceFilter === '0-25'  && !(pct >= 0  && pct <= 25)) return false
+      if (confidenceFilter === '25-50' && !(pct >  25 && pct <= 50)) return false
+      if (confidenceFilter === '50-75' && !(pct >  50 && pct <= 75)) return false
+      if (confidenceFilter === '75-100'&& !(pct >  75             )) return false
+    }
+
+    if (activeFilter !== 'all' && typeFilter === 'trend') {
+      const active = getRawActive(raw)
+      if (activeFilter === 'active' && active !== true)  return false
+      if (activeFilter === 'ended'  && active !== false) return false
+    }
+
+    return true
+  })
+
+  const filteredToRate = filteredInsights.filter((i) => !ratedIds.has(i.id))
+
   useEffect(() => {
     if (cardIndex >= toRate.length && toRate.length > 0) {
       setCardIndex(Math.max(0, toRate.length - 1))
     }
   }, [toRate.length, cardIndex])
+
+  // Reset card index when filters change
+  useEffect(() => { setCardIndex(0) }, [typeFilter, confidenceFilter, activeFilter])
 
   // New evaluation submitted
   function handleRated(evaluation: ConsultantEvaluation) {
@@ -80,7 +137,7 @@ export function ConsultantPortalClient({
     return () => window.removeEventListener('keydown', onKey)
   }, [reEvalTarget])
 
-  const currentCardInsight = toRate[cardIndex] ?? null
+  const currentCardInsight = filteredToRate[cardIndex] ?? null
 
   return (
     <div className="flex min-h-screen flex-col" style={{ backgroundColor: '#f8f9ff' }}>
@@ -195,10 +252,94 @@ export function ConsultantPortalClient({
           )}
         </div>
 
+        {/* ── Filters ── */}
+        <div className="mb-5 flex flex-col gap-2">
+          {/* Row 1: Type */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Typ</span>
+            {([
+              { key: 'all',        label: 'Alle' },
+              { key: 'anomaly',    label: 'Anomalie' },
+              { key: 'trend',      label: 'Trend' },
+              { key: 'structural', label: 'Strukturell' },
+            ] as { key: TypeFilter; label: string }[]).map(({ key, label }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => {
+                  setTypeFilter(key)
+                  if (key !== 'trend') setActiveFilter('all')
+                }}
+                className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
+                style={typeFilter === key
+                  ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
+                  : { backgroundColor: '#ffffff', color: '#737373', border: '1px solid #E5E5E5' }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* Row 2: Confidence */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Konfidenz</span>
+            {([
+              { key: 'all',    label: 'Alle' },
+              { key: '0-25',   label: '0–25 %' },
+              { key: '25-50',  label: '25–50 %' },
+              { key: '50-75',  label: '50–75 %' },
+              { key: '75-100', label: '75–100 %' },
+            ] as { key: ConfidenceFilter; label: string }[]).map(({ key, label }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setConfidenceFilter(key)}
+                className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
+                style={confidenceFilter === key
+                  ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
+                  : { backgroundColor: '#ffffff', color: '#737373', border: '1px solid #E5E5E5' }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* Row 3: Active status — only for trend */}
+          {typeFilter === 'trend' && (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Status</span>
+              {([
+                { key: 'all',    label: 'Alle' },
+                { key: 'active', label: 'Aktiv' },
+                { key: 'ended',  label: 'Beendet' },
+              ] as { key: ActiveFilter; label: string }[]).map(({ key, label }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setActiveFilter(key)}
+                  className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
+                  style={activeFilter === key
+                    ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
+                    : { backgroundColor: '#ffffff', color: '#737373', border: '1px solid #E5E5E5' }}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Match count */}
+          {(typeFilter !== 'all' || confidenceFilter !== 'all' || activeFilter !== 'all') && (
+            <p className="text-[11px]" style={{ color: '#9ca3af' }}>
+              {filteredInsights.length} von {insights.length} Erkenntnissen entsprechen den Filtern
+            </p>
+          )}
+        </div>
+
         {/* ── "Zu bewerten" tab ── */}
         {tab === 'toRate' && (
           <>
-            {toRate.length === 0 ? (
+            {filteredToRate.length === 0 ? (
               <div className="flex flex-col items-center gap-3 py-20 text-center">
                 <p className="text-2xl">✓</p>
                 <p className="text-base font-bold" style={{ color: '#059669' }}>Alle Erkenntnisse bewertet!</p>
@@ -216,7 +357,7 @@ export function ConsultantPortalClient({
               </div>
             ) : layout === 'list' ? (
               <div className="flex flex-col gap-6">
-                {insights.map((insight, idx) => (
+                {filteredInsights.map((insight, idx) => (
                   <ConsultantInsightCard
                     key={insight.id}
                     insight={insight}
@@ -240,12 +381,12 @@ export function ConsultantPortalClient({
                     <ChevronLeft className="size-4" /> Zurück
                   </button>
                   <span className="text-sm font-medium" style={{ color: '#737373' }}>
-                    {cardIndex + 1} / {toRate.length} noch zu bewerten
+                    {cardIndex + 1} / {filteredToRate.length} noch zu bewerten
                   </span>
                   <button
                     type="button"
-                    disabled={cardIndex >= toRate.length - 1}
-                    onClick={() => setCardIndex((p) => Math.min(toRate.length - 1, p + 1))}
+                    disabled={cardIndex >= filteredToRate.length - 1}
+                    onClick={() => setCardIndex((p) => Math.min(filteredToRate.length - 1, p + 1))}
                     className="flex items-center gap-1.5 rounded-xl border px-4 py-2 text-sm font-medium transition-all disabled:opacity-30"
                     style={{ borderColor: '#E5E5E5', color: '#374151', backgroundColor: '#ffffff' }}
                   >
@@ -256,13 +397,13 @@ export function ConsultantPortalClient({
                   <ConsultantInsightCard
                     key={currentCardInsight.id}
                     insight={currentCardInsight}
-                    index={insights.indexOf(currentCardInsight)}
+                    index={filteredInsights.indexOf(currentCardInsight)}
                     evaluation={null}
                     evaluatorName={evaluatorName}
                     onRated={(ev) => {
                       handleRated(ev)
                       setTimeout(() => {
-                        setCardIndex((prev) => Math.min(prev, Math.max(0, toRate.length - 2)))
+                        setCardIndex((prev) => Math.min(prev, Math.max(0, filteredToRate.length - 2)))
                       }, 1000)
                     }}
                   />

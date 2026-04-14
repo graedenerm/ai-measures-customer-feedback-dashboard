@@ -2,8 +2,6 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { ConsultantInsight, InsertConsultantInsight } from '@/lib/consultant-types'
-import type { RawInsightJson } from '@/lib/types'
-
 // ─── Upload ───────────────────────────────────────────────────────────────────
 
 export interface UploadConsultantInsightsResult {
@@ -12,16 +10,19 @@ export interface UploadConsultantInsightsResult {
   error?: string
 }
 
+// Accepts both the old camelCase format and the new flat snake_case format.
+type AnyInsightJson = Record<string, unknown>
+
 /**
  * Parse a raw insights JSON string and insert each insight into consultant_insights.
- * Uses the same JSON format as the customer pipeline output.
+ * Compatible with the old camelCase pipeline format and the new flat snake_case format.
  */
 export async function uploadConsultantInsights(
   portalId: string,
   sourceFile: string,
   insightsJson: string
 ): Promise<UploadConsultantInsightsResult> {
-  let rawInsights: RawInsightJson[]
+  let rawInsights: AnyInsightJson[]
 
   try {
     const parsed = JSON.parse(insightsJson)
@@ -39,10 +40,13 @@ export async function uploadConsultantInsights(
   const inserts: InsertConsultantInsight[] = rawInsights.map((raw) => ({
     consultant_portal_id: portalId,
     source_file: sourceFile,
-    original_insight_id: raw.id ?? null,
-    insight_title: raw.title,
-    insight_description: raw.description ?? null,
-    insight_raw: raw as unknown as Record<string, unknown>,
+    // new format uses insight_id; old format uses id
+    original_insight_id: (raw.insight_id as string | undefined) ?? (raw.id as string | undefined) ?? null,
+    // new format uses location_id (snake_case); old format uses locationId (camelCase)
+    original_location_id: (raw.location_id as number | undefined) ?? (raw.locationId as number | undefined) ?? null,
+    insight_title: (raw.title as string) ?? '',
+    insight_description: (raw.description as string | undefined) ?? null,
+    insight_raw: raw,
   }))
 
   const { error } = await supabase
