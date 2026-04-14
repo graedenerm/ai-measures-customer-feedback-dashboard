@@ -13,10 +13,10 @@ import type { ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-t
 
 function typeStyle(type: string) {
   if (type.includes('anomaly'))
-    return { bg: 'rgba(220,38,38,0.08)', text: '#dc2626', label: 'Anomalie', isAnomaly: true }
+    return { bg: 'rgba(220,38,38,0.08)', text: '#dc2626', label: 'Anomalie', isAnomaly: true,  isTrend: false }
   if (type.includes('trend'))
-    return { bg: 'rgba(168,85,247,0.08)', text: '#7c3aed', label: 'Trend', isAnomaly: false }
-  return { bg: 'rgba(26,47,238,0.08)', text: '#1A2FEE', label: 'Strukturell', isAnomaly: false }
+    return { bg: 'rgba(168,85,247,0.08)', text: '#7c3aed', label: 'Trend',    isAnomaly: false, isTrend: true  }
+  return   { bg: 'rgba(26,47,238,0.08)',  text: '#1A2FEE', label: 'Strukturell', isAnomaly: false, isTrend: false }
 }
 
 function confidenceStyle(c: number | null) {
@@ -124,7 +124,7 @@ export function ConsultantInsightCard({
                 <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: ts.bg, color: ts.text }}>
                   {ts.label}
                 </span>
-                {cs && (
+                {cs && !ts.isTrend && (
                   <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: cs.bg, color: cs.text }}>
                     <Shield className="size-2.5" /> Konfidenz {cs.label}
                   </span>
