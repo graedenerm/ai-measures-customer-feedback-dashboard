@@ -90,7 +90,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
   const [pendingFiles, setPendingFiles] = useState<PendingFile[]>([])
   const [uploadCompanyId, setUploadCompanyId] = useState('')
   const [uploadLoading, setUploadLoading] = useState(false)
-  const [uploadResults, setUploadResults] = useState<{ file: string; count: number }[]>([])
+  const [uploadResults, setUploadResults] = useState<{ file: string; count: number; added: number; skipped: number }[]>([])
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -191,7 +191,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
     setUploadError(null)
     setUploadResults([])
 
-    const results: { file: string; count: number }[] = []
+    const results: { file: string; count: number; added: number; skipped: number }[] = []
 
     for (const file of validFiles) {
       const result = await uploadConsultantInsights(portalId, file.name, file.content, uploadCompanyId || null)
@@ -200,10 +200,10 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
         setUploadLoading(false)
         return
       }
-      results.push({ file: file.name, count: result.count ?? 0 })
+      results.push({ file: file.name, count: result.count ?? 0, added: result.added ?? 0, skipped: result.skipped ?? 0 })
     }
 
-    const totalInsights = results.reduce((sum, r) => sum + r.count, 0)
+    const totalInsights = results.reduce((sum, r) => sum + r.added, 0)
     setUploadResults(results)
     setPendingFiles([])
     setUploadLoading(false)
@@ -395,11 +395,16 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                       {uploadResults.length > 0 && (
                         <div style={{ padding: '10px 14px', borderRadius: '8px', backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', marginBottom: '12px' }}>
                           <p style={{ fontSize: '13px', fontWeight: 600, color: '#065f46' }}>
-                            ✓ {uploadResults.reduce((s, r) => s + r.count, 0)} Erkenntnisse hochgeladen
+                            ✓ {uploadResults.reduce((s, r) => s + r.added, 0)} neu zugewiesen
+                            {uploadResults.reduce((s, r) => s + r.skipped, 0) > 0 && (
+                              <span style={{ fontWeight: 400, color: '#6b7280' }}>
+                                {' · '}{uploadResults.reduce((s, r) => s + r.skipped, 0)} bereits vorhanden (übersprungen)
+                              </span>
+                            )}
                           </p>
                           {uploadResults.map((r) => (
                             <p key={r.file} style={{ fontSize: '11px', color: '#047857', marginTop: '2px' }}>
-                              {r.file}: {r.count} Erkenntnisse
+                              {r.file}: {r.added} neu{r.skipped > 0 ? `, ${r.skipped} übersprungen` : ''}
                             </p>
                           ))}
                         </div>
