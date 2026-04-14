@@ -26,6 +26,7 @@ export function AdminForm({ existingCompanies }: AdminFormProps) {
   const [slugEdited, setSlugEdited] = useState(false)
   const [password, setPassword] = useState('')
   const [industry, setIndustry] = useState('')
+  const [ecoplanetCustomerId, setEcoplanetCustomerId] = useState('')
   const [version, setVersion] = useState('1.0')
   const [runDate, setRunDate] = useState(new Date().toISOString().split('T')[0])
   const [notes, setNotes] = useState('')
@@ -69,6 +70,7 @@ export function AdminForm({ existingCompanies }: AdminFormProps) {
         slug: slug.trim(),
         password: password.trim(),
         industry: industry.trim() || undefined,
+        ecoplanet_customer_id: ecoplanetCustomerId.trim() || undefined,
       })
 
       if ('error' in companyResult) {
@@ -107,6 +109,7 @@ export function AdminForm({ existingCompanies }: AdminFormProps) {
       setSlugEdited(false)
       setPassword('')
       setIndustry('')
+      setEcoplanetCustomerId('')
       setVersion('1.0')
       setRunDate(new Date().toISOString().split('T')[0])
       setNotes('')
@@ -180,7 +183,7 @@ export function AdminForm({ existingCompanies }: AdminFormProps) {
                   <div>
                     <p style={{ fontSize: '13px', fontWeight: 600, color: '#00095B' }}>{c.name}</p>
                     <p style={{ fontSize: '11px', color: '#9ca3af' }}>
-                      {c.slug ? `/${c.slug}` : 'Kein Slug'} · {c.active_run_id ? 'Run aktiv' : 'Kein aktiver Run'}
+                      {c.ecoplanet_customer_id ? `${c.ecoplanet_customer_id} · ` : ''}{c.slug ? `/${c.slug}` : 'Kein Slug'} · {c.active_run_id ? 'Run aktiv' : 'Kein aktiver Run'}
                     </p>
                   </div>
                   {c.slug && (
@@ -249,6 +252,16 @@ export function AdminForm({ existingCompanies }: AdminFormProps) {
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
                 placeholder="Industrie, Gewerbe…"
+                style={inputStyle}
+              />
+            </div>
+
+            <div>
+              <label style={labelStyle}>ecoplanet Kunden-ID</label>
+              <input
+                value={ecoplanetCustomerId}
+                onChange={(e) => setEcoplanetCustomerId(e.target.value)}
+                placeholder="z.B. ECO-042"
                 style={inputStyle}
               />
             </div>

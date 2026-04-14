@@ -21,6 +21,7 @@ export interface CreateCompanyConfig {
   slug: string
   password: string
   industry?: string
+  ecoplanet_customer_id?: string
 }
 
 export async function createOrUpdateCompany(
@@ -36,6 +37,7 @@ export async function createOrUpdateCompany(
         slug: config.slug.trim(),
         password: config.password,
         industry: config.industry?.trim() || null,
+        ecoplanet_customer_id: config.ecoplanet_customer_id?.trim() || null,
       },
       { onConflict: 'name', ignoreDuplicates: false }
     )

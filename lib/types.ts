@@ -10,6 +10,7 @@ export interface Company {
   slug: string | null;
   password: string | null;
   active_run_id: string | null;
+  ecoplanet_customer_id: string | null;
 }
 
 export interface Location {
