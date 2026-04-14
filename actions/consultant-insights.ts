@@ -20,7 +20,8 @@ type AnyInsightJson = Record<string, unknown>
 export async function uploadConsultantInsights(
   portalId: string,
   sourceFile: string,
-  insightsJson: string
+  insightsJson: string,
+  companyId?: string | null
 ): Promise<UploadConsultantInsightsResult> {
   let rawInsights: AnyInsightJson[]
 
@@ -44,6 +45,7 @@ export async function uploadConsultantInsights(
     original_insight_id: (raw.insight_id as string | undefined) ?? (raw.id as string | undefined) ?? null,
     // new format uses location_id (snake_case); old format uses locationId (camelCase)
     original_location_id: (raw.location_id as number | undefined) ?? (raw.locationId as number | undefined) ?? null,
+    company_id: companyId ?? null,
     insight_title: (raw.title as string) ?? '',
     insight_description: (raw.description as string | undefined) ?? null,
     insight_raw: raw,

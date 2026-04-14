@@ -83,12 +83,12 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
   const [slug, setSlug] = useState('')
   const [slugEdited, setSlugEdited] = useState(false)
   const [password, setPassword] = useState('')
-  const [companyId, setCompanyId] = useState('')
   const [createLoading, setCreateLoading] = useState(false)
   const [createResult, setCreateResult] = useState<{ success: boolean; message: string } | null>(null)
 
   // Upload state (per-portal)
   const [pendingFiles, setPendingFiles] = useState<PendingFile[]>([])
+  const [uploadCompanyId, setUploadCompanyId] = useState('')
   const [uploadLoading, setUploadLoading] = useState(false)
   const [uploadResults, setUploadResults] = useState<{ file: string; count: number }[]>([])
   const [uploadError, setUploadError] = useState<string | null>(null)
@@ -114,7 +114,6 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
       slug: slug.trim(),
       password: password.trim(),
       evaluator_name: evalName.trim(),
-      company_id: companyId || null,
     })
 
     setCreateLoading(false)
@@ -132,7 +131,6 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
         slug: slug.trim(),
         password: password.trim(),
         evaluator_name: evalName.trim(),
-        company_id: companyId || null,
         created_at: new Date().toISOString(),
         insight_count: 0,
         eval_count: 0,
@@ -140,7 +138,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
       ...prev,
     ])
     // Reset form
-    setEvalName(''); setSlug(''); setSlugEdited(false); setPassword(''); setCompanyId('')
+    setEvalName(''); setSlug(''); setSlugEdited(false); setPassword('')
     setShowCreateForm(false)
   }
 
@@ -196,7 +194,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
     const results: { file: string; count: number }[] = []
 
     for (const file of validFiles) {
-      const result = await uploadConsultantInsights(portalId, file.name, file.content)
+      const result = await uploadConsultantInsights(portalId, file.name, file.content, uploadCompanyId || null)
       if (!result.success) {
         setUploadError(`Fehler bei "${file.name}": ${result.error}`)
         setUploadLoading(false)
@@ -256,6 +254,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                       setPendingFiles([])
                       setUploadResults([])
                       setUploadError(null)
+                      setUploadCompanyId('')
                     }}
                   >
                     <div>
@@ -264,10 +263,6 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                       </p>
                       <p style={{ fontSize: '11px', color: '#9ca3af', marginTop: '1px' }}>
                         /eval/{portal.slug} · {portal.insight_count} Erkenntnisse · {portal.eval_count} Bewertungen
-                        {portal.company_id && (() => {
-                          const co = companies.find((c) => c.id === portal.company_id)
-                          return co ? ` · ${co.name}` : null
-                        })()}
                       </p>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -296,10 +291,6 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                           { label: 'Slug', value: `/eval/${portal.slug}` },
                           { label: 'Passwort', value: portal.password },
                           { label: 'Erstellt', value: new Date(portal.created_at).toLocaleDateString('de-DE') },
-                          ...(portal.company_id ? [{
-                            label: 'Unternehmen',
-                            value: companies.find((c) => c.id === portal.company_id)?.name ?? portal.company_id,
-                          }] : []),
                         ].map(({ label, value }) => (
                           <div key={label}>
                             <p style={{ fontSize: '11px', color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{label}</p>
@@ -310,6 +301,22 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
 
                       {/* Upload section */}
                       <p style={{ ...sectionTitle, fontSize: '11px' }}>Erkenntnisse hochladen</p>
+
+                      {/* Company selector */}
+                      <div style={{ marginBottom: '12px' }}>
+                        <label style={labelStyle}>Unternehmen</label>
+                        <select
+                          value={uploadCompanyId}
+                          onChange={(e) => setUploadCompanyId(e.target.value)}
+                          style={inputStyle}
+                        >
+                          <option value="">— kein Unternehmen verknüpft —</option>
+                          {companies.map((c) => (
+                            <option key={c.id} value={c.id}>{c.name}</option>
+                          ))}
+                        </select>
+                        <p style={hintStyle}>Wird bei jeder Erkenntnis dieser Upload-Batch gespeichert</p>
+                      </div>
 
                       {/* Drop zone */}
                       <div
@@ -474,20 +481,6 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                 <p style={hintStyle}>Wird dem Consultant mitgeteilt</p>
               </div>
 
-              <div style={{ gridColumn: '1 / -1' }}>
-                <label style={labelStyle}>Unternehmen</label>
-                <select
-                  value={companyId}
-                  onChange={(e) => setCompanyId(e.target.value)}
-                  style={inputStyle}
-                >
-                  <option value="">— kein Unternehmen verknüpft —</option>
-                  {companies.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
-                </select>
-                <p style={hintStyle}>Verknüpft dieses Portal mit einem Unternehmen in der Datenbank</p>
-              </div>
             </div>
           </div>
 

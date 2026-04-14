@@ -82,7 +82,6 @@ export async function createConsultantPortal(
       slug: config.slug.trim().toLowerCase(),
       password: config.password.trim(),
       evaluator_name: config.evaluator_name.trim(),
-      company_id: config.company_id ?? null,
     })
     .select('id')
     .single()

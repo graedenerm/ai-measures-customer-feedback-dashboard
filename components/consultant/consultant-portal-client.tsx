@@ -80,11 +80,13 @@ export function ConsultantPortalClient({
 
     if (confidenceFilter !== 'all') {
       const pct = getRawConfidencePct(raw)
-      if (pct === null) return false
-      if (confidenceFilter === '0-25'  && !(pct >= 0  && pct <= 25)) return false
-      if (confidenceFilter === '25-50' && !(pct >  25 && pct <= 50)) return false
-      if (confidenceFilter === '50-75' && !(pct >  50 && pct <= 75)) return false
-      if (confidenceFilter === '75-100'&& !(pct >  75             )) return false
+      // Insights with no confidence value are not excluded — only filter when value is present
+      if (pct !== null) {
+        if (confidenceFilter === '0-25'  && !(pct >= 0  && pct <= 25)) return false
+        if (confidenceFilter === '25-50' && !(pct >  25 && pct <= 50)) return false
+        if (confidenceFilter === '50-75' && !(pct >  50 && pct <= 75)) return false
+        if (confidenceFilter === '75-100'&& !(pct >  75             )) return false
+      }
     }
 
     if (activeFilter !== 'all' && typeFilter === 'trend') {
@@ -357,12 +359,12 @@ export function ConsultantPortalClient({
               </div>
             ) : layout === 'list' ? (
               <div className="flex flex-col gap-6">
-                {filteredInsights.map((insight, idx) => (
+                {filteredToRate.map((insight, idx) => (
                   <ConsultantInsightCard
                     key={insight.id}
                     insight={insight}
                     index={idx}
-                    evaluation={evalMap.get(insight.id) ?? null}
+                    evaluation={null}
                     evaluatorName={evaluatorName}
                     onRated={handleRated}
                   />
