@@ -13,10 +13,12 @@ import type { ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-t
 
 function typeStyle(type: string) {
   if (type.includes('anomaly'))
-    return { bg: 'rgba(220,38,38,0.08)', text: '#dc2626', label: 'Anomalie', isAnomaly: true,  isTrend: false }
+    return { bg: 'rgba(220,38,38,0.08)',  text: '#dc2626', label: 'Anomalie',    isAnomaly: true,  isTrend: false, isChangepoint: false }
   if (type.includes('trend'))
-    return { bg: 'rgba(168,85,247,0.08)', text: '#7c3aed', label: 'Trend',    isAnomaly: false, isTrend: true  }
-  return   { bg: 'rgba(26,47,238,0.08)',  text: '#1A2FEE', label: 'Strukturell', isAnomaly: false, isTrend: false }
+    return { bg: 'rgba(168,85,247,0.08)', text: '#7c3aed', label: 'Trend',       isAnomaly: false, isTrend: true,  isChangepoint: false }
+  if (type.includes('changepoint'))
+    return { bg: 'rgba(245,158,11,0.08)', text: '#d97706', label: 'Changepoint', isAnomaly: false, isTrend: false, isChangepoint: true  }
+  return   { bg: 'rgba(26,47,238,0.08)',  text: '#1A2FEE', label: 'Strukturell', isAnomaly: false, isTrend: false, isChangepoint: false }
 }
 
 function confidenceStyle(c: number | null) {
@@ -84,7 +86,7 @@ export function ConsultantInsightCard({
     ? (raw.hypotheses as { type: string; explanation: string }[]).filter((h) => h.type && h.explanation)
     : []
 
-  // Trend-specific fields (only present in new format)
+  // Trend-specific fields
   const trendActive = typeof raw.active === 'boolean' ? raw.active : null
   const trendStartDate = typeof raw.trend_start_date === 'string' ? raw.trend_start_date : null
   const trendEndDate = typeof raw.trend_end_date === 'string' ? raw.trend_end_date : null
@@ -94,6 +96,14 @@ export function ConsultantInsightCard({
   const periodUnit = typeof raw.period_unit === 'string' ? raw.period_unit : null
   const findingUnit = typeof raw.finding_unit === 'string' ? raw.finding_unit : null
   const hasTrendDetails = trendStartDate !== null || slopePerPeriod !== null || trendActive !== null
+
+  // Changepoint-specific fields
+  const cpOnsetDate  = typeof raw.onset_date    === 'string' ? raw.onset_date    : null
+  const cpDelta      = typeof raw.delta         === 'number' ? raw.delta         : null
+  const cpDeltaPct   = typeof raw.delta_percent === 'number' ? raw.delta_percent : null
+  const cpValBefore  = typeof raw.value_before  === 'number' ? raw.value_before  : null
+  const cpValAfter   = typeof raw.value_after   === 'number' ? raw.value_after   : null
+  const hasChangepointDetails = cpOnsetDate !== null || cpDelta !== null
 
   return (
     <div
@@ -124,7 +134,7 @@ export function ConsultantInsightCard({
                 <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: ts.bg, color: ts.text }}>
                   {ts.label}
                 </span>
-                {cs && !ts.isTrend && (
+                {cs && !ts.isTrend && !ts.isChangepoint && (
                   <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: cs.bg, color: cs.text }}>
                     <Shield className="size-2.5" /> Konfidenz {cs.label}
                   </span>
@@ -152,6 +162,8 @@ export function ConsultantInsightCard({
                 <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: ts.bg }}>
                   {ts.isAnomaly
                     ? <AlertTriangle className="size-4" style={{ color: ts.text }} />
+                    : ts.isChangepoint
+                    ? <Zap className="size-4" style={{ color: ts.text }} />
                     : <TrendingUp className="size-4" style={{ color: ts.text }} />}
                 </div>
                 <h3 className="text-sm font-bold leading-snug" style={{ color: '#00095B' }}>
@@ -264,6 +276,47 @@ export function ConsultantInsightCard({
                       {slopePct !== null && (
                         <p className="text-[10px] mt-0.5" style={{ color: '#AEAEAE' }}>+{slopePct.toLocaleString('de-DE', { maximumFractionDigits: 1 })} %</p>
                       )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Changepoint Details */}
+            {hasChangepointDetails && (
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <Zap className="size-3.5" style={{ color: '#737373' }} />
+                  <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#737373' }}>Changepoint-Details</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {cpOnsetDate && (
+                    <div className="rounded-lg border px-3 py-2" style={{ borderColor: '#F0F0F0', backgroundColor: '#FAFAFA' }}>
+                      <p className="text-[10px] font-medium uppercase tracking-wider mb-0.5" style={{ color: '#AEAEAE' }}>Einsetzdatum</p>
+                      <p className="text-[12px] font-semibold" style={{ color: '#00095B' }}>
+                        {new Date(cpOnsetDate).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </p>
+                    </div>
+                  )}
+                  {cpDelta !== null && (
+                    <div className="rounded-lg border px-3 py-2" style={{ borderColor: '#F0F0F0', backgroundColor: '#FAFAFA' }}>
+                      <p className="text-[10px] font-medium uppercase tracking-wider mb-0.5" style={{ color: '#AEAEAE' }}>Veränderung</p>
+                      <p className="text-[12px] font-semibold font-mono" style={{ color: cpDelta >= 0 ? '#dc2626' : '#059669' }}>
+                        {cpDelta >= 0 ? '+' : ''}{cpDelta.toLocaleString('de-DE', { maximumFractionDigits: 1 })} {findingUnit ?? ''}
+                      </p>
+                      {cpDeltaPct !== null && (
+                        <p className="text-[10px] mt-0.5" style={{ color: '#AEAEAE' }}>
+                          {cpDeltaPct >= 0 ? '+' : ''}{cpDeltaPct.toLocaleString('de-DE', { maximumFractionDigits: 1 })} %
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  {cpValBefore !== null && cpValAfter !== null && (
+                    <div className="rounded-lg border px-3 py-2" style={{ borderColor: '#F0F0F0', backgroundColor: '#FAFAFA' }}>
+                      <p className="text-[10px] font-medium uppercase tracking-wider mb-0.5" style={{ color: '#AEAEAE' }}>Vorher → Nachher</p>
+                      <p className="text-[12px] font-semibold font-mono" style={{ color: '#00095B' }}>
+                        {cpValBefore.toLocaleString('de-DE', { maximumFractionDigits: 1 })} → {cpValAfter.toLocaleString('de-DE', { maximumFractionDigits: 1 })} {findingUnit ?? ''}
+                      </p>
                     </div>
                   )}
                 </div>

@@ -9,7 +9,7 @@ import type { InitialRatingValues } from './consultant-rating-form'
 
 type Tab = 'toRate' | 'rated'
 type Layout = 'list' | 'card'
-type TypeFilter = 'all' | 'anomaly' | 'trend' | 'structural'
+type TypeFilter = 'all' | 'anomaly' | 'trend' | 'changepoint' | 'structural'
 type ConfidenceFilter = 'all' | '0-25' | '25-50' | '50-75' | '75-100'
 type ActiveFilter = 'all' | 'active' | 'ended'
 
@@ -17,8 +17,9 @@ type ActiveFilter = 'all' | 'active' | 'ended'
 
 function getRawType(raw: Record<string, unknown> | null): TypeFilter {
   const t = ((raw?.finding_type ?? raw?.type ?? '') as string).toLowerCase()
-  if (t.includes('anomaly')) return 'anomaly'
-  if (t.includes('trend'))   return 'trend'
+  if (t.includes('anomaly'))     return 'anomaly'
+  if (t.includes('trend'))       return 'trend'
+  if (t.includes('changepoint')) return 'changepoint'
   return 'structural'
 }
 
@@ -89,7 +90,7 @@ export function ConsultantPortalClient({
       }
     }
 
-    if (activeFilter !== 'all' && typeFilter === 'trend') {
+    if (activeFilter !== 'all' && (typeFilter === 'trend' || typeFilter === 'changepoint')) {
       const active = getRawActive(raw)
       if (activeFilter === 'active' && active !== true)  return false
       if (activeFilter === 'ended'  && active !== false) return false
@@ -260,17 +261,18 @@ export function ConsultantPortalClient({
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Typ</span>
             {([
-              { key: 'all',        label: 'Alle' },
-              { key: 'anomaly',    label: 'Anomalie' },
-              { key: 'trend',      label: 'Trend' },
-              { key: 'structural', label: 'Strukturell' },
+              { key: 'all',          label: 'Alle' },
+              { key: 'anomaly',      label: 'Anomalie' },
+              { key: 'trend',        label: 'Trend' },
+              { key: 'changepoint',  label: 'Changepoint' },
+              { key: 'structural',   label: 'Strukturell' },
             ] as { key: TypeFilter; label: string }[]).map(({ key, label }) => (
               <button
                 key={key}
                 type="button"
                 onClick={() => {
                   setTypeFilter(key)
-                  if (key !== 'trend') setActiveFilter('all')
+                  if (key !== 'trend' && key !== 'changepoint') setActiveFilter('all')
                 }}
                 className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
                 style={typeFilter === key
@@ -306,8 +308,8 @@ export function ConsultantPortalClient({
             ))}
           </div>
 
-          {/* Row 3: Active status — only for trend */}
-          {typeFilter === 'trend' && (
+          {/* Row 3: Active status — for trend and changepoint */}
+          {(typeFilter === 'trend' || typeFilter === 'changepoint') && (
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Status</span>
               {([
