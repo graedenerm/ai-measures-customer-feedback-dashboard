@@ -168,7 +168,7 @@ export async function getInsightsForPortal(
 
   if (error || !data) return []
 
-  return data.map((row) => {
+  const insights = data.map((row) => {
     const ic = row.insights_catalog as unknown as InsightsCatalog | null
     return {
       id:                   row.id,
@@ -184,6 +184,13 @@ export async function getInsightsForPortal(
       insight_raw:          ic?.insight_raw            ?? null,
     } satisfies ConsultantInsight
   })
+
+  for (let i = insights.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [insights[i], insights[j]] = [insights[j], insights[i]]
+  }
+
+  return insights
 }
 
 // ─── Admin: insights grouped by source file ───────────────────────────────────

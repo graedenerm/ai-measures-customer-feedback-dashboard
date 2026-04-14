@@ -284,31 +284,7 @@ export function ConsultantPortalClient({
             ))}
           </div>
 
-          {/* Row 2: Confidence */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Konfidenz</span>
-            {([
-              { key: 'all',    label: 'Alle' },
-              { key: '0-25',   label: '0–25 %' },
-              { key: '25-50',  label: '25–50 %' },
-              { key: '50-75',  label: '50–75 %' },
-              { key: '75-100', label: '75–100 %' },
-            ] as { key: ConfidenceFilter; label: string }[]).map(({ key, label }) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setConfidenceFilter(key)}
-                className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
-                style={confidenceFilter === key
-                  ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
-                  : { backgroundColor: '#ffffff', color: '#737373', border: '1px solid #E5E5E5' }}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
-          {/* Row 3: Active status — for trend and changepoint */}
+          {/* Row 2: Active status — for trend and changepoint */}
           {(typeFilter === 'trend' || typeFilter === 'changepoint') && (
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Status</span>
@@ -333,7 +309,7 @@ export function ConsultantPortalClient({
           )}
 
           {/* Match count */}
-          {(typeFilter !== 'all' || confidenceFilter !== 'all' || activeFilter !== 'all') && (
+          {(typeFilter !== 'all' || activeFilter !== 'all') && (
             <p className="text-[11px]" style={{ color: '#9ca3af' }}>
               {filteredInsights.length} von {insights.length} Erkenntnissen entsprechen den Filtern
             </p>
