@@ -16,15 +16,27 @@ export default async function ConsultantAdminPage() {
             <p className="text-base font-bold text-white">ecoplanet Admin</p>
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>Consultant-Portal-Verwaltung</p>
           </div>
-          <a
-            href="/admin"
-            style={{
-              fontSize: '12px', color: 'rgba(255,255,255,0.7)', textDecoration: 'none',
-              padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.2)',
-            }}
-          >
-            ← Kundenportale
-          </a>
+          <div className="flex items-center gap-3">
+            <a
+              href="/admin/consultant/feedback"
+              style={{
+                fontSize: '12px', color: '#ffffff', textDecoration: 'none',
+                padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.35)',
+                backgroundColor: 'rgba(26,47,238,0.4)',
+              }}
+            >
+              Feedback-Analyse →
+            </a>
+            <a
+              href="/admin"
+              style={{
+                fontSize: '12px', color: 'rgba(255,255,255,0.7)', textDecoration: 'none',
+                padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.2)',
+              }}
+            >
+              ← Kundenportale
+            </a>
+          </div>
         </div>
       </div>
 
