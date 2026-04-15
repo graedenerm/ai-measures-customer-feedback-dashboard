@@ -296,7 +296,7 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
                       <FileText className="size-3.5" style={{ color: '#1A2FEE' }} />
                       <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#1A2FEE' }}>Diesen Insight bewerten</span>
                     </div>
-                    <InlineRating itemType="insight" itemId={insight.id} onSuccess={onEvaluationSubmitted} />
+                    <InlineRating itemType="insight" itemId={insight.id} evaluations={insight.evaluations} onSuccess={onEvaluationSubmitted} />
                   </div>
 
                 </div>
@@ -320,7 +320,7 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
                 Bewertung
               </span>
             </div>
-            <InlineRating itemType="insight" itemId={insight.id} onSuccess={onEvaluationSubmitted} />
+            <InlineRating itemType="insight" itemId={insight.id} evaluations={insight.evaluations} onSuccess={onEvaluationSubmitted} />
           </div>
         </div>
 

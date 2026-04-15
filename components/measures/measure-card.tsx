@@ -212,7 +212,7 @@ function MeasureDetailModal({
               <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#1A2FEE' }}>Diese Maßnahme bewerten</span>
             </div>
             <div className="rounded-xl border p-4" style={{ borderColor: '#E5E5E5', backgroundColor: '#FAFAFA' }}>
-              <InlineRating itemType="measure" itemId={measure.id} onSuccess={onEvaluationSubmitted} />
+              <InlineRating itemType="measure" itemId={measure.id} evaluations={measure.evaluations} onSuccess={onEvaluationSubmitted} />
             </div>
           </div>
         </div>

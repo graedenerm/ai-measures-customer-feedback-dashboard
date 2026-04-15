@@ -1,13 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   ThumbsUp, ThumbsDown, Minus,
-  ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Loader2, Pencil,
+  ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Loader2, User,
 } from 'lucide-react'
 import { MetricRating, type MetricValue } from './metric-rating'
-import { submitEvaluation, getEvaluationForEvaluator } from '@/actions/evaluations'
+import { submitEvaluation } from '@/actions/evaluations'
 import { useEvaluator } from '@/lib/evaluator-context'
+import type { Evaluation } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 type Impression = 'positive' | 'negative' | 'neutral'
@@ -15,6 +16,7 @@ type Impression = 'positive' | 'negative' | 'neutral'
 interface InlineRatingProps {
   itemType: 'insight' | 'measure'
   itemId: string
+  evaluations?: Evaluation[]
   onSuccess?: () => void
 }
 
@@ -58,6 +60,17 @@ const impressionConfig = [
   },
 ]
 
+const impressionLabels: Record<string, string> = {
+  positive: 'Positiv',
+  neutral: 'Neutral',
+  negative: 'Negativ',
+}
+const impressionColors: Record<string, string> = {
+  positive: '#059669',
+  neutral: '#52525b',
+  negative: '#dc2626',
+}
+
 function ScoreRow({ label, score }: { label: string; score: number }) {
   return (
     <div className="flex items-center justify-between">
@@ -78,11 +91,46 @@ function ScoreRow({ label, score }: { label: string; score: number }) {
   )
 }
 
-export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps) {
+function EvaluatorSummary({ evaluation }: { evaluation: Evaluation }) {
+  const color = impressionColors[evaluation.impression ?? ''] ?? '#737373'
+  const label = impressionLabels[evaluation.impression ?? ''] ?? '–'
+  const hasDetails = typeof evaluation.comprehensibility === 'number'
+    || typeof evaluation.relevance === 'number'
+    || typeof evaluation.plausibility === 'number'
+
+  return (
+    <div className="flex flex-col gap-2 pt-1">
+      <div className="flex items-center gap-2">
+        <span className="text-[11px] font-medium" style={{ color: '#737373' }}>Gesamteindruck:</span>
+        <span className="text-[11px] font-bold" style={{ color }}>{label}</span>
+      </div>
+      {hasDetails && (
+        <div className="flex flex-col gap-1.5">
+          {typeof evaluation.comprehensibility === 'number' && (
+            <ScoreRow label="Verständlichkeit" score={evaluation.comprehensibility} />
+          )}
+          {typeof evaluation.relevance === 'number' && (
+            <ScoreRow label="Relevanz" score={evaluation.relevance} />
+          )}
+          {typeof evaluation.plausibility === 'number' && (
+            <ScoreRow label="Plausibilität" score={evaluation.plausibility} />
+          )}
+        </div>
+      )}
+      {evaluation.notes && (
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>Kommentar</p>
+          <p className="text-xs leading-snug" style={{ color: '#00095B' }}>{evaluation.notes}</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function InlineRating({ itemType, itemId, evaluations = [], onSuccess }: InlineRatingProps) {
   const { evaluatorName } = useEvaluator()
 
-  // Phase: 'idle' | 'saving' | 'saved' | 'details'
-  const [phase, setPhase]         = useState<'idle' | 'saving' | 'saved' | 'details'>('idle')
+  const [phase, setPhase]         = useState<'idle' | 'saving' | 'saved'>('idle')
   const [impression, setImpression] = useState<Impression | null>(null)
   const [showDetails, setShowDetails] = useState(false)
 
@@ -96,41 +144,25 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
   const [detailSuccess, setDetailSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const [loadedFromDb, setLoadedFromDb] = useState(false)
+  const [expandedEvaluator, setExpandedEvaluator] = useState<string | null>(null)
 
-  // Load existing evaluation for this evaluator+item on mount or when name changes
-  useEffect(() => {
-    if (!evaluatorName) return
-    setLoadedFromDb(false)
-    getEvaluationForEvaluator(itemType, itemId, evaluatorName).then((existing) => {
-      if (existing) {
-        setImpression(existing.impression as Impression)
-        setComprehensibility(existing.comprehensibility)
-        setRelevance(existing.relevance)
-        setPlausibility(existing.plausibility)
-        setComment(existing.notes ?? '')
-        setLoadedFromDb(true)
-        setPhase('saved')
-      }
-    })
-  }, [evaluatorName, itemType, itemId])
+  // Group evaluations by evaluator name (most recent per evaluator)
+  const evaluatorMap = new Map<string, Evaluation>()
+  for (const ev of evaluations) {
+    if (!evaluatorMap.has(ev.evaluator_name)) {
+      evaluatorMap.set(ev.evaluator_name, ev)
+    }
+  }
+  const evaluatorNames = Array.from(evaluatorMap.keys())
 
   const resetForm = () => {
-    setError(null); setLoadedFromDb(false)
+    setError(null)
     setPhase('idle'); setImpression(null); setShowDetails(false)
     setComprehensibility(null); setRelevance(null); setPlausibility(null)
     setComment('')
     setDetailSuccess(false)
   }
 
-  const handleEdit = () => {
-    setLoadedFromDb(false)
-    setPhase('saved')
-    setShowDetails(true)
-    setDetailSuccess(false)
-  }
-
-  // ── Called immediately when user clicks a thumb ────────────────────────────
   const handleImpressionClick = async (value: Impression) => {
     if (phase === 'saving') return
     setImpression(value)
@@ -145,14 +177,13 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
 
     if (result.success) {
       setPhase('saved')
-      setShowDetails(true)   // auto-expand details
+      setShowDetails(true)
     } else {
       setPhase('idle')
       setError(result.error ?? 'Fehler beim Speichern.')
     }
   }
 
-  // ── Optional detailed ratings submit ──────────────────────────────────────
   const handleDetailSubmit = async () => {
     if (!impression) return
     setDetailLoading(true); setError(null)
@@ -170,7 +201,6 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
     else setError(result.error ?? 'Fehler beim Speichern.')
   }
 
-  // ── No name entered ────────────────────────────────────────────────────────
   if (!evaluatorName) {
     return (
       <div className="flex flex-col items-center gap-2 py-2 text-center">
@@ -181,76 +211,53 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
     )
   }
 
-  // ── Summary view for existing votes ────────────────────────────────────────
-  if (loadedFromDb && impression) {
-    const cfg = impressionConfig.find(c => c.value === impression)!
-    const Icon = cfg.icon
-    const hasDetails = typeof comprehensibility === 'number'
-      || typeof relevance === 'number'
-      || typeof plausibility === 'number'
-
-    return (
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: '#059669' }}>
-          <CheckCircle2 className="size-3.5 shrink-0" />
-          Bereits bewertet
-        </div>
-
-        {/* Impression pill */}
-        <div
-          className="flex items-center gap-2.5 rounded-xl border-2 px-4 py-2.5"
-          style={{ borderColor: cfg.selectedBorder, backgroundColor: cfg.selectedBg, color: '#fff' }}
-        >
-          <Icon className="size-4 shrink-0" />
-          <span className="text-sm font-semibold">{cfg.label}</span>
-          <CheckCircle2 className="ml-auto size-3.5 shrink-0 opacity-70" />
-        </div>
-
-        {/* Subcategory scores */}
-        {hasDetails && (
-          <div
-            className="flex flex-col gap-2 rounded-xl border p-3"
-            style={{ borderColor: '#E5E5E5', backgroundColor: '#FAFAFA' }}
-          >
-            <p className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
-              Detailbewertung
-            </p>
-            {typeof comprehensibility === 'number' && (
-              <ScoreRow label="Verständlichkeit" score={comprehensibility} />
-            )}
-            {typeof relevance === 'number' && (
-              <ScoreRow label="Relevanz" score={relevance} />
-            )}
-            {typeof plausibility === 'number' && (
-              <ScoreRow label="Plausibilität" score={plausibility} />
-            )}
-          </div>
-        )}
-
-        {/* Comment */}
-        {comment && (
-          <div className="rounded-xl border p-3" style={{ borderColor: '#E5E5E5' }}>
-            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
-              Kommentar
-            </p>
-            <p className="text-sm leading-snug" style={{ color: '#00095B' }}>{comment}</p>
-          </div>
-        )}
-
-        {/* Edit button */}
-        <button
-          onClick={handleEdit}
-          className="flex items-center gap-1.5 self-start text-xs transition-opacity hover:opacity-70"
-          style={{ color: '#737373' }}
-        >
-          <Pencil className="size-3" /> Ändern
-        </button>
-      </div>
-    )
-  }
-
   return (
     <div className="flex flex-col gap-3">
+
+      {/* ── Previous evaluators ── */}
+      {evaluatorNames.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <p className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
+            Bereits bewertet von
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {evaluatorNames.map(name => {
+              const ev = evaluatorMap.get(name)!
+              const isExpanded = expandedEvaluator === name
+              const color = impressionColors[ev.impression ?? ''] ?? '#737373'
+              return (
+                <button
+                  key={name}
+                  onClick={() => setExpandedEvaluator(isExpanded ? null : name)}
+                  className={cn(
+                    'flex items-center gap-1 rounded-lg border px-2.5 py-1 text-[11px] font-medium transition-all',
+                    isExpanded ? 'ring-1' : '',
+                  )}
+                  style={{
+                    borderColor: isExpanded ? color : '#E5E5E5',
+                    backgroundColor: isExpanded ? `${color}10` : '#fff',
+                    color: isExpanded ? color : '#737373',
+                    ...(isExpanded ? { ringColor: color } : {}),
+                  }}
+                >
+                  <User className="size-3 shrink-0" />
+                  {name}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Expanded evaluator detail */}
+          {expandedEvaluator && evaluatorMap.has(expandedEvaluator) && (
+            <div
+              className="rounded-xl border p-3"
+              style={{ borderColor: '#E5E5E5', backgroundColor: '#FAFAFA' }}
+            >
+              <EvaluatorSummary evaluation={evaluatorMap.get(expandedEvaluator)!} />
+            </div>
+          )}
+        </div>
+      )}
 
       {/* ── Big impression buttons ── */}
       <div>
@@ -285,7 +292,6 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
                     {description}
                   </span>
                 </div>
-                {/* Saved tick */}
                 {phase === 'saved' && isSelected && (
                   <CheckCircle2 className="ml-auto size-4 shrink-0 opacity-80" />
                 )}
@@ -294,7 +300,6 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
           })}
         </div>
 
-        {/* Saved confirmation */}
         {phase === 'saved' && (
           <p className="mt-2 text-xs font-medium" style={{ color: '#059669' }}>
             ✓ Gespeichert – Details optional
@@ -302,7 +307,7 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
         )}
       </div>
 
-      {/* ── Optional detailed ratings (auto-expands after impression saved) ── */}
+      {/* ── Optional detailed ratings ── */}
       {phase === 'saved' && (
         <>
           <button
@@ -341,7 +346,6 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
                 onChange={setPlausibility}
               />
 
-              {/* Comment field */}
               <div className="border-t pt-3" style={{ borderColor: '#E5E5E5' }}>
                 <label
                   htmlFor={`comment-${itemId}`}
@@ -390,7 +394,6 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
         <p className="text-xs" style={{ color: '#dc2626' }}>{error}</p>
       )}
 
-      {/* Reset link */}
       {phase === 'saved' && (
         <button
           onClick={resetForm}

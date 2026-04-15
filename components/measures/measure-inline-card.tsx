@@ -205,7 +205,7 @@ export function MeasureInlineCard({ measure, index, onEvaluationSubmitted }: Mea
               <FileText className="size-3.5" style={{ color: '#1A2FEE' }} />
               <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#1A2FEE' }}>Diese Maßnahme bewerten</span>
             </div>
-            <InlineRating itemType="measure" itemId={measure.id} onSuccess={onEvaluationSubmitted} />
+            <InlineRating itemType="measure" itemId={measure.id} evaluations={measure.evaluations} onSuccess={onEvaluationSubmitted} />
           </div>
         </div>
 
@@ -223,7 +223,7 @@ export function MeasureInlineCard({ measure, index, onEvaluationSubmitted }: Mea
                 Bewertung
               </span>
             </div>
-            <InlineRating itemType="measure" itemId={measure.id} onSuccess={onEvaluationSubmitted} />
+            <InlineRating itemType="measure" itemId={measure.id} evaluations={measure.evaluations} onSuccess={onEvaluationSubmitted} />
           </div>
         </div>
 
