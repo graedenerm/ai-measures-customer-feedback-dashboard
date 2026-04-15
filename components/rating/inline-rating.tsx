@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   ThumbsUp, ThumbsDown, Minus,
   ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Loader2,
 } from 'lucide-react'
 import { MetricRating, type MetricValue } from './metric-rating'
-import { submitEvaluation } from '@/actions/evaluations'
+import { submitEvaluation, getEvaluationForEvaluator } from '@/actions/evaluations'
 import { useEvaluator } from '@/lib/evaluator-context'
 import { cn } from '@/lib/utils'
 
@@ -76,11 +76,30 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
   const [detailSuccess, setDetailSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Load existing evaluation for this evaluator+item on mount or when name changes
+  useEffect(() => {
+    if (!evaluatorName) return
+    getEvaluationForEvaluator(itemType, itemId, evaluatorName).then((existing) => {
+      if (existing) {
+        setImpression(existing.impression as Impression)
+        setPhase('saved')
+        if (existing.comprehensibility || existing.relevance || existing.plausibility) {
+          setComprehensibility(existing.comprehensibility)
+          setRelevance(existing.relevance)
+          setPlausibility(existing.plausibility)
+          setComment(existing.notes ?? '')
+          setDetailSuccess(true)
+        }
+      }
+    })
+  }, [evaluatorName, itemType, itemId])
+
   const resetForm = () => {
+    setError(null)
     setPhase('idle'); setImpression(null); setShowDetails(false)
     setComprehensibility(null); setRelevance(null); setPlausibility(null)
     setComment('')
-    setDetailSuccess(false); setError(null)
+    setDetailSuccess(false)
   }
 
   // ── Called immediately when user clicks a thumb ────────────────────────────
@@ -204,7 +223,7 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
               <MetricRating
                 label="Verständlichkeit"
                 description={itemType === 'insight'
-                  ? 'Verstehen Sie Aussage und wissen, welche Konsequenzen sich für Sie ergeben?'
+                  ? 'Verstehen Sie die Aussage und wissen, welche Konsequenzen sich für Sie ergeben?'
                   : 'Verstehen Sie die Maßnahme und wissen, welche Konsequenzen sich für Sie ergeben?'}
                 value={comprehensibility}
                 onChange={setComprehensibility}

@@ -28,13 +28,38 @@ export interface SubmitEvaluationResult {
   error?: string
 }
 
+export async function getEvaluationForEvaluator(
+  itemType: 'insight' | 'measure',
+  itemId: string,
+  evaluatorName: string
+): Promise<Evaluation | null> {
+  try {
+    const supabase = await createClient()
+    const column = itemType === 'insight' ? 'insight_id' : 'measure_id'
+
+    const { data } = await supabase
+      .from('evaluations')
+      .select('*')
+      .eq('item_type', itemType)
+      .eq(column, itemId)
+      .eq('evaluator_name', evaluatorName.trim())
+      .order('created_at', { ascending: false })
+      .limit(1)
+
+    return (data?.[0] as Evaluation) ?? null
+  } catch {
+    return null
+  }
+}
+
 export async function submitEvaluation(
   data: SubmitEvaluationData
 ): Promise<SubmitEvaluationResult> {
   try {
     const supabase = await createClient()
+    const column = data.itemType === 'insight' ? 'insight_id' : 'measure_id'
 
-    const insert = {
+    const payload = {
       item_type: data.itemType,
       insight_id: data.itemType === 'insight' ? data.itemId : null,
       measure_id: data.itemType === 'measure' ? data.itemId : null,
@@ -51,9 +76,17 @@ export async function submitEvaluation(
       notes: data.notes?.trim() || null,
     }
 
+    // Remove any prior evaluations by this evaluator on this item
+    await supabase
+      .from('evaluations')
+      .delete()
+      .eq('item_type', payload.item_type)
+      .eq(column, data.itemId)
+      .eq('evaluator_name', payload.evaluator_name)
+
     const { data: result, error } = await supabase
       .from('evaluations')
-      .insert(insert)
+      .insert(payload)
       .select('id')
       .single()
 
