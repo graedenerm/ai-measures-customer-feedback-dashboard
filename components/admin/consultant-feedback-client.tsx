@@ -405,10 +405,10 @@ function InsightRow({
         <td style={{ padding: '10px 14px', textAlign: 'center' }}><ScoreCell value={evaluation.plausibilitaet} /></td>
         <td style={{ padding: '10px 14px', textAlign: 'center' }}><ScoreCell value={evaluation.aktionabilitaet} /></td>
         <td style={{ padding: '10px 14px', textAlign: 'center' }}><ScoreCell value={evaluation.gesamteindruck} /></td>
-        <td style={{ padding: '10px 14px', maxWidth: '180px' }}>
+        <td style={{ padding: '10px 14px', maxWidth: '320px' }}>
           {evaluation.notes ? (
-            <p style={{ fontSize: '11px', color: '#737373', lineHeight: 1.4 }} title={evaluation.notes}>
-              {evaluation.notes.length > 50 ? evaluation.notes.slice(0, 50) + '…' : evaluation.notes}
+            <p style={{ fontSize: '11px', color: '#737373', lineHeight: 1.4 }}>
+              {evaluation.notes}
             </p>
           ) : (
             <span style={{ fontSize: '11px', color: '#AEAEAE' }}>—</span>
