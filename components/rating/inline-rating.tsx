@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   ThumbsUp, ThumbsDown, Minus,
-  ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Loader2, User,
+  ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Loader2, User, Pencil,
 } from 'lucide-react'
 import { MetricRating, type MetricValue } from './metric-rating'
 import { submitEvaluation } from '@/actions/evaluations'
@@ -146,6 +146,18 @@ export function InlineRating({ itemType, itemId, evaluations = [], onSuccess }: 
 
   const [expandedEvaluator, setExpandedEvaluator] = useState<string | null>(null)
 
+  // Reset form when evaluator name changes
+  const prevName = useRef(evaluatorName)
+  useEffect(() => {
+    if (prevName.current !== evaluatorName) {
+      prevName.current = evaluatorName
+      setPhase('idle'); setImpression(null); setShowDetails(false)
+      setComprehensibility(null); setRelevance(null); setPlausibility(null)
+      setComment(''); setDetailSuccess(false); setError(null)
+      setExpandedEvaluator(null)
+    }
+  }, [evaluatorName])
+
   // Group evaluations by evaluator name (most recent per evaluator)
   const evaluatorMap = new Map<string, Evaluation>()
   for (const ev of evaluations) {
@@ -154,6 +166,26 @@ export function InlineRating({ itemType, itemId, evaluations = [], onSuccess }: 
     }
   }
   const evaluatorNames = Array.from(evaluatorMap.keys())
+
+  const isOwnName = (name: string) =>
+    name.trim().toLowerCase() === (evaluatorName ?? '').trim().toLowerCase()
+
+  const handlePillClick = (name: string) => {
+    if (isOwnName(name)) {
+      const ev = evaluatorMap.get(name)!
+      setImpression(ev.impression as Impression)
+      setComprehensibility(ev.comprehensibility)
+      setRelevance(ev.relevance)
+      setPlausibility(ev.plausibility)
+      setComment(ev.notes ?? '')
+      setPhase('saved')
+      setShowDetails(true)
+      setDetailSuccess(false)
+      setExpandedEvaluator(null)
+    } else {
+      setExpandedEvaluator(expandedEvaluator === name ? null : name)
+    }
+  }
 
   const resetForm = () => {
     setError(null)
@@ -223,31 +255,33 @@ export function InlineRating({ itemType, itemId, evaluations = [], onSuccess }: 
           <div className="flex flex-wrap gap-1.5">
             {evaluatorNames.map(name => {
               const ev = evaluatorMap.get(name)!
+              const own = isOwnName(name)
               const isExpanded = expandedEvaluator === name
               const color = impressionColors[ev.impression ?? ''] ?? '#737373'
               return (
                 <button
                   key={name}
-                  onClick={() => setExpandedEvaluator(isExpanded ? null : name)}
+                  onClick={() => handlePillClick(name)}
                   className={cn(
                     'flex items-center gap-1 rounded-lg border px-2.5 py-1 text-[11px] font-medium transition-all',
                     isExpanded ? 'ring-1' : '',
                   )}
                   style={{
-                    borderColor: isExpanded ? color : '#E5E5E5',
-                    backgroundColor: isExpanded ? `${color}10` : '#fff',
-                    color: isExpanded ? color : '#737373',
+                    borderColor: own ? '#1A2FEE' : isExpanded ? color : '#E5E5E5',
+                    backgroundColor: own ? 'rgba(26,47,238,0.06)' : isExpanded ? `${color}10` : '#fff',
+                    color: own ? '#1A2FEE' : isExpanded ? color : '#737373',
                     ...(isExpanded ? { ringColor: color } : {}),
                   }}
                 >
-                  <User className="size-3 shrink-0" />
+                  {own ? <Pencil className="size-3 shrink-0" /> : <User className="size-3 shrink-0" />}
                   {name}
+                  {own && <span className="text-[9px] opacity-60">(Sie)</span>}
                 </button>
               )
             })}
           </div>
 
-          {/* Expanded evaluator detail */}
+          {/* Expanded evaluator detail (other people only — own pill loads into form) */}
           {expandedEvaluator && evaluatorMap.has(expandedEvaluator) && (
             <div
               className="rounded-xl border p-3"
