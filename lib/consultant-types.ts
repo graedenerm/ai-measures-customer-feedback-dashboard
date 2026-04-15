@@ -46,6 +46,7 @@ export interface ConsultantInsight {
   insight_title: string
   insight_description: string | null
   insight_raw: Record<string, unknown> | null
+  industry: string | null
   created_at: string                   // junction row created_at (when assigned)
 }
 

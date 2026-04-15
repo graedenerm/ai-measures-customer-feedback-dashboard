@@ -160,7 +160,10 @@ export async function getInsightsForPortal(
         source_file,
         insight_title,
         insight_description,
-        insight_raw
+        insight_raw,
+        companies (
+          industry
+        )
       )
     `)
     .eq('consultant_portal_id', portalId)
@@ -169,7 +172,7 @@ export async function getInsightsForPortal(
   if (error || !data) return []
 
   const insights = data.map((row) => {
-    const ic = row.insights_catalog as unknown as InsightsCatalog | null
+    const ic = row.insights_catalog as unknown as (InsightsCatalog & { companies: { industry: string | null } | null }) | null
     return {
       id:                   row.id,
       consultant_portal_id: row.consultant_portal_id,
@@ -182,6 +185,7 @@ export async function getInsightsForPortal(
       insight_title:        ic?.insight_title         ?? '',
       insight_description:  ic?.insight_description   ?? null,
       insight_raw:          ic?.insight_raw            ?? null,
+      industry:             ic?.companies?.industry   ?? null,
     } satisfies ConsultantInsight
   })
 

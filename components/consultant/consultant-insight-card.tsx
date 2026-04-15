@@ -4,7 +4,7 @@ import { useState } from 'react'
 import {
   TrendingUp, AlertTriangle, Shield, Euro, Zap,
   Info, Target, ChevronDown, ChevronUp, CheckCircle2,
-  Calendar, Activity,
+  Calendar, Activity, Factory,
 } from 'lucide-react'
 import { ConsultantRatingForm, type InitialRatingValues } from './consultant-rating-form'
 import type { ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-types'
@@ -36,6 +36,36 @@ function hypothesisTypeStyle(type: string) {
     case 'opportunity': return { bg: 'rgba(26,47,238,0.08)', text: '#1A2FEE', label: 'Potential' }
     default:            return { bg: 'rgba(0,0,0,0.04)',      text: '#737373', label: type }
   }
+}
+
+const INDUSTRY_DE: Record<string, string> = {
+  'Manufacture of basic metals': 'Metallerzeugung',
+  'Manufacture of basic pharmaceutical products and pharmaceutical preparations': 'Pharmazeutische Erzeugnisse',
+  'Manufacture of beverages': 'Getränkeherstellung',
+  'Manufacture of chemicals and chemical products': 'Chemische Erzeugnisse',
+  'Manufacture of computer, electronic and optical products': 'Elektronik & Optik',
+  'Manufacture of electrical equipment': 'Elektrische Ausrüstungen',
+  'Manufacture of fabricated metal products, except machinery and equipment': 'Metallerzeugnisse',
+  'Manufacture of food products': 'Nahrungsmittel',
+  'Manufacture of furniture': 'Möbelherstellung',
+  'Manufacture of leather and related products': 'Leder & Lederwaren',
+  'Manufacture of machinery and equipment n.e.c.': 'Maschinenbau',
+  'Manufacture of motor vehicles, trailers and semi-trailers': 'Fahrzeugbau',
+  'Manufacture of other non-metallic mineral products': 'Mineralerzeugnisse',
+  'Manufacture of paper and paper products': 'Papier & Pappe',
+  'Manufacture of rubber and plastic products': 'Gummi- & Kunststoffwaren',
+  'Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials': 'Holzwaren',
+  'MANUFACTURING_INDUSTRY': 'Verarbeitendes Gewerbe',
+  'HOSPITALITY': 'Gastgewerbe',
+  'HEALTHCARE': 'Gesundheitswesen',
+  'TRANSPORTATION_AND_STORAGE': 'Transport & Lagerei',
+  'FOOD_TRADE': 'Lebensmittelhandel',
+  'FOOD_PRODUCTION': 'Lebensmittelproduktion',
+  'REAL_ESTATE_AND_HOUSING': 'Immobilienwirtschaft',
+  'CONSTRUCTION': 'Baugewerbe',
+  'TRADE_MOTOR_VEHICLES': 'Kfz-Handel & -Reparatur',
+  'MINING': 'Bergbau',
+  'TECHNOLOGY': 'Technologie',
 }
 
 function formatEur(v: number | null) {
@@ -81,6 +111,7 @@ export function ConsultantInsightCard({
   const cs = confidenceStyle(confidence)
   const savingsEur = (raw.savings_eur as number | null | undefined) ?? (raw.savingsEurPerYear as number | null | undefined) ?? null
   const savingsKwh = (raw.savings_kwh as number | null | undefined) ?? (raw.savingsKwhPerYear as number | null | undefined) ?? null
+  const industryLabel = insight.industry ? (INDUSTRY_DE[insight.industry] ?? insight.industry) : null
   const summary = typeof raw.summary === 'string' ? raw.summary : null
   const hypotheses = Array.isArray(raw.hypotheses)
     ? (raw.hypotheses as { type: string; explanation: string }[]).filter((h) => h.type && h.explanation)
@@ -149,6 +180,11 @@ export function ConsultantInsightCard({
                 {savingsEur !== null && (
                   <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: 'rgba(5,150,105,0.08)', color: '#059669' }}>
                     <Euro className="size-2.5" /> {formatEur(savingsEur)}/a
+                  </span>
+                )}
+                {industryLabel && (
+                  <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: 'rgba(0,0,0,0.04)', color: '#737373' }}>
+                    <Factory className="size-2.5" /> {industryLabel}
                   </span>
                 )}
                 {evaluation && (
