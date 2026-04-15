@@ -231,16 +231,16 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
               <MetricRating
                 label="Relevanz"
                 description={itemType === 'insight'
-                  ? 'Ist die Erkenntnis relevant für Sie?'
-                  : 'Ist die Maßnahme relevant für Sie?'}
+                  ? 'Ist die Erkenntnis relevant für Sie und hinreichend konkret, um die nächsten Schritte davon abzuleiten?'
+                  : 'Ist die Maßnahme relevant für Sie und hinreichend konkret, um die nächsten Schritte davon abzuleiten?'}
                 value={relevance}
                 onChange={setRelevance}
               />
               <MetricRating
                 label="Plausibilität"
                 description={itemType === 'insight'
-                  ? 'Ist die Erkenntnis inhaltlich richtig?'
-                  : 'Ist die Maßnahme inhaltlich richtig?'}
+                  ? 'Halten Sie die Erkenntnis sowie die damit verbundenen Einsparpotenziale für inhaltlich plausibel?'
+                  : 'Halten Sie die Maßnahme sowie die damit verbundenen Einsparpotenziale für inhaltlich plausibel?'}
                 value={plausibility}
                 onChange={setPlausibility}
               />
