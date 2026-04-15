@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import {
   ThumbsUp, ThumbsDown, Minus,
-  ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Loader2,
+  ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Loader2, Pencil,
 } from 'lucide-react'
 import { MetricRating, type MetricValue } from './metric-rating'
 import { submitEvaluation, getEvaluationForEvaluator } from '@/actions/evaluations'
@@ -58,6 +58,26 @@ const impressionConfig = [
   },
 ]
 
+function ScoreRow({ label, score }: { label: string; score: number }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-xs font-medium" style={{ color: '#737373' }}>{label}</span>
+      <div className="flex items-center gap-1.5">
+        <div className="flex gap-0.5">
+          {[1, 2, 3, 4, 5].map(n => (
+            <div
+              key={n}
+              className="size-2 rounded-full"
+              style={{ backgroundColor: n <= score ? '#1A2FEE' : '#E5E5E5' }}
+            />
+          ))}
+        </div>
+        <span className="text-xs font-semibold" style={{ color: '#00095B' }}>{score}/5</span>
+      </div>
+    </div>
+  )
+}
+
 export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps) {
   const { evaluatorName } = useEvaluator()
 
@@ -76,29 +96,37 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
   const [detailSuccess, setDetailSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const [loadedFromDb, setLoadedFromDb] = useState(false)
+
   // Load existing evaluation for this evaluator+item on mount or when name changes
   useEffect(() => {
     if (!evaluatorName) return
+    setLoadedFromDb(false)
     getEvaluationForEvaluator(itemType, itemId, evaluatorName).then((existing) => {
       if (existing) {
         setImpression(existing.impression as Impression)
+        setComprehensibility(existing.comprehensibility)
+        setRelevance(existing.relevance)
+        setPlausibility(existing.plausibility)
+        setComment(existing.notes ?? '')
+        setLoadedFromDb(true)
         setPhase('saved')
-        if (existing.comprehensibility || existing.relevance || existing.plausibility) {
-          setComprehensibility(existing.comprehensibility)
-          setRelevance(existing.relevance)
-          setPlausibility(existing.plausibility)
-          setComment(existing.notes ?? '')
-          setDetailSuccess(true)
-        }
       }
     })
   }, [evaluatorName, itemType, itemId])
 
   const resetForm = () => {
-    setError(null)
+    setError(null); setLoadedFromDb(false)
     setPhase('idle'); setImpression(null); setShowDetails(false)
     setComprehensibility(null); setRelevance(null); setPlausibility(null)
     setComment('')
+    setDetailSuccess(false)
+  }
+
+  const handleEdit = () => {
+    setLoadedFromDb(false)
+    setPhase('saved')
+    setShowDetails(true)
     setDetailSuccess(false)
   }
 
@@ -149,6 +177,74 @@ export function InlineRating({ itemType, itemId, onSuccess }: InlineRatingProps)
         <p className="text-xs leading-snug" style={{ color: '#AEAEAE' }}>
           Tragen Sie Ihren Namen oben ein,<br />um zu bewerten.
         </p>
+      </div>
+    )
+  }
+
+  // ── Summary view for existing votes ────────────────────────────────────────
+  if (loadedFromDb && impression) {
+    const cfg = impressionConfig.find(c => c.value === impression)!
+    const Icon = cfg.icon
+    const hasDetails = typeof comprehensibility === 'number'
+      || typeof relevance === 'number'
+      || typeof plausibility === 'number'
+
+    return (
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: '#059669' }}>
+          <CheckCircle2 className="size-3.5 shrink-0" />
+          Bereits bewertet
+        </div>
+
+        {/* Impression pill */}
+        <div
+          className="flex items-center gap-2.5 rounded-xl border-2 px-4 py-2.5"
+          style={{ borderColor: cfg.selectedBorder, backgroundColor: cfg.selectedBg, color: '#fff' }}
+        >
+          <Icon className="size-4 shrink-0" />
+          <span className="text-sm font-semibold">{cfg.label}</span>
+          <CheckCircle2 className="ml-auto size-3.5 shrink-0 opacity-70" />
+        </div>
+
+        {/* Subcategory scores */}
+        {hasDetails && (
+          <div
+            className="flex flex-col gap-2 rounded-xl border p-3"
+            style={{ borderColor: '#E5E5E5', backgroundColor: '#FAFAFA' }}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
+              Detailbewertung
+            </p>
+            {typeof comprehensibility === 'number' && (
+              <ScoreRow label="Verständlichkeit" score={comprehensibility} />
+            )}
+            {typeof relevance === 'number' && (
+              <ScoreRow label="Relevanz" score={relevance} />
+            )}
+            {typeof plausibility === 'number' && (
+              <ScoreRow label="Plausibilität" score={plausibility} />
+            )}
+          </div>
+        )}
+
+        {/* Comment */}
+        {comment && (
+          <div className="rounded-xl border p-3" style={{ borderColor: '#E5E5E5' }}>
+            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
+              Kommentar
+            </p>
+            <p className="text-sm leading-snug" style={{ color: '#00095B' }}>{comment}</p>
+          </div>
+        )}
+
+        {/* Edit button */}
+        <button
+          onClick={handleEdit}
+          className="flex items-center gap-1.5 self-start text-xs transition-opacity hover:opacity-70"
+          style={{ color: '#737373' }}
+        >
+          <Pencil className="size-3" /> Ändern
+        </button>
       </div>
     )
   }
