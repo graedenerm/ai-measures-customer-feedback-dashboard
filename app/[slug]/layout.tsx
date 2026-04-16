@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import { getCompanyBySlug } from '@/actions/companies'
-import { SlugPasswordGate } from '@/components/slug-password-gate'
 
 interface SlugLayoutProps {
   children: React.ReactNode
@@ -13,13 +12,5 @@ export default async function SlugLayout({ children, params }: SlugLayoutProps) 
 
   if (!company) notFound()
 
-  return (
-    <SlugPasswordGate
-      slug={slug}
-      password={company.password ?? ''}
-      companyName={company.name}
-    >
-      {children}
-    </SlugPasswordGate>
-  )
+  return <>{children}</>
 }
