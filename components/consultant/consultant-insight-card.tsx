@@ -22,8 +22,9 @@ function typeStyle(type: string) {
 }
 
 function confidenceStyle(c: number | null) {
-  if (c === null) return null
+  if (c === null || c === 0) return null
   const pct = c > 1 ? c : c * 100
+  if (pct === 0) return null
   if (pct >= 90) return { bg: 'rgba(5,150,105,0.08)', text: '#059669', label: `${pct.toFixed(0)} %` }
   if (pct >= 70) return { bg: 'rgba(234,179,8,0.08)', text: '#b45309', label: `${pct.toFixed(0)} %` }
   return { bg: 'rgba(220,38,38,0.06)', text: '#dc2626', label: `${pct.toFixed(0)} %` }

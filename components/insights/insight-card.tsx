@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   TrendingUp, AlertTriangle, ChevronDown, ChevronUp,
   Shield, Euro, Zap, MapPin, Wrench, Target, Info,
-  ThumbsUp, ThumbsDown, Minus, FileText,
+  ThumbsUp, ThumbsDown, Minus, FileText, Gauge,
 } from 'lucide-react'
 import { InlineRating } from '@/components/rating/inline-rating'
 import type { InsightWithMeasures } from '@/lib/types'
@@ -22,8 +22,9 @@ function typeStyle(type: string) {
 }
 
 function confidenceStyle(c: number | null) {
-  if (c === null) return null
+  if (c === null || c === 0) return null
   const pct = c > 1 ? c : c * 100
+  if (pct === 0) return null
   if (pct >= 90) return { bg: 'rgba(5,150,105,0.08)', text: '#059669', label: `${pct.toFixed(0)} %` }
   if (pct >= 70) return { bg: 'rgba(234,179,8,0.08)', text: '#b45309', label: `${pct.toFixed(0)} %` }
   return { bg: 'rgba(220,38,38,0.06)', text: '#dc2626', label: `${pct.toFixed(0)} %` }
@@ -86,6 +87,10 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
   const summary = typeof raw?.summary === 'string' ? raw.summary : null
   const hypotheses = Array.isArray(raw?.hypotheses)
     ? (raw.hypotheses as { type: string; explanation: string }[]).filter(h => h.type && h.explanation)
+    : []
+  const ctx = raw?.context as Record<string, unknown> | undefined
+  const meters = Array.isArray(ctx?.meters)
+    ? (ctx.meters as { meterTitle?: string; deviceId?: string; energyType?: string; isVirtual?: boolean; isDefault?: boolean }[]).filter(m => m.deviceId || m.meterTitle)
     : []
 
   return (
@@ -247,9 +252,35 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
                           : <ChevronDown className="size-3.5" />}
                       </button>
                       {detailOpen && (
-                        <p className="mt-2 text-[13px] leading-relaxed" style={{ color: '#444444' }}>
-                          {insight.description}
-                        </p>
+                        <>
+                          <p className="mt-2 text-[13px] leading-relaxed" style={{ color: '#444444' }}>
+                            {insight.description}
+                          </p>
+                          {meters.length > 0 && (
+                            <div className="mt-3 rounded-lg border px-4 py-3" style={{ backgroundColor: '#FAFAFA', borderColor: '#F0F0F0' }}>
+                              <div className="flex items-center gap-1.5 mb-2">
+                                <Gauge className="size-3.5" style={{ color: '#737373' }} />
+                                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#737373' }}>Zähler</span>
+                              </div>
+                              <div className="flex flex-col gap-1.5">
+                                {meters.map((m, i) => (
+                                  <div key={i} className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[12px]" style={{ color: '#444444' }}>
+                                    <span className="font-medium" style={{ color: '#00095B' }}>{m.meterTitle || 'Zähler'}</span>
+                                    {m.deviceId && <span className="font-mono text-[11px]" style={{ color: '#AEAEAE' }}>{m.deviceId}</span>}
+                                    {m.energyType && (
+                                      <span className="rounded-full px-1.5 py-0.5 text-[10px] font-medium" style={{ backgroundColor: 'rgba(26,47,238,0.06)', color: '#1A2FEE' }}>
+                                        {m.energyType === 'electricity' ? 'Strom' : m.energyType === 'gas' ? 'Gas' : m.energyType}
+                                      </span>
+                                    )}
+                                    {m.isVirtual && (
+                                      <span className="rounded-full px-1.5 py-0.5 text-[10px] font-medium" style={{ backgroundColor: 'rgba(0,0,0,0.04)', color: '#737373' }}>virtuell</span>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </>
                       )}
                     </div>
                   )}
