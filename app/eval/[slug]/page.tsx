@@ -3,6 +3,8 @@ import { cookies } from 'next/headers'
 import { getConsultantPortalBySlug } from '@/actions/consultant-portals'
 import { getInsightsForPortal } from '@/actions/consultant-insights'
 import { getEvaluationsForPortal } from '@/actions/consultant-evaluations'
+import { getMeasuresForPortal } from '@/actions/consultant-measures'
+import { getMeasureEvaluationsForPortal } from '@/actions/consultant-measure-evaluations'
 import { ConsultantPasswordGate } from '@/components/consultant/consultant-password-gate'
 import { ConsultantPortalClient } from '@/components/consultant/consultant-portal-client'
 
@@ -14,7 +16,7 @@ export async function generateMetadata({ params }: EvalSlugPageProps) {
   const { slug } = await params
   const portal = await getConsultantPortalBySlug(slug)
   return {
-    title: portal ? `${portal.evaluator_name} – Erkenntnis-Evaluierung` : 'Evaluierungsportal',
+    title: portal ? `${portal.evaluator_name} – Evaluierung` : 'Evaluierungsportal',
   }
 }
 
@@ -24,7 +26,6 @@ export default async function EvalSlugPage({ params }: EvalSlugPageProps) {
 
   if (!portal) notFound()
 
-  // Check auth cookie — the password is never sent to the client
   const cookieStore = await cookies()
   const authToken = cookieStore.get(`consultant_auth_${slug}`)?.value
   const isAuthenticated = authToken === portal.id
@@ -38,10 +39,11 @@ export default async function EvalSlugPage({ params }: EvalSlugPageProps) {
     )
   }
 
-  // Authenticated — load data
-  const [insights, evaluations] = await Promise.all([
+  const [insights, evaluations, measures, measureEvaluations] = await Promise.all([
     getInsightsForPortal(portal.id),
     getEvaluationsForPortal(portal.id),
+    getMeasuresForPortal(portal.id),
+    getMeasureEvaluationsForPortal(portal.id),
   ])
 
   return (
@@ -51,6 +53,8 @@ export default async function EvalSlugPage({ params }: EvalSlugPageProps) {
       evaluatorName={portal.evaluator_name}
       insights={insights}
       initialEvaluations={evaluations}
+      measures={measures}
+      initialMeasureEvaluations={measureEvaluations}
     />
   )
 }

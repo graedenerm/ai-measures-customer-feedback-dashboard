@@ -1,19 +1,29 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { LayoutList, CreditCard, ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { LayoutList, CreditCard, ChevronLeft, ChevronRight, X, Lightbulb, Wrench } from 'lucide-react'
 import { ConsultantInsightCard } from './consultant-insight-card'
 import { RatedInsightsList } from './rated-insights-list'
-import type { ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-types'
+import { ConsultantMeasureCard } from './consultant-measure-card'
+import { RatedMeasuresList } from './rated-measures-list'
+import type {
+  ConsultantInsight,
+  ConsultantEvaluation,
+  ConsultantMeasure,
+  ConsultantMeasureEvaluation,
+} from '@/lib/consultant-types'
 import type { InitialRatingValues } from './consultant-rating-form'
+import type { InitialMeasureRatingValues } from './consultant-measure-rating-form'
 
+type ContentType = 'insights' | 'measures'
 type Tab = 'toRate' | 'rated'
 type Layout = 'list' | 'card'
 type TypeFilter = 'all' | 'anomaly' | 'trend' | 'changepoint' | 'structural'
 type ConfidenceFilter = 'all' | '0-25' | '25-50' | '50-75' | '75-100'
 type ActiveFilter = 'all' | 'active' | 'ended'
+type EffortFilter = 'all' | 'LOW' | 'MEDIUM' | 'HIGH'
 
-// ── Filter helpers ────────────────────────────────────────────────────────────
+// ── Insight filter helpers ────────────────────────────────────────────────────
 
 function getRawType(raw: Record<string, unknown> | null): TypeFilter {
   const t = ((raw?.finding_type ?? raw?.type ?? '') as string).toLowerCase()
@@ -34,9 +44,14 @@ function getRawActive(raw: Record<string, unknown> | null): boolean | null {
   return typeof a === 'boolean' ? a : null
 }
 
-interface ReEvalTarget {
+interface InsightReEvalTarget {
   insight: ConsultantInsight
   evaluation: ConsultantEvaluation
+}
+
+interface MeasureReEvalTarget {
+  measure: ConsultantMeasure
+  evaluation: ConsultantMeasureEvaluation
 }
 
 interface ConsultantPortalClientProps {
@@ -45,6 +60,8 @@ interface ConsultantPortalClientProps {
   evaluatorName: string
   insights: ConsultantInsight[]
   initialEvaluations: ConsultantEvaluation[]
+  measures: ConsultantMeasure[]
+  initialMeasureEvaluations: ConsultantMeasureEvaluation[]
 }
 
 export function ConsultantPortalClient({
@@ -53,35 +70,43 @@ export function ConsultantPortalClient({
   evaluatorName,
   insights,
   initialEvaluations,
+  measures,
+  initialMeasureEvaluations,
 }: ConsultantPortalClientProps) {
-  const [evaluations, setEvaluations] = useState<ConsultantEvaluation[]>(initialEvaluations)
-  const [tab, setTab] = useState<Tab>('toRate')
-  const [layout, setLayout] = useState<Layout>('card')
-  const [cardIndex, setCardIndex] = useState(0)
-  const [reEvalTarget, setReEvalTarget] = useState<ReEvalTarget | null>(null)
+  // Start on whichever content type has items; prefer insights if both exist
+  const [contentType, setContentType] = useState<ContentType>(
+    insights.length > 0 ? 'insights' : (measures.length > 0 ? 'measures' : 'insights')
+  )
 
-  // Filters
+  // ── Insight state ──
+  const [evaluations, setEvaluations] = useState<ConsultantEvaluation[]>(initialEvaluations)
+  const [insightTab, setInsightTab] = useState<Tab>('toRate')
+  const [insightLayout, setInsightLayout] = useState<Layout>('card')
+  const [insightCardIndex, setInsightCardIndex] = useState(0)
+  const [insightReEvalTarget, setInsightReEvalTarget] = useState<InsightReEvalTarget | null>(null)
   const [typeFilter, setTypeFilter] = useState<TypeFilter>('all')
   const [confidenceFilter, setConfidenceFilter] = useState<ConfidenceFilter>('all')
   const [activeFilter, setActiveFilter] = useState<ActiveFilter>('all')
 
-  const ratedIds = new Set(evaluations.map((e) => e.consultant_insight_id))
-  const toRate = insights.filter((i) => !ratedIds.has(i.id))
-  const evalMap = new Map(evaluations.map((e) => [e.consultant_insight_id, e]))
+  // ── Measure state ──
+  const [measureEvaluations, setMeasureEvaluations] = useState<ConsultantMeasureEvaluation[]>(initialMeasureEvaluations)
+  const [measureTab, setMeasureTab] = useState<Tab>('toRate')
+  const [measureLayout, setMeasureLayout] = useState<Layout>('card')
+  const [measureCardIndex, setMeasureCardIndex] = useState(0)
+  const [measureReEvalTarget, setMeasureReEvalTarget] = useState<MeasureReEvalTarget | null>(null)
+  const [effortFilter, setEffortFilter] = useState<EffortFilter>('all')
 
-  const ratedCount = evaluations.length  // one evaluation per insight
-  const totalCount = insights.length
-  const progress = totalCount > 0 ? Math.round((ratedCount / totalCount) * 100) : 0
+  // ── Insight computed ──
+  const insightRatedIds = new Set(evaluations.map((e) => e.consultant_insight_id))
+  const insightToRate = insights.filter((i) => !insightRatedIds.has(i.id))
+  const insightRatedCount = evaluations.length
+  const insightTotalCount = insights.length
 
-  // Apply filters (progress/counts always reflect all insights)
   const filteredInsights = insights.filter((insight) => {
     const raw = insight.insight_raw ?? {}
-
     if (typeFilter !== 'all' && getRawType(raw) !== typeFilter) return false
-
     if (confidenceFilter !== 'all') {
       const pct = getRawConfidencePct(raw)
-      // Insights with no confidence value are not excluded — only filter when value is present
       if (pct !== null) {
         if (confidenceFilter === '0-25'  && !(pct >= 0  && pct <= 25)) return false
         if (confidenceFilter === '25-50' && !(pct >  25 && pct <= 50)) return false
@@ -89,58 +114,111 @@ export function ConsultantPortalClient({
         if (confidenceFilter === '75-100'&& !(pct >  75             )) return false
       }
     }
-
     if (activeFilter !== 'all' && (typeFilter === 'trend' || typeFilter === 'changepoint')) {
       const active = getRawActive(raw)
       if (activeFilter === 'active' && active !== true)  return false
       if (activeFilter === 'ended'  && active !== false) return false
     }
-
     return true
   })
+  const filteredInsightToRate = filteredInsights.filter((i) => !insightRatedIds.has(i.id))
 
-  const filteredToRate = filteredInsights.filter((i) => !ratedIds.has(i.id))
+  // ── Measure computed ──
+  const measureRatedIds = new Set(measureEvaluations.map((e) => e.consultant_measure_id))
+  const measureToRate = measures.filter((m) => !measureRatedIds.has(m.id))
+  const measureRatedCount = measureEvaluations.length
+  const measureTotalCount = measures.length
+
+  const filteredMeasures = measures.filter((m) => {
+    if (effortFilter !== 'all') {
+      const raw = m.measure_raw ?? {}
+      const level = ((raw as Record<string, unknown>).effort_level as string | undefined)
+                 ?? ((raw as Record<string, unknown>).effortLevel as string | undefined)
+                 ?? null
+      if (level !== effortFilter) return false
+    }
+    return true
+  })
+  const filteredMeasureToRate = filteredMeasures.filter((m) => !measureRatedIds.has(m.id))
+
+  // ── Progress (depends on contentType) ──
+  const totalCount = contentType === 'insights' ? insightTotalCount : measureTotalCount
+  const ratedCount = contentType === 'insights' ? insightRatedCount : measureRatedCount
+  const toRateCount = contentType === 'insights' ? insightToRate.length : measureToRate.length
+  const progress = totalCount > 0 ? Math.round((ratedCount / totalCount) * 100) : 0
 
   useEffect(() => {
-    if (cardIndex >= toRate.length && toRate.length > 0) {
-      setCardIndex(Math.max(0, toRate.length - 1))
+    if (insightCardIndex >= insightToRate.length && insightToRate.length > 0) {
+      setInsightCardIndex(Math.max(0, insightToRate.length - 1))
     }
-  }, [toRate.length, cardIndex])
+  }, [insightToRate.length, insightCardIndex])
+  useEffect(() => { setInsightCardIndex(0) }, [typeFilter, confidenceFilter, activeFilter])
 
-  // Reset card index when filters change
-  useEffect(() => { setCardIndex(0) }, [typeFilter, confidenceFilter, activeFilter])
+  useEffect(() => {
+    if (measureCardIndex >= measureToRate.length && measureToRate.length > 0) {
+      setMeasureCardIndex(Math.max(0, measureToRate.length - 1))
+    }
+  }, [measureToRate.length, measureCardIndex])
+  useEffect(() => { setMeasureCardIndex(0) }, [effortFilter])
 
-  // New evaluation submitted
-  function handleRated(evaluation: ConsultantEvaluation) {
+  function handleInsightRated(evaluation: ConsultantEvaluation) {
     setEvaluations((prev) => [...prev, evaluation])
-    if (layout === 'card') {
-      setTimeout(() => setCardIndex((p) => p), 800)
+    if (insightLayout === 'card') {
+      setTimeout(() => setInsightCardIndex((p) => p), 800)
     }
   }
-
-  // Existing evaluation updated via modal
-  function handleUpdated(updatedEvaluation: ConsultantEvaluation) {
-    setEvaluations((prev) =>
-      prev.map((e) => (e.id === updatedEvaluation.id ? updatedEvaluation : e))
-    )
-    setReEvalTarget(null)
+  function handleInsightUpdated(updated: ConsultantEvaluation) {
+    setEvaluations((prev) => prev.map((e) => (e.id === updated.id ? updated : e)))
+    setInsightReEvalTarget(null)
   }
 
-  useEffect(() => {
-    if (totalCount > 0 && ratedCount === totalCount && tab === 'toRate') {
-      setTab('rated')
+  function handleMeasureRated(evaluation: ConsultantMeasureEvaluation) {
+    setMeasureEvaluations((prev) => [...prev, evaluation])
+    if (measureLayout === 'card') {
+      setTimeout(() => setMeasureCardIndex((p) => p), 800)
     }
-  }, [ratedCount, totalCount, tab])
+  }
+  function handleMeasureUpdated(updated: ConsultantMeasureEvaluation) {
+    setMeasureEvaluations((prev) => prev.map((e) => (e.id === updated.id ? updated : e)))
+    setMeasureReEvalTarget(null)
+  }
 
-  // Close modal on Escape
+  // Auto-switch to rated tab when complete
   useEffect(() => {
-    if (!reEvalTarget) return
-    function onKey(e: KeyboardEvent) { if (e.key === 'Escape') setReEvalTarget(null) }
+    if (contentType === 'insights' && insightTotalCount > 0 && insightRatedCount === insightTotalCount && insightTab === 'toRate') {
+      setInsightTab('rated')
+    }
+  }, [insightRatedCount, insightTotalCount, insightTab, contentType])
+  useEffect(() => {
+    if (contentType === 'measures' && measureTotalCount > 0 && measureRatedCount === measureTotalCount && measureTab === 'toRate') {
+      setMeasureTab('rated')
+    }
+  }, [measureRatedCount, measureTotalCount, measureTab, contentType])
+
+  // Close modals on Escape
+  useEffect(() => {
+    if (!insightReEvalTarget && !measureReEvalTarget) return
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setInsightReEvalTarget(null)
+        setMeasureReEvalTarget(null)
+      }
+    }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [reEvalTarget])
+  }, [insightReEvalTarget, measureReEvalTarget])
 
-  const currentCardInsight = filteredToRate[cardIndex] ?? null
+  const currentInsightCard = filteredInsightToRate[insightCardIndex] ?? null
+  const currentMeasureCard = filteredMeasureToRate[measureCardIndex] ?? null
+
+  // Active inner tab and layout based on contentType
+  const tab = contentType === 'insights' ? insightTab : measureTab
+  const setTab = contentType === 'insights' ? setInsightTab : setMeasureTab
+  const layout = contentType === 'insights' ? insightLayout : measureLayout
+  const setLayout = contentType === 'insights' ? setInsightLayout : setMeasureLayout
+  const innerToRateCount = contentType === 'insights' ? filteredInsightToRate.length : filteredMeasureToRate.length
+
+  const showContentSwitcher = insightTotalCount > 0 && measureTotalCount > 0
 
   return (
     <div className="flex min-h-screen flex-col" style={{ backgroundColor: '#f8f9ff' }}>
@@ -150,7 +228,9 @@ export function ConsultantPortalClient({
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 md:px-10">
           <div>
             <p className="text-base font-bold text-white">ecoplanet</p>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>Erkenntnis-Evaluierung · {evaluatorName}</p>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              {contentType === 'insights' ? 'Erkenntnis-Evaluierung' : 'Maßnahmen-Evaluierung'} · {evaluatorName}
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex flex-col items-end">
@@ -175,11 +255,15 @@ export function ConsultantPortalClient({
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: '#AEAEAE' }}>
-                Qualitätsbewertung KI-Erkenntnisse
+                {contentType === 'insights'
+                  ? 'Qualitätsbewertung KI-Erkenntnisse'
+                  : 'Qualitätsbewertung KI-Maßnahmen'}
               </p>
               <h1 className="text-2xl font-bold text-white md:text-3xl">{evaluatorName}</h1>
               <p className="mt-2 text-sm" style={{ color: '#AEAEAE' }}>
-                Bitte bewerten Sie jede Erkenntnis anhand der vier Qualitätskriterien.
+                {contentType === 'insights'
+                  ? 'Bitte bewerten Sie jede Erkenntnis anhand der vier Qualitätskriterien.'
+                  : 'Bitte bewerten Sie jede Maßnahme anhand der fünf Qualitätskriterien.'}
               </p>
             </div>
             <div className="shrink-0 rounded-xl border px-5 py-3" style={{ backgroundColor: '#0D1166', borderColor: 'rgba(26,47,238,0.25)' }}>
@@ -187,7 +271,7 @@ export function ConsultantPortalClient({
                 {[
                   { label: 'Gesamt', value: totalCount, color: 'text-white' },
                   { label: 'Bewertet', value: ratedCount, color: '#059669' },
-                  { label: 'Offen', value: toRate.length, color: 'rgba(226,236,43,0.9)' },
+                  { label: 'Offen', value: toRateCount, color: 'rgba(226,236,43,0.9)' },
                 ].map(({ label, value, color }, i, arr) => (
                   <div key={label} className="flex gap-6">
                     <div>
@@ -211,12 +295,37 @@ export function ConsultantPortalClient({
       {/* ── Main content ── */}
       <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-6 md:px-10">
 
-        {/* Tab bar + layout toggle */}
+        {/* Content type switcher — only when both have items */}
+        {showContentSwitcher && (
+          <div className="mb-5 flex justify-center">
+            <div className="flex rounded-xl border p-1" style={{ backgroundColor: '#ffffff', borderColor: '#E5E5E5' }}>
+              {[
+                { key: 'insights' as ContentType, icon: Lightbulb, label: 'Erkenntnisse', count: insightTotalCount, rated: insightRatedCount },
+                { key: 'measures' as ContentType, icon: Wrench,    label: 'Maßnahmen',    count: measureTotalCount, rated: measureRatedCount },
+              ].map(({ key, icon: Icon, label, count, rated }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setContentType(key)}
+                  className="flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all"
+                  style={contentType === key
+                    ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
+                    : { backgroundColor: 'transparent', color: '#737373' }}
+                >
+                  <Icon className="size-4" />
+                  {label} ({rated}/{count})
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── Tab bar + layout toggle ── */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex rounded-xl border p-1" style={{ backgroundColor: '#ffffff', borderColor: '#E5E5E5' }}>
             {[
-              { key: 'toRate' as Tab, label: `Zu bewerten (${toRate.length})` },
-              { key: 'rated' as Tab, label: `Bereits bewertet (${ratedCount})` },
+              { key: 'toRate' as Tab, label: `Zu bewerten (${toRateCount})` },
+              { key: 'rated' as Tab,  label: `Bereits bewertet (${ratedCount})` },
             ].map(({ key, label }) => (
               <button
                 key={key}
@@ -232,7 +341,7 @@ export function ConsultantPortalClient({
             ))}
           </div>
 
-          {tab === 'toRate' && toRate.length > 0 && (
+          {tab === 'toRate' && toRateCount > 0 && (
             <div className="flex rounded-xl border p-1" style={{ backgroundColor: '#ffffff', borderColor: '#E5E5E5' }}>
               {[
                 { key: 'list' as Layout, icon: LayoutList, title: 'Listenansicht' },
@@ -255,50 +364,27 @@ export function ConsultantPortalClient({
           )}
         </div>
 
-        {/* ── Filters ── */}
-        <div className="mb-5 flex flex-col gap-2">
-          {/* Row 1: Type */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Typ</span>
-            {([
-              { key: 'all',          label: 'Alle' },
-              { key: 'anomaly',      label: 'Anomalie' },
-              { key: 'trend',        label: 'Trend' },
-              { key: 'changepoint',  label: 'Changepoint' },
-              { key: 'structural',   label: 'Strukturell' },
-            ] as { key: TypeFilter; label: string }[]).map(({ key, label }) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => {
-                  setTypeFilter(key)
-                  if (key !== 'trend' && key !== 'changepoint') setActiveFilter('all')
-                }}
-                className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
-                style={typeFilter === key
-                  ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
-                  : { backgroundColor: '#ffffff', color: '#737373', border: '1px solid #E5E5E5' }}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
-          {/* Row 2: Active status — for trend and changepoint */}
-          {(typeFilter === 'trend' || typeFilter === 'changepoint') && (
+        {/* ── Filters (insights) ── */}
+        {contentType === 'insights' && (
+          <div className="mb-5 flex flex-col gap-2">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Status</span>
+              <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Typ</span>
               {([
-                { key: 'all',    label: 'Alle' },
-                { key: 'active', label: 'Aktiv' },
-                { key: 'ended',  label: 'Beendet' },
-              ] as { key: ActiveFilter; label: string }[]).map(({ key, label }) => (
+                { key: 'all',          label: 'Alle' },
+                { key: 'anomaly',      label: 'Anomalie' },
+                { key: 'trend',        label: 'Trend' },
+                { key: 'changepoint',  label: 'Changepoint' },
+                { key: 'structural',   label: 'Strukturell' },
+              ] as { key: TypeFilter; label: string }[]).map(({ key, label }) => (
                 <button
                   key={key}
                   type="button"
-                  onClick={() => setActiveFilter(key)}
+                  onClick={() => {
+                    setTypeFilter(key)
+                    if (key !== 'trend' && key !== 'changepoint') setActiveFilter('all')
+                  }}
                   className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
-                  style={activeFilter === key
+                  style={typeFilter === key
                     ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
                     : { backgroundColor: '#ffffff', color: '#737373', border: '1px solid #E5E5E5' }}
                 >
@@ -306,99 +392,181 @@ export function ConsultantPortalClient({
                 </button>
               ))}
             </div>
-          )}
 
-          {/* Match count */}
-          {(typeFilter !== 'all' || activeFilter !== 'all') && (
-            <p className="text-[11px]" style={{ color: '#9ca3af' }}>
-              {filteredInsights.length} von {insights.length} Erkenntnissen entsprechen den Filtern
-            </p>
-          )}
-        </div>
-
-        {/* ── "Zu bewerten" tab ── */}
-        {tab === 'toRate' && (
-          <>
-            {filteredToRate.length === 0 ? (
-              <div className="flex flex-col items-center gap-3 py-20 text-center">
-                <p className="text-2xl">✓</p>
-                <p className="text-base font-bold" style={{ color: '#059669' }}>Alle Erkenntnisse bewertet!</p>
-                <p className="text-sm" style={{ color: '#737373' }}>
-                  Wechseln Sie zum Tab "Bereits bewertet" um alle Bewertungen einzusehen.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setTab('rated')}
-                  className="mt-2 rounded-xl px-6 py-2.5 text-sm font-bold"
-                  style={{ backgroundColor: '#1A2FEE', color: '#ffffff' }}
-                >
-                  Bewertungen ansehen
-                </button>
+            {(typeFilter === 'trend' || typeFilter === 'changepoint') && (
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Status</span>
+                {([
+                  { key: 'all',    label: 'Alle' },
+                  { key: 'active', label: 'Aktiv' },
+                  { key: 'ended',  label: 'Beendet' },
+                ] as { key: ActiveFilter; label: string }[]).map(({ key, label }) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setActiveFilter(key)}
+                    className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
+                    style={activeFilter === key
+                      ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
+                      : { backgroundColor: '#ffffff', color: '#737373', border: '1px solid #E5E5E5' }}
+                  >
+                    {label}
+                  </button>
+                ))}
               </div>
-            ) : layout === 'list' ? (
+            )}
+
+            {(typeFilter !== 'all' || activeFilter !== 'all') && (
+              <p className="text-[11px]" style={{ color: '#9ca3af' }}>
+                {filteredInsights.length} von {insights.length} Erkenntnissen entsprechen den Filtern
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* ── Filters (measures) ── */}
+        {contentType === 'measures' && (
+          <div className="mb-5 flex flex-col gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Aufwand</span>
+              {([
+                { key: 'all',    label: 'Alle' },
+                { key: 'LOW',    label: 'Gering' },
+                { key: 'MEDIUM', label: 'Mittel' },
+                { key: 'HIGH',   label: 'Hoch' },
+              ] as { key: EffortFilter; label: string }[]).map(({ key, label }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setEffortFilter(key)}
+                  className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
+                  style={effortFilter === key
+                    ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
+                    : { backgroundColor: '#ffffff', color: '#737373', border: '1px solid #E5E5E5' }}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            {effortFilter !== 'all' && (
+              <p className="text-[11px]" style={{ color: '#9ca3af' }}>
+                {filteredMeasures.length} von {measures.length} Maßnahmen entsprechen dem Filter
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* ── Insights content ── */}
+        {contentType === 'insights' && tab === 'toRate' && (
+          <>
+            {filteredInsightToRate.length === 0 ? (
+              <EmptyState
+                label={insightRatedCount === insightTotalCount && insightTotalCount > 0 ? 'Alle Erkenntnisse bewertet!' : 'Keine Erkenntnisse vorhanden'}
+                onSwitchToRated={() => setInsightTab('rated')}
+                hasRated={insightRatedCount > 0}
+              />
+            ) : insightLayout === 'list' ? (
               <div className="flex flex-col gap-6">
-                {filteredToRate.map((insight, idx) => (
+                {filteredInsightToRate.map((insight, idx) => (
                   <ConsultantInsightCard
                     key={insight.id}
                     insight={insight}
                     index={idx}
                     evaluation={null}
                     evaluatorName={evaluatorName}
-                    onRated={handleRated}
+                    onRated={handleInsightRated}
                   />
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between">
-                  <button
-                    type="button"
-                    disabled={cardIndex === 0}
-                    onClick={() => setCardIndex((p) => Math.max(0, p - 1))}
-                    className="flex items-center gap-1.5 rounded-xl border px-4 py-2 text-sm font-medium transition-all disabled:opacity-30"
-                    style={{ borderColor: '#E5E5E5', color: '#374151', backgroundColor: '#ffffff' }}
-                  >
-                    <ChevronLeft className="size-4" /> Zurück
-                  </button>
-                  <span className="text-sm font-medium" style={{ color: '#737373' }}>
-                    {cardIndex + 1} / {filteredToRate.length} noch zu bewerten
-                  </span>
-                  <button
-                    type="button"
-                    disabled={cardIndex >= filteredToRate.length - 1}
-                    onClick={() => setCardIndex((p) => Math.min(filteredToRate.length - 1, p + 1))}
-                    className="flex items-center gap-1.5 rounded-xl border px-4 py-2 text-sm font-medium transition-all disabled:opacity-30"
-                    style={{ borderColor: '#E5E5E5', color: '#374151', backgroundColor: '#ffffff' }}
-                  >
-                    Weiter <ChevronRight className="size-4" />
-                  </button>
-                </div>
-                {currentCardInsight && (
+              <CardViewNav
+                index={insightCardIndex}
+                total={filteredInsightToRate.length}
+                onPrev={() => setInsightCardIndex((p) => Math.max(0, p - 1))}
+                onNext={() => setInsightCardIndex((p) => Math.min(filteredInsightToRate.length - 1, p + 1))}
+              >
+                {currentInsightCard && (
                   <ConsultantInsightCard
-                    key={currentCardInsight.id}
-                    insight={currentCardInsight}
-                    index={filteredInsights.indexOf(currentCardInsight)}
+                    key={currentInsightCard.id}
+                    insight={currentInsightCard}
+                    index={filteredInsights.indexOf(currentInsightCard)}
                     evaluation={null}
                     evaluatorName={evaluatorName}
                     onRated={(ev) => {
-                      handleRated(ev)
+                      handleInsightRated(ev)
                       setTimeout(() => {
-                        setCardIndex((prev) => Math.min(prev, Math.max(0, filteredToRate.length - 2)))
+                        setInsightCardIndex((prev) => Math.min(prev, Math.max(0, filteredInsightToRate.length - 2)))
                       }, 1000)
                     }}
                   />
                 )}
-              </div>
+              </CardViewNav>
             )}
           </>
         )}
 
-        {/* ── "Bereits bewertet" tab ── */}
-        {tab === 'rated' && (
+        {contentType === 'insights' && tab === 'rated' && (
           <RatedInsightsList
             insights={insights}
             evaluations={evaluations}
-            onReEvaluate={(insight, evaluation) => setReEvalTarget({ insight, evaluation })}
+            onReEvaluate={(insight, evaluation) => setInsightReEvalTarget({ insight, evaluation })}
+          />
+        )}
+
+        {/* ── Measures content ── */}
+        {contentType === 'measures' && tab === 'toRate' && (
+          <>
+            {filteredMeasureToRate.length === 0 ? (
+              <EmptyState
+                label={measureRatedCount === measureTotalCount && measureTotalCount > 0 ? 'Alle Maßnahmen bewertet!' : 'Keine Maßnahmen vorhanden'}
+                onSwitchToRated={() => setMeasureTab('rated')}
+                hasRated={measureRatedCount > 0}
+              />
+            ) : measureLayout === 'list' ? (
+              <div className="flex flex-col gap-6">
+                {filteredMeasureToRate.map((measure, idx) => (
+                  <ConsultantMeasureCard
+                    key={measure.id}
+                    measure={measure}
+                    index={idx}
+                    evaluation={null}
+                    evaluatorName={evaluatorName}
+                    onRated={handleMeasureRated}
+                  />
+                ))}
+              </div>
+            ) : (
+              <CardViewNav
+                index={measureCardIndex}
+                total={filteredMeasureToRate.length}
+                onPrev={() => setMeasureCardIndex((p) => Math.max(0, p - 1))}
+                onNext={() => setMeasureCardIndex((p) => Math.min(filteredMeasureToRate.length - 1, p + 1))}
+              >
+                {currentMeasureCard && (
+                  <ConsultantMeasureCard
+                    key={currentMeasureCard.id}
+                    measure={currentMeasureCard}
+                    index={filteredMeasures.indexOf(currentMeasureCard)}
+                    evaluation={null}
+                    evaluatorName={evaluatorName}
+                    onRated={(ev) => {
+                      handleMeasureRated(ev)
+                      setTimeout(() => {
+                        setMeasureCardIndex((prev) => Math.min(prev, Math.max(0, filteredMeasureToRate.length - 2)))
+                      }, 1000)
+                    }}
+                  />
+                )}
+              </CardViewNav>
+            )}
+          </>
+        )}
+
+        {contentType === 'measures' && tab === 'rated' && (
+          <RatedMeasuresList
+            measures={measures}
+            evaluations={measureEvaluations}
+            onReEvaluate={(measure, evaluation) => setMeasureReEvalTarget({ measure, evaluation })}
           />
         )}
       </main>
@@ -411,20 +579,19 @@ export function ConsultantPortalClient({
         </div>
       </footer>
 
-      {/* ── Re-evaluate modal ── */}
-      {reEvalTarget && (
+      {/* ── Re-evaluate insight modal ── */}
+      {insightReEvalTarget && (
         <div
           className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 py-8"
           style={{ backgroundColor: 'rgba(0,9,91,0.6)', backdropFilter: 'blur(2px)' }}
-          onClick={(e) => { if (e.target === e.currentTarget) setReEvalTarget(null) }}
+          onClick={(e) => { if (e.target === e.currentTarget) setInsightReEvalTarget(null) }}
         >
           <div className="w-full max-w-5xl">
-            {/* Modal header */}
             <div className="mb-3 flex items-center justify-between">
               <p className="text-sm font-semibold text-white">Bewertung ändern</p>
               <button
                 type="button"
-                onClick={() => setReEvalTarget(null)}
+                onClick={() => setInsightReEvalTarget(null)}
                 className="flex size-8 items-center justify-center rounded-lg transition-colors hover:bg-white/10"
                 style={{ color: 'rgba(255,255,255,0.7)' }}
               >
@@ -432,26 +599,134 @@ export function ConsultantPortalClient({
               </button>
             </div>
 
-            {/* The insight card in re-rate mode */}
             <ConsultantInsightCard
-              insight={reEvalTarget.insight}
-              index={insights.indexOf(reEvalTarget.insight)}
+              insight={insightReEvalTarget.insight}
+              index={insights.indexOf(insightReEvalTarget.insight)}
               evaluation={null}
               evaluatorName={evaluatorName}
-              onRated={handleUpdated}
-              existingEvaluationId={reEvalTarget.evaluation.id}
+              onRated={handleInsightUpdated}
+              existingEvaluationId={insightReEvalTarget.evaluation.id}
               initialValues={{
-                verstaendlichkeit: reEvalTarget.evaluation.verstaendlichkeit,
-                plausibilitaet:    reEvalTarget.evaluation.plausibilitaet,
-                aktionabilitaet:   reEvalTarget.evaluation.aktionabilitaet,
-                gesamteindruck:    reEvalTarget.evaluation.gesamteindruck,
-                notes:             reEvalTarget.evaluation.notes,
+                verstaendlichkeit: insightReEvalTarget.evaluation.verstaendlichkeit,
+                plausibilitaet:    insightReEvalTarget.evaluation.plausibilitaet,
+                aktionabilitaet:   insightReEvalTarget.evaluation.aktionabilitaet,
+                gesamteindruck:    insightReEvalTarget.evaluation.gesamteindruck,
+                notes:             insightReEvalTarget.evaluation.notes,
               } satisfies InitialRatingValues}
             />
           </div>
         </div>
       )}
 
+      {/* ── Re-evaluate measure modal ── */}
+      {measureReEvalTarget && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 py-8"
+          style={{ backgroundColor: 'rgba(0,9,91,0.6)', backdropFilter: 'blur(2px)' }}
+          onClick={(e) => { if (e.target === e.currentTarget) setMeasureReEvalTarget(null) }}
+        >
+          <div className="w-full max-w-5xl">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-sm font-semibold text-white">Bewertung ändern</p>
+              <button
+                type="button"
+                onClick={() => setMeasureReEvalTarget(null)}
+                className="flex size-8 items-center justify-center rounded-lg transition-colors hover:bg-white/10"
+                style={{ color: 'rgba(255,255,255,0.7)' }}
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+
+            <ConsultantMeasureCard
+              measure={measureReEvalTarget.measure}
+              index={measures.indexOf(measureReEvalTarget.measure)}
+              evaluation={null}
+              evaluatorName={evaluatorName}
+              onRated={handleMeasureUpdated}
+              existingEvaluationId={measureReEvalTarget.evaluation.id}
+              initialValues={{
+                verstaendlichkeit:  measureReEvalTarget.evaluation.verstaendlichkeit,
+                plausibilitaet:     measureReEvalTarget.evaluation.plausibilitaet,
+                wirtschaftlichkeit: measureReEvalTarget.evaluation.wirtschaftlichkeit,
+                umsetzbarkeit:      measureReEvalTarget.evaluation.umsetzbarkeit,
+                gesamteindruck:     measureReEvalTarget.evaluation.gesamteindruck,
+                notes:              measureReEvalTarget.evaluation.notes,
+              } satisfies InitialMeasureRatingValues}
+            />
+          </div>
+        </div>
+      )}
+
+    </div>
+  )
+}
+
+// ── Small helpers ─────────────────────────────────────────────────────────────
+
+function EmptyState({ label, onSwitchToRated, hasRated }: {
+  label: string
+  onSwitchToRated: () => void
+  hasRated: boolean
+}) {
+  return (
+    <div className="flex flex-col items-center gap-3 py-20 text-center">
+      <p className="text-2xl">✓</p>
+      <p className="text-base font-bold" style={{ color: '#059669' }}>{label}</p>
+      {hasRated && (
+        <>
+          <p className="text-sm" style={{ color: '#737373' }}>
+            Wechseln Sie zum Tab &quot;Bereits bewertet&quot; um alle Bewertungen einzusehen.
+          </p>
+          <button
+            type="button"
+            onClick={onSwitchToRated}
+            className="mt-2 rounded-xl px-6 py-2.5 text-sm font-bold"
+            style={{ backgroundColor: '#1A2FEE', color: '#ffffff' }}
+          >
+            Bewertungen ansehen
+          </button>
+        </>
+      )}
+    </div>
+  )
+}
+
+function CardViewNav({
+  index, total, onPrev, onNext, children,
+}: {
+  index: number
+  total: number
+  onPrev: () => void
+  onNext: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <button
+          type="button"
+          disabled={index === 0}
+          onClick={onPrev}
+          className="flex items-center gap-1.5 rounded-xl border px-4 py-2 text-sm font-medium transition-all disabled:opacity-30"
+          style={{ borderColor: '#E5E5E5', color: '#374151', backgroundColor: '#ffffff' }}
+        >
+          <ChevronLeft className="size-4" /> Zurück
+        </button>
+        <span className="text-sm font-medium" style={{ color: '#737373' }}>
+          {index + 1} / {total} noch zu bewerten
+        </span>
+        <button
+          type="button"
+          disabled={index >= total - 1}
+          onClick={onNext}
+          className="flex items-center gap-1.5 rounded-xl border px-4 py-2 text-sm font-medium transition-all disabled:opacity-30"
+          style={{ borderColor: '#E5E5E5', color: '#374151', backgroundColor: '#ffffff' }}
+        >
+          Weiter <ChevronRight className="size-4" />
+        </button>
+      </div>
+      {children}
     </div>
   )
 }

@@ -82,4 +82,78 @@ export interface InsertConsultantInsight {
 export interface ConsultantPortalWithStats extends ConsultantPortal {
   insight_count: number
   eval_count: number
+  measure_count: number
+  measure_eval_count: number
+}
+
+// ============================================================
+// MEASURE support — parallel to the insight types above.
+// Tables: measures_catalog, consultant_measures, evaluations_consultant_measure
+// ============================================================
+
+// ─── measures_catalog ────────────────────────────────────────────────────────
+// Deduplicated measure content. Unlike insights, measures do not carry a unique
+// pipeline id, so the catalog allows duplicate rows — dedup happens per portal.
+
+export interface MeasuresCatalog {
+  id: string
+  original_insight_id: string | null   // pipeline insightId this measure belongs to
+  company_id: string | null
+  original_location_id: number | null
+  source_file: string
+  measure_title: string
+  measure_short_description: string | null
+  measure_description: string | null
+  measure_raw: Record<string, unknown> | null
+  created_at: string
+}
+
+// ─── consultant_measures (junction) ──────────────────────────────────────────
+// Flattened to include catalog fields (joined in the action layer) so UI code
+// can stay simple.
+
+export interface ConsultantMeasure {
+  id: string                            // junction row id — FK target for evaluations
+  consultant_portal_id: string
+  measure_catalog_id: string
+  // Content fields — populated via JOIN with measures_catalog:
+  original_insight_id: string | null
+  original_location_id: number | null
+  company_id: string | null
+  source_file: string
+  measure_title: string
+  measure_short_description: string | null
+  measure_description: string | null
+  measure_raw: Record<string, unknown> | null
+  industry: string | null
+  created_at: string
+}
+
+// ─── evaluations_consultant_measure ──────────────────────────────────────────
+
+export interface ConsultantMeasureEvaluation {
+  id: string
+  consultant_measure_id: string
+  evaluator_name: string
+  verstaendlichkeit: number | null
+  plausibilitaet: number | null
+  wirtschaftlichkeit: number | null
+  umsetzbarkeit: number | null
+  gesamteindruck: number | null
+  notes: string | null
+  created_at: string
+}
+
+// Enriched type for the UI
+export interface ConsultantMeasureWithEvaluation extends ConsultantMeasure {
+  evaluation: ConsultantMeasureEvaluation | null
+}
+
+// Insert types
+export type InsertMeasuresCatalog               = Omit<MeasuresCatalog,               'id' | 'created_at'>
+export type InsertConsultantMeasureEvaluation   = Omit<ConsultantMeasureEvaluation,   'id' | 'created_at'>
+
+export interface InsertConsultantMeasure {
+  consultant_portal_id: string
+  measure_catalog_id: string
 }

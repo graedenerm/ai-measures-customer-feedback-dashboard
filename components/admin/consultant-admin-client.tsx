@@ -7,8 +7,11 @@ import {
 } from 'lucide-react'
 import { createConsultantPortal } from '@/actions/consultant-portals'
 import { uploadConsultantInsights } from '@/actions/consultant-insights'
+import { uploadConsultantMeasures } from '@/actions/consultant-measures'
 import type { ConsultantPortalWithStats } from '@/lib/consultant-types'
 import type { Company } from '@/lib/types'
+
+type UploadType = 'insights' | 'measures'
 
 interface ConsultantAdminClientProps {
   portals: ConsultantPortalWithStats[]
@@ -89,6 +92,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
   // Upload state (per-portal)
   const [pendingFiles, setPendingFiles] = useState<PendingFile[]>([])
   const [uploadCompanyId, setUploadCompanyId] = useState('')
+  const [uploadType, setUploadType] = useState<UploadType>('insights')
   const [uploadLoading, setUploadLoading] = useState(false)
   const [uploadResults, setUploadResults] = useState<{ file: string; count: number; added: number; skipped: number }[]>([])
   const [uploadError, setUploadError] = useState<string | null>(null)
@@ -134,6 +138,8 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
         created_at: new Date().toISOString(),
         insight_count: 0,
         eval_count: 0,
+        measure_count: 0,
+        measure_eval_count: 0,
       },
       ...prev,
     ])
@@ -154,13 +160,19 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
         let error: string | undefined
         try {
           const parsed = JSON.parse(content)
-          count = Array.isArray(parsed) ? parsed.length : null
-          if (count === null) error = 'Kein Array'
+          // Accept: bare array, { measures: [...] }, or { insights: [...] }
+          if (Array.isArray(parsed)) {
+            count = parsed.length
+          } else if (parsed && typeof parsed === 'object') {
+            const arr = (parsed as { measures?: unknown; insights?: unknown }).measures
+                     ?? (parsed as { measures?: unknown; insights?: unknown }).insights
+            if (Array.isArray(arr)) count = arr.length
+          }
+          if (count === null) error = 'Kein Array gefunden'
         } catch {
           error = 'Ungültiges JSON'
         }
         setPendingFiles((prev) => {
-          // Don't add duplicates
           if (prev.some((f) => f.name === file.name)) return prev
           return [...prev, { name: file.name, content, count, error }]
         })
@@ -183,7 +195,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
     setPendingFiles((prev) => prev.filter((f) => f.name !== name))
   }
 
-  async function handleUpload(portalId: string, evaluatorName: string) {
+  async function handleUpload(portalId: string, _evaluatorName: string) {
     const validFiles = pendingFiles.filter((f) => !f.error && f.count !== null)
     if (validFiles.length === 0) return
 
@@ -194,7 +206,9 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
     const results: { file: string; count: number; added: number; skipped: number }[] = []
 
     for (const file of validFiles) {
-      const result = await uploadConsultantInsights(portalId, file.name, file.content, uploadCompanyId || null)
+      const result = uploadType === 'insights'
+        ? await uploadConsultantInsights(portalId, file.name, file.content, uploadCompanyId || null)
+        : await uploadConsultantMeasures(portalId, file.name, file.content, uploadCompanyId || null)
       if (!result.success) {
         setUploadError(`Fehler bei "${file.name}": ${result.error}`)
         setUploadLoading(false)
@@ -203,16 +217,18 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
       results.push({ file: file.name, count: result.count ?? 0, added: result.added ?? 0, skipped: result.skipped ?? 0 })
     }
 
-    const totalInsights = results.reduce((sum, r) => sum + r.added, 0)
+    const totalAdded = results.reduce((sum, r) => sum + r.added, 0)
     setUploadResults(results)
     setPendingFiles([])
     setUploadLoading(false)
 
-    // Update local insight count
+    // Update the appropriate local count
     setPortals((prev) =>
       prev.map((p) =>
         p.id === portalId
-          ? { ...p, insight_count: p.insight_count + totalInsights }
+          ? uploadType === 'insights'
+            ? { ...p, insight_count: p.insight_count + totalAdded }
+            : { ...p, measure_count: p.measure_count + totalAdded }
           : p
       )
     )
@@ -262,7 +278,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                         {portal.evaluator_name}
                       </p>
                       <p style={{ fontSize: '11px', color: '#9ca3af', marginTop: '1px' }}>
-                        /eval/{portal.slug} · {portal.insight_count} Erkenntnisse · {portal.eval_count} Bewertungen
+                        /eval/{portal.slug} · {portal.insight_count} Erkenntnisse ({portal.eval_count} Bew.) · {portal.measure_count} Maßnahmen ({portal.measure_eval_count} Bew.)
                       </p>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -300,7 +316,48 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                       </div>
 
                       {/* Upload section */}
-                      <p style={{ ...sectionTitle, fontSize: '11px' }}>Erkenntnisse hochladen</p>
+                      <p style={{ ...sectionTitle, fontSize: '11px' }}>Daten hochladen</p>
+
+                      {/* Upload type toggle */}
+                      <div style={{ marginBottom: '12px' }}>
+                        <label style={labelStyle}>Typ</label>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          {([
+                            { key: 'insights' as UploadType, label: 'Erkenntnisse' },
+                            { key: 'measures' as UploadType, label: 'Maßnahmen'   },
+                          ]).map(({ key, label }) => (
+                            <button
+                              key={key}
+                              type="button"
+                              onClick={() => {
+                                setUploadType(key)
+                                setPendingFiles([])
+                                setUploadResults([])
+                                setUploadError(null)
+                              }}
+                              style={{
+                                flex: 1,
+                                padding: '8px 14px',
+                                borderRadius: '8px',
+                                fontSize: '13px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                backgroundColor: uploadType === key ? '#1A2FEE' : '#ffffff',
+                                color:           uploadType === key ? '#ffffff' : '#737373',
+                                border:          uploadType === key ? '1px solid #1A2FEE' : '1px solid #e5e5e5',
+                                transition: 'all 0.15s',
+                              }}
+                            >
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+                        <p style={hintStyle}>
+                          {uploadType === 'insights'
+                            ? 'Statistische Erkenntnisse (statistical_insights*.json)'
+                            : 'Maßnahmen-Dateien (measures_output*.json)'}
+                        </p>
+                      </div>
 
                       {/* Company selector */}
                       <div style={{ marginBottom: '12px' }}>
@@ -372,7 +429,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                                 </span>
                                 {f.count !== null && (
                                   <span style={{ fontSize: '11px', color: '#6b7280' }}>
-                                    ({f.count} Erkenntnisse)
+                                    ({f.count} {uploadType === 'insights' ? 'Erkenntnisse' : 'Maßnahmen'})
                                   </span>
                                 )}
                                 {f.error && (

@@ -59,10 +59,32 @@ export async function getConsultantPortals(): Promise<ConsultantPortalWithStats[
       evalCount = count ?? 0
     }
 
+    const { count: measureCount } = await supabase
+      .from('consultant_measures')
+      .select('*', { count: 'exact', head: true })
+      .eq('consultant_portal_id', portal.id)
+
+    const { data: measureIds } = await supabase
+      .from('consultant_measures')
+      .select('id')
+      .eq('consultant_portal_id', portal.id)
+
+    let measureEvalCount = 0
+    if (measureIds && measureIds.length > 0) {
+      const ids = measureIds.map((m) => m.id)
+      const { count } = await supabase
+        .from('evaluations_consultant_measure')
+        .select('*', { count: 'exact', head: true })
+        .in('consultant_measure_id', ids)
+      measureEvalCount = count ?? 0
+    }
+
     results.push({
       ...(portal as ConsultantPortal),
       insight_count: insightCount ?? 0,
       eval_count: evalCount,
+      measure_count: measureCount ?? 0,
+      measure_eval_count: measureEvalCount,
     })
   }
 
