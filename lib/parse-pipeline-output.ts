@@ -7,6 +7,29 @@ import type {
 } from '@/lib/types'
 
 // ============================================================
+// Field access helpers
+// ============================================================
+// Pipeline JSON has gone through multiple schema revisions. Accept both the
+// legacy camelCase layout (with nested context.location) and the newer flat
+// snake_case layout. These helpers read whichever key is present.
+
+function readNum(raw: Record<string, unknown>, ...keys: string[]): number | null {
+  for (const k of keys) {
+    const v = raw[k]
+    if (typeof v === 'number') return v
+  }
+  return null
+}
+
+function readStr(raw: Record<string, unknown>, ...keys: string[]): string | null {
+  for (const k of keys) {
+    const v = raw[k]
+    if (typeof v === 'string') return v
+  }
+  return null
+}
+
+// ============================================================
 // Location extraction
 // ============================================================
 
@@ -20,6 +43,7 @@ export interface ExtractedLocation {
 /**
  * Extract unique locations from a list of raw insights.
  * Deduplication is by original_location_id.
+ * Supports: nested context.location (old), flat locationId (old), flat location_id (new).
  */
 export function extractLocations(
   insights: RawInsightJson[]
@@ -27,9 +51,14 @@ export function extractLocations(
   const seen = new Map<number, ExtractedLocation>()
 
   for (const insight of insights) {
-    const loc = insight.context?.location
-    const locationId = loc?.id ?? insight.locationId
+    const raw = insight as unknown as Record<string, unknown>
+    const loc = (raw.context as { location?: { id: number; title?: string; streetName?: string; streetNumber?: string } } | undefined)?.location
 
+    const locationId =
+      loc?.id ??
+      (readNum(raw, 'locationId', 'location_id') as number | null)
+
+    if (locationId === null || locationId === undefined) continue
     if (seen.has(locationId)) continue
 
     seen.set(locationId, {
@@ -53,21 +82,29 @@ export function parseInsights(
   locationMap: Map<number, string> // original_location_id → db uuid
 ): InsertInsight[] {
   return rawInsights.map((raw) => {
-    const locationId = raw.context?.location?.id ?? raw.locationId
+    const r = raw as unknown as Record<string, unknown>
+    const contextLoc = (r.context as { location?: { id: number } } | undefined)?.location
+    const locationId =
+      contextLoc?.id ??
+      (readNum(r, 'locationId', 'location_id') as number | null) ??
+      0
     const dbLocationId = locationMap.get(locationId) ?? ''
+
+    const originalId = readStr(r, 'id', 'insight_id') ?? ''
+    const type       = readStr(r, 'type', 'finding_type') ?? ''
 
     return {
       run_id: runId,
       location_id: dbLocationId,
-      original_id: raw.id,
-      type: raw.type,
-      priority_score: raw.priorityScore ?? null,
-      savings_kwh_per_year: raw.savingsKwhPerYear ?? null,
-      savings_eur_per_year: raw.savingsEurPerYear ?? null,
-      confidence: raw.confidence ?? null,
-      title: raw.title,
-      description: raw.description ?? null,
-      raw_json: raw as unknown as Record<string, unknown>,
+      original_id: originalId,
+      type,
+      priority_score:       readNum(r, 'priorityScore',       'priority_score'),
+      savings_kwh_per_year: readNum(r, 'savingsKwhPerYear',   'savings_kwh_per_year', 'savings_kwh'),
+      savings_eur_per_year: readNum(r, 'savingsEurPerYear',   'savings_eur_per_year', 'savings_eur'),
+      confidence:           readNum(r, 'confidence'),
+      title:                readStr(r, 'title') ?? '',
+      description:          readStr(r, 'description'),
+      raw_json: r,
     }
   })
 }
@@ -84,34 +121,35 @@ export function parseMeasures(
   locations: Location[]
 ): InsertMeasure[] {
   return rawMeasures.map((raw) => {
-    const iid = raw.insightId ?? `orphan_loc_${raw.locationId}`
-    const dbInsightId = insightMap.get(iid) ?? ''
-
-    // Find location by locationId; fall back to first location
-    const locationId = raw.locationId
+    const r = raw as unknown as Record<string, unknown>
+    const locationId = readNum(r, 'locationId', 'location_id') ?? 0
     const dbLocationId =
       locationMap.get(locationId) ?? locations[0]?.id ?? ''
+
+    const insightIdFromRaw = readStr(r, 'insightId', 'insight_id')
+    const iid = insightIdFromRaw ?? `orphan_loc_${locationId}`
+    const dbInsightId = insightMap.get(iid) ?? ''
 
     return {
       run_id: runId,
       insight_id: dbInsightId,
       location_id: dbLocationId,
       original_insight_id: iid,
-      title: raw.title,
-      short_description: raw.shortDescription ?? null,
-      description: raw.description ?? null,
-      yearly_savings_eur_from: raw.yearlySavingsRangeFrom ?? null,
-      yearly_savings_eur_to: raw.yearlySavingsRangeTo ?? null,
-      yearly_savings_kwh_from: raw.yearlySavingsEnergyRangeFrom ?? null,
-      yearly_savings_kwh_to: raw.yearlySavingsEnergyRangeTo ?? null,
-      investment_from: raw.investmentRangeFrom ?? null,
-      investment_to: raw.investmentRangeTo ?? null,
-      amortisation_months: raw.amortisationPeriodInMonths ?? null,
-      confidence: raw.confidence ?? null,
-      effort_level: raw.effortLevel ?? null,
-      investment_type: raw.investmentType ?? null,
-      category: raw.category ?? null,
-      raw_json: raw as unknown as Record<string, unknown>,
+      title:             readStr(r, 'title') ?? '',
+      short_description: readStr(r, 'shortDescription', 'short_description'),
+      description:       readStr(r, 'description'),
+      yearly_savings_eur_from: readNum(r, 'yearlySavingsRangeFrom',       'yearly_savings_range_from'),
+      yearly_savings_eur_to:   readNum(r, 'yearlySavingsRangeTo',         'yearly_savings_range_to'),
+      yearly_savings_kwh_from: readNum(r, 'yearlySavingsEnergyRangeFrom', 'yearly_savings_energy_range_from'),
+      yearly_savings_kwh_to:   readNum(r, 'yearlySavingsEnergyRangeTo',   'yearly_savings_energy_range_to'),
+      investment_from:         readNum(r, 'investmentRangeFrom',          'investment_range_from'),
+      investment_to:           readNum(r, 'investmentRangeTo',            'investment_range_to'),
+      amortisation_months:     readNum(r, 'amortisationPeriodInMonths',   'amortisation_period_in_months'),
+      confidence:              readNum(r, 'confidence'),
+      effort_level:            readStr(r, 'effortLevel',                  'effort_level'),
+      investment_type:         readStr(r, 'investmentType',               'investment_type'),
+      category:                readStr(r, 'category'),
+      raw_json: r,
     }
   })
 }

@@ -31,19 +31,27 @@ export async function uploadPipelineRun(
     const supabase = await createClient()
 
     // 1. Parse JSON strings
+    // Accept a bare array or { insights: [...] } / { measures: [...] } wrappers
+    function unwrap<T>(parsed: unknown, key: string): T[] {
+      if (Array.isArray(parsed)) return parsed as T[]
+      if (parsed && typeof parsed === 'object') {
+        const inner = (parsed as Record<string, unknown>)[key]
+        if (Array.isArray(inner)) return inner as T[]
+      }
+      return []
+    }
+
     let rawInsights: RawInsightJson[] = []
     let rawMeasures: RawMeasureJson[] = []
 
     try {
-      const parsedInsights = JSON.parse(formData.insightsJson || '[]')
-      rawInsights = Array.isArray(parsedInsights) ? parsedInsights : []
+      rawInsights = unwrap<RawInsightJson>(JSON.parse(formData.insightsJson || '[]'), 'insights')
     } catch {
       return { success: false, error: 'Invalid Insights JSON format.' }
     }
 
     try {
-      const parsedMeasures = JSON.parse(formData.measuresJson || '[]')
-      rawMeasures = Array.isArray(parsedMeasures) ? parsedMeasures : []
+      rawMeasures = unwrap<RawMeasureJson>(JSON.parse(formData.measuresJson || '[]'), 'measures')
     } catch {
       return { success: false, error: 'Invalid Measures JSON format.' }
     }
@@ -111,7 +119,11 @@ export async function uploadPipelineRun(
     if (rawMeasures.length > 0) {
       const seenMeasureLocIds = new Set<number>()
       for (const m of rawMeasures) {
-        const locId = m.locationId
+        const mr = m as unknown as Record<string, unknown>
+        const locId =
+          (typeof mr.locationId  === 'number' ? mr.locationId  : undefined) ??
+          (typeof mr.location_id === 'number' ? mr.location_id : undefined) ??
+          null
         if (locId != null && !locationMap.has(locId) && !seenMeasureLocIds.has(locId)) {
           seenMeasureLocIds.add(locId)
           const { data: locData, error: locError } = await supabase
@@ -186,19 +198,29 @@ export async function uploadPipelineRun(
 
     // 5b. Create placeholder insights for measures referencing unknown insightIds
     if (rawMeasures.length > 0) {
+      function measureIid(m: RawMeasureJson): string {
+        const mr = m as unknown as Record<string, unknown>
+        const insightId = (typeof mr.insightId  === 'string' ? mr.insightId  : undefined)
+                      ?? (typeof mr.insight_id === 'string' ? mr.insight_id : undefined)
+        const locId     = (typeof mr.locationId  === 'number' ? mr.locationId  : undefined)
+                      ?? (typeof mr.location_id === 'number' ? mr.location_id : undefined)
+        return insightId ?? `orphan_loc_${locId ?? 'unknown'}`
+      }
+
       const missingInsightIds = new Set<string>()
       for (const m of rawMeasures) {
-        const iid = m.insightId ?? `orphan_loc_${m.locationId}`
-        if (!insightMap.has(iid)) {
-          missingInsightIds.add(iid)
-        }
+        const iid = measureIid(m)
+        if (!insightMap.has(iid)) missingInsightIds.add(iid)
       }
 
       for (const origInsightId of missingInsightIds) {
-        const firstMeasure = rawMeasures.find(
-          m => (m.insightId ?? `orphan_loc_${m.locationId}`) === origInsightId
-        )
-        const locId = firstMeasure?.locationId
+        const firstMeasure = rawMeasures.find((m) => measureIid(m) === origInsightId)
+        const fmr = firstMeasure as unknown as Record<string, unknown> | undefined
+        const locId = fmr
+          ? (typeof fmr.locationId  === 'number' ? fmr.locationId  : undefined)
+            ?? (typeof fmr.location_id === 'number' ? fmr.location_id : undefined)
+            ?? null
+          : null
         const dbLocationId = locId != null ? (locationMap.get(locId) ?? '') : ''
 
         const { data: phData, error: phError } = await supabase
