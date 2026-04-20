@@ -1,11 +1,9 @@
 import { notFound } from 'next/navigation'
-import { cookies } from 'next/headers'
 import { getConsultantPortalBySlug } from '@/actions/consultant-portals'
 import { getInsightsForPortal } from '@/actions/consultant-insights'
 import { getEvaluationsForPortal } from '@/actions/consultant-evaluations'
 import { getMeasuresForPortal } from '@/actions/consultant-measures'
 import { getMeasureEvaluationsForPortal } from '@/actions/consultant-measure-evaluations'
-import { ConsultantPasswordGate } from '@/components/consultant/consultant-password-gate'
 import { ConsultantPortalClient } from '@/components/consultant/consultant-portal-client'
 
 interface EvalSlugPageProps {
@@ -25,19 +23,6 @@ export default async function EvalSlugPage({ params }: EvalSlugPageProps) {
   const portal = await getConsultantPortalBySlug(slug)
 
   if (!portal) notFound()
-
-  const cookieStore = await cookies()
-  const authToken = cookieStore.get(`consultant_auth_${slug}`)?.value
-  const isAuthenticated = authToken === portal.id
-
-  if (!isAuthenticated) {
-    return (
-      <ConsultantPasswordGate
-        slug={slug}
-        evaluatorName={portal.evaluator_name}
-      />
-    )
-  }
 
   const [insights, evaluations, measures, measureEvaluations] = await Promise.all([
     getInsightsForPortal(portal.id),
