@@ -342,24 +342,29 @@ export function ConsultantPortalClient({
           </div>
 
           {tab === 'toRate' && toRateCount > 0 && (
-            <div className="flex rounded-xl border p-1" style={{ backgroundColor: '#ffffff', borderColor: '#E5E5E5' }}>
-              {[
-                { key: 'list' as Layout, icon: LayoutList, title: 'Listenansicht' },
-                { key: 'card' as Layout, icon: CreditCard, title: 'Kartenansicht' },
-              ].map(({ key, icon: Icon, title }) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => setLayout(key)}
-                  title={title}
-                  className="rounded-lg p-2 transition-all"
-                  style={layout === key
-                    ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
-                    : { backgroundColor: 'transparent', color: '#737373' }}
-                >
-                  <Icon className="size-4" />
-                </button>
-              ))}
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
+                Ansicht ändern
+              </span>
+              <div className="flex rounded-xl border p-1" style={{ backgroundColor: '#ffffff', borderColor: '#E5E5E5' }}>
+                {[
+                  { key: 'list' as Layout, icon: LayoutList, title: 'Listenansicht' },
+                  { key: 'card' as Layout, icon: CreditCard, title: 'Kartenansicht' },
+                ].map(({ key, icon: Icon, title }) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setLayout(key)}
+                    title={title}
+                    className="rounded-lg p-2 transition-all"
+                    style={layout === key
+                      ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
+                      : { backgroundColor: 'transparent', color: '#737373' }}
+                  >
+                    <Icon className="size-4" />
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
