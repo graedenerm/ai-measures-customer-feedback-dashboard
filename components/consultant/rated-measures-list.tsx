@@ -40,7 +40,7 @@ export function RatedMeasuresList({ measures, evaluations, onReEvaluate }: Rated
       <table className="w-full text-left" style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ backgroundColor: '#f8f9ff', borderBottom: '1px solid #E5E5E5' }}>
-            {['#', 'Maßnahme', 'Verständl.', 'Plausib.', 'Wirtsch.', 'Umsetzb.', 'Gesamt', 'Kommentar', 'Bewertet', ''].map((h) => (
+            {['#', 'Maßnahme', 'Verständl.', 'Plausib.', 'Wirtsch.', 'Umsetzb.', 'Gesamt', 'Kommentar', 'Alternative Vorschläge', 'Bewertet', ''].map((h) => (
               <th
                 key={h}
                 style={{
@@ -83,6 +83,16 @@ export function RatedMeasuresList({ measures, evaluations, onReEvaluate }: Rated
                   {ev.notes ? (
                     <p style={{ fontSize: '11px', color: '#737373', lineHeight: 1.4 }} title={ev.notes}>
                       {ev.notes.length > 60 ? ev.notes.slice(0, 60) + '…' : ev.notes}
+                    </p>
+                  ) : (
+                    <span style={{ fontSize: '11px', color: '#AEAEAE' }}>—</span>
+                  )}
+                </td>
+
+                <td style={{ padding: '10px 14px', maxWidth: '200px' }}>
+                  {ev.alternative_measures ? (
+                    <p style={{ fontSize: '11px', color: '#737373', lineHeight: 1.4 }} title={ev.alternative_measures}>
+                      {ev.alternative_measures.length > 60 ? ev.alternative_measures.slice(0, 60) + '…' : ev.alternative_measures}
                     </p>
                   ) : (
                     <span style={{ fontSize: '11px', color: '#AEAEAE' }}>—</span>

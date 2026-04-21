@@ -420,9 +420,25 @@ function RatedSummary({ evaluation }: { evaluation: ConsultantMeasureEvaluation 
       </div>
 
       {evaluation.notes && (
-        <p className="rounded-lg border px-3 py-2 text-[12px] leading-relaxed" style={{ borderColor: '#F0F0F0', color: '#444444', backgroundColor: '#FAFAFA' }}>
-          {evaluation.notes}
-        </p>
+        <div className="rounded-lg border px-3 py-2" style={{ borderColor: '#F0F0F0', backgroundColor: '#FAFAFA' }}>
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
+            Kommentar
+          </p>
+          <p className="text-[12px] leading-relaxed" style={{ color: '#444444' }}>
+            {evaluation.notes}
+          </p>
+        </div>
+      )}
+
+      {evaluation.alternative_measures && (
+        <div className="rounded-lg border px-3 py-2" style={{ borderColor: '#F0F0F0', backgroundColor: '#FAFAFA' }}>
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
+            Alternative Maßnahmenvorschläge
+          </p>
+          <p className="text-[12px] leading-relaxed" style={{ color: '#444444' }}>
+            {evaluation.alternative_measures}
+          </p>
+        </div>
       )}
 
       <p className="text-[11px]" style={{ color: '#AEAEAE' }}>

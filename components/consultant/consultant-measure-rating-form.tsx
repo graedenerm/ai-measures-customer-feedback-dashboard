@@ -54,6 +54,7 @@ export interface InitialMeasureRatingValues {
   umsetzbarkeit: number | null
   gesamteindruck: number | null
   notes: string | null
+  alternative_measures: string | null
 }
 
 interface ConsultantMeasureRatingFormProps {
@@ -92,6 +93,7 @@ export function ConsultantMeasureRatingForm({
     }
   })
   const [comment, setComment] = useState(initialValues?.notes ?? '')
+  const [alternativeMeasures, setAlternativeMeasures] = useState(initialValues?.alternative_measures ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
@@ -114,6 +116,7 @@ export function ConsultantMeasureRatingForm({
       umsetzbarkeit:      toDb(ratings.umsetzbarkeit),
       gesamteindruck:     toDb(ratings.gesamteindruck),
       notes: comment || undefined,
+      alternativeMeasures: alternativeMeasures || undefined,
     }
 
     const result = isUpdate
@@ -184,6 +187,27 @@ export function ConsultantMeasureRatingForm({
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Anmerkungen, Fragen oder weiteres Feedback…"
+            rows={3}
+            className="w-full resize-none rounded-xl border px-3 py-2.5 text-sm outline-none transition-colors placeholder:text-gray-300"
+            style={{ borderColor: '#E5E5E5', color: '#00095B', backgroundColor: '#ffffff' }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = '#1A2FEE' }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = '#E5E5E5' }}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor={`m-altmeasures-${measureId}-${isUpdate ? 'update' : 'new'}`}
+            className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider"
+            style={{ color: '#AEAEAE' }}
+          >
+            Alternative Maßnahmenvorschläge (optional)
+          </label>
+          <textarea
+            id={`m-altmeasures-${measureId}-${isUpdate ? 'update' : 'new'}`}
+            value={alternativeMeasures}
+            onChange={(e) => setAlternativeMeasures(e.target.value)}
+            placeholder="Falls Sie eine andere Maßnahme vorschlagen würden…"
             rows={3}
             className="w-full resize-none rounded-xl border px-3 py-2.5 text-sm outline-none transition-colors placeholder:text-gray-300"
             style={{ borderColor: '#E5E5E5', color: '#00095B', backgroundColor: '#ffffff' }}

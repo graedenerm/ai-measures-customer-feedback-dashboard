@@ -141,6 +141,7 @@ export interface ConsultantMeasureEvaluation {
   umsetzbarkeit: number | null
   gesamteindruck: number | null
   notes: string | null
+  alternative_measures: string | null
   created_at: string
 }
 

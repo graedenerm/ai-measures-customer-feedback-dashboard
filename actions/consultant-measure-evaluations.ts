@@ -15,6 +15,7 @@ export interface SubmitConsultantMeasureEvaluationData {
   umsetzbarkeit: number | null
   gesamteindruck: number | null
   notes?: string
+  alternativeMeasures?: string
 }
 
 export interface SubmitConsultantMeasureEvaluationResult {
@@ -40,6 +41,7 @@ export async function submitConsultantMeasureEvaluation(
         umsetzbarkeit:         data.umsetzbarkeit,
         gesamteindruck:        data.gesamteindruck,
         notes:                 data.notes?.trim() || null,
+        alternative_measures:  data.alternativeMeasures?.trim() || null,
       })
       .select('*')
       .single()
@@ -66,6 +68,7 @@ export async function updateConsultantMeasureEvaluation(
     umsetzbarkeit: number | null
     gesamteindruck: number | null
     notes?: string
+    alternativeMeasures?: string
   }
 ): Promise<SubmitConsultantMeasureEvaluationResult> {
   try {
@@ -74,12 +77,13 @@ export async function updateConsultantMeasureEvaluation(
     const { data: result, error } = await supabase
       .from('evaluations_consultant_measure')
       .update({
-        verstaendlichkeit:  data.verstaendlichkeit,
-        plausibilitaet:     data.plausibilitaet,
-        wirtschaftlichkeit: data.wirtschaftlichkeit,
-        umsetzbarkeit:      data.umsetzbarkeit,
-        gesamteindruck:     data.gesamteindruck,
-        notes:              data.notes?.trim() || null,
+        verstaendlichkeit:    data.verstaendlichkeit,
+        plausibilitaet:       data.plausibilitaet,
+        wirtschaftlichkeit:   data.wirtschaftlichkeit,
+        umsetzbarkeit:        data.umsetzbarkeit,
+        gesamteindruck:       data.gesamteindruck,
+        notes:                data.notes?.trim() || null,
+        alternative_measures: data.alternativeMeasures?.trim() || null,
       })
       .eq('id', evaluationId)
       .select('*')

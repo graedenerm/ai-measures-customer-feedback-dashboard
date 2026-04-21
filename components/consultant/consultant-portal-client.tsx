@@ -646,12 +646,13 @@ export function ConsultantPortalClient({
               onRated={handleMeasureUpdated}
               existingEvaluationId={measureReEvalTarget.evaluation.id}
               initialValues={{
-                verstaendlichkeit:  measureReEvalTarget.evaluation.verstaendlichkeit,
-                plausibilitaet:     measureReEvalTarget.evaluation.plausibilitaet,
-                wirtschaftlichkeit: measureReEvalTarget.evaluation.wirtschaftlichkeit,
-                umsetzbarkeit:      measureReEvalTarget.evaluation.umsetzbarkeit,
-                gesamteindruck:     measureReEvalTarget.evaluation.gesamteindruck,
-                notes:              measureReEvalTarget.evaluation.notes,
+                verstaendlichkeit:    measureReEvalTarget.evaluation.verstaendlichkeit,
+                plausibilitaet:       measureReEvalTarget.evaluation.plausibilitaet,
+                wirtschaftlichkeit:   measureReEvalTarget.evaluation.wirtschaftlichkeit,
+                umsetzbarkeit:        measureReEvalTarget.evaluation.umsetzbarkeit,
+                gesamteindruck:       measureReEvalTarget.evaluation.gesamteindruck,
+                notes:                measureReEvalTarget.evaluation.notes,
+                alternative_measures: measureReEvalTarget.evaluation.alternative_measures,
               } satisfies InitialMeasureRatingValues}
             />
           </div>
