@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import {
   Wrench, Euro, Zap, ArrowUpDown, Clock, Shield, Factory,
-  FileText, BarChart3, CheckCircle2, HelpCircle,
+  FileText, BarChart3, CheckCircle2,
   ChevronDown, ChevronUp,
 } from 'lucide-react'
 import {
@@ -88,7 +88,6 @@ export function ConsultantMeasureCard({
   initialValues,
 }: ConsultantMeasureCardProps) {
   const [detailOpen, setDetailOpen] = useState(true)
-  const [questionsOpen, setQuestionsOpen] = useState(false)
 
   const raw = measure.measure_raw ?? {}
 
@@ -121,20 +120,6 @@ export function ConsultantMeasureCard({
   const reasoning      = str('reasoning')
   const evidences      = Array.isArray(raw.evidences)
     ? (raw.evidences as unknown[]).filter((e): e is string => typeof e === 'string')
-    : []
-  const questions      = Array.isArray(raw.questions)
-    ? (raw.questions as Array<{
-        question: string
-        suggestedAnswers?: { answer: string }[]
-        suggested_answers?: { answer: string }[]
-      }>)
-        .filter((q) => q && typeof q.question === 'string')
-        .map((q) => ({
-          question: q.question,
-          answers: (q.suggested_answers ?? q.suggestedAnswers ?? []).filter(
-            (a): a is { answer: string } => !!a && typeof a.answer === 'string'
-          ),
-        }))
     : []
 
   const effort = effortStyle(effortLevel)
@@ -304,43 +289,6 @@ export function ConsultantMeasureCard({
                     ))}
                   </ul>
                 </div>
-              </div>
-            )}
-
-            {/* Questions — collapsed by default */}
-            {questions.length > 0 && (
-              <div>
-                <button
-                  onClick={() => setQuestionsOpen((p) => !p)}
-                  className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-opacity hover:opacity-70"
-                  style={{ color: '#737373' }}
-                >
-                  <HelpCircle className="size-3.5" />
-                  Rückfragen an Kunden ({questions.length})
-                  {questionsOpen
-                    ? <ChevronUp className="size-3.5" />
-                    : <ChevronDown className="size-3.5" />}
-                </button>
-                {questionsOpen && (
-                  <div className="mt-2 flex flex-col gap-3">
-                    {questions.map((q, i) => (
-                      <div key={i} className="rounded-lg border px-3 py-2.5" style={{ borderColor: '#F0F0F0', backgroundColor: '#FAFAFA' }}>
-                        <p className="text-[12px] font-semibold leading-snug" style={{ color: '#00095B' }}>
-                          {i + 1}. {q.question}
-                        </p>
-                        {q.answers.length > 0 && (
-                          <ul className="mt-1.5 flex flex-col gap-0.5 pl-3">
-                            {q.answers.map((a, j) => (
-                              <li key={j} className="text-[11px] leading-relaxed" style={{ color: '#737373' }}>
-                                · {a.answer}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             )}
 
