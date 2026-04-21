@@ -21,7 +21,6 @@ type Layout = 'list' | 'card'
 type TypeFilter = 'all' | 'anomaly' | 'trend' | 'changepoint' | 'structural'
 type ConfidenceFilter = 'all' | '0-25' | '25-50' | '50-75' | '75-100'
 type ActiveFilter = 'all' | 'active' | 'ended'
-type EffortFilter = 'all' | 'LOW' | 'MEDIUM' | 'HIGH'
 
 // ── Insight filter helpers ────────────────────────────────────────────────────
 
@@ -94,7 +93,6 @@ export function ConsultantPortalClient({
   const [measureLayout, setMeasureLayout] = useState<Layout>('card')
   const [measureCardIndex, setMeasureCardIndex] = useState(0)
   const [measureReEvalTarget, setMeasureReEvalTarget] = useState<MeasureReEvalTarget | null>(null)
-  const [effortFilter, setEffortFilter] = useState<EffortFilter>('all')
 
   // ── Insight computed ──
   const insightRatedIds = new Set(evaluations.map((e) => e.consultant_insight_id))
@@ -129,17 +127,6 @@ export function ConsultantPortalClient({
   const measureRatedCount = measureEvaluations.length
   const measureTotalCount = measures.length
 
-  const filteredMeasures = measures.filter((m) => {
-    if (effortFilter !== 'all') {
-      const raw = m.measure_raw ?? {}
-      const level = ((raw as Record<string, unknown>).effort_level as string | undefined)
-                 ?? ((raw as Record<string, unknown>).effortLevel as string | undefined)
-                 ?? null
-      if (level !== effortFilter) return false
-    }
-    return true
-  })
-  const filteredMeasureToRate = filteredMeasures.filter((m) => !measureRatedIds.has(m.id))
 
   // ── Progress (depends on contentType) ──
   const totalCount = contentType === 'insights' ? insightTotalCount : measureTotalCount
@@ -159,7 +146,6 @@ export function ConsultantPortalClient({
       setMeasureCardIndex(Math.max(0, measureToRate.length - 1))
     }
   }, [measureToRate.length, measureCardIndex])
-  useEffect(() => { setMeasureCardIndex(0) }, [effortFilter])
 
   function handleInsightRated(evaluation: ConsultantEvaluation) {
     setEvaluations((prev) => [...prev, evaluation])
@@ -209,14 +195,14 @@ export function ConsultantPortalClient({
   }, [insightReEvalTarget, measureReEvalTarget])
 
   const currentInsightCard = filteredInsightToRate[insightCardIndex] ?? null
-  const currentMeasureCard = filteredMeasureToRate[measureCardIndex] ?? null
+  const currentMeasureCard = measureToRate[measureCardIndex] ?? null
 
   // Active inner tab and layout based on contentType
   const tab = contentType === 'insights' ? insightTab : measureTab
   const setTab = contentType === 'insights' ? setInsightTab : setMeasureTab
   const layout = contentType === 'insights' ? insightLayout : measureLayout
   const setLayout = contentType === 'insights' ? setInsightLayout : setMeasureLayout
-  const innerToRateCount = contentType === 'insights' ? filteredInsightToRate.length : filteredMeasureToRate.length
+  const innerToRateCount = contentType === 'insights' ? filteredInsightToRate.length : measureToRate.length
 
   const showContentSwitcher = insightTotalCount > 0 && measureTotalCount > 0
 
@@ -429,38 +415,6 @@ export function ConsultantPortalClient({
           </div>
         )}
 
-        {/* ── Filters (measures) ── */}
-        {contentType === 'measures' && (
-          <div className="mb-5 flex flex-col gap-2">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] font-semibold uppercase tracking-wider w-20 shrink-0" style={{ color: '#AEAEAE' }}>Aufwand</span>
-              {([
-                { key: 'all',    label: 'Alle' },
-                { key: 'LOW',    label: 'Gering' },
-                { key: 'MEDIUM', label: 'Mittel' },
-                { key: 'HIGH',   label: 'Hoch' },
-              ] as { key: EffortFilter; label: string }[]).map(({ key, label }) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => setEffortFilter(key)}
-                  className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
-                  style={effortFilter === key
-                    ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
-                    : { backgroundColor: '#ffffff', color: '#737373', border: '1px solid #E5E5E5' }}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-            {effortFilter !== 'all' && (
-              <p className="text-[11px]" style={{ color: '#9ca3af' }}>
-                {filteredMeasures.length} von {measures.length} Maßnahmen entsprechen dem Filter
-              </p>
-            )}
-          </div>
-        )}
-
         {/* ── Insights content ── */}
         {contentType === 'insights' && tab === 'toRate' && (
           <>
@@ -521,7 +475,7 @@ export function ConsultantPortalClient({
         {/* ── Measures content ── */}
         {contentType === 'measures' && tab === 'toRate' && (
           <>
-            {filteredMeasureToRate.length === 0 ? (
+            {measureToRate.length === 0 ? (
               <EmptyState
                 label={measureRatedCount === measureTotalCount && measureTotalCount > 0 ? 'Alle Maßnahmen bewertet!' : 'Keine Maßnahmen vorhanden'}
                 onSwitchToRated={() => setMeasureTab('rated')}
@@ -529,7 +483,7 @@ export function ConsultantPortalClient({
               />
             ) : measureLayout === 'list' ? (
               <div className="flex flex-col gap-6">
-                {filteredMeasureToRate.map((measure, idx) => (
+                {measureToRate.map((measure, idx) => (
                   <ConsultantMeasureCard
                     key={measure.id}
                     measure={measure}
@@ -543,21 +497,21 @@ export function ConsultantPortalClient({
             ) : (
               <CardViewNav
                 index={measureCardIndex}
-                total={filteredMeasureToRate.length}
+                total={measureToRate.length}
                 onPrev={() => setMeasureCardIndex((p) => Math.max(0, p - 1))}
-                onNext={() => setMeasureCardIndex((p) => Math.min(filteredMeasureToRate.length - 1, p + 1))}
+                onNext={() => setMeasureCardIndex((p) => Math.min(measureToRate.length - 1, p + 1))}
               >
                 {currentMeasureCard && (
                   <ConsultantMeasureCard
                     key={currentMeasureCard.id}
                     measure={currentMeasureCard}
-                    index={filteredMeasures.indexOf(currentMeasureCard)}
+                    index={measures.indexOf(currentMeasureCard)}
                     evaluation={null}
                     evaluatorName={evaluatorName}
                     onRated={(ev) => {
                       handleMeasureRated(ev)
                       setTimeout(() => {
-                        setMeasureCardIndex((prev) => Math.min(prev, Math.max(0, filteredMeasureToRate.length - 2)))
+                        setMeasureCardIndex((prev) => Math.min(prev, Math.max(0, measureToRate.length - 2)))
                       }, 1000)
                     }}
                   />
