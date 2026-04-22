@@ -40,7 +40,7 @@ export function RatedMeasuresList({ measures, evaluations, onReEvaluate }: Rated
     <div className="overflow-x-auto rounded-xl border" style={{ borderColor: '#E5E5E5' }}>
       <table className="w-full text-left" style={{ borderCollapse: 'collapse' }}>
         <thead>
-          <tr style={{ backgroundColor: '#f8f9ff', borderBottom: '1px solid #E5E5E5' }}>
+          <tr style={{ borderBottom: '1px solid #E5E5E5' }}>
             {['#', 'Maßnahme', 'Verständl.', 'Plausib.', 'Wirtsch.', 'Umsetzb.', 'Gesamt', 'Kommentar', 'Alternative Vorschläge', 'Bewertet', ''].map((h) => (
               <th
                 key={h}
@@ -52,6 +52,11 @@ export function RatedMeasuresList({ measures, evaluations, onReEvaluate }: Rated
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   whiteSpace: 'nowrap',
+                  position: 'sticky',
+                  top: 0,
+                  backgroundColor: '#f8f9ff',
+                  boxShadow: 'inset 0 -1px 0 #E5E5E5',
+                  zIndex: 1,
                 }}
               >
                 {h}
