@@ -9,6 +9,9 @@ import {
 import { getInsightsForPortal } from '@/actions/consultant-insights'
 import { getEvaluationsForPortal } from '@/actions/consultant-evaluations'
 import type { ConsultantPortalWithStats, ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-types'
+import { MeasureFeedbackSection } from './measure-feedback-section'
+
+type FeedbackTab = 'insights' | 'measures'
 
 // ── Style helpers (from consultant-insight-card.tsx) ─────────────────────────
 
@@ -104,6 +107,7 @@ interface Props {
 
 export function ConsultantFeedbackClient({ portals }: Props) {
   const [selectedPortalId, setSelectedPortalId] = useState<string>(portals[0]?.id ?? '')
+  const [feedbackTab, setFeedbackTab] = useState<FeedbackTab>('insights')
   const [insights, setInsights] = useState<ConsultantInsight[]>([])
   const [evaluations, setEvaluations] = useState<ConsultantEvaluation[]>([])
   const [loading, setLoading] = useState(false)
@@ -125,8 +129,16 @@ export function ConsultantFeedbackClient({ portals }: Props) {
   }, [])
 
   useEffect(() => {
-    if (selectedPortalId) loadData(selectedPortalId)
-  }, [selectedPortalId, loadData])
+    if (!selectedPortalId) return
+    // Auto-pick tab based on which side has evaluations (measures-only portals default to measures)
+    const p = portals.find((x) => x.id === selectedPortalId)
+    if (p && p.eval_count === 0 && p.measure_eval_count > 0) setFeedbackTab('measures')
+    else setFeedbackTab('insights')
+  }, [selectedPortalId, portals])
+
+  useEffect(() => {
+    if (selectedPortalId && feedbackTab === 'insights') loadData(selectedPortalId)
+  }, [selectedPortalId, feedbackTab, loadData])
 
   const evalMap = new Map(evaluations.map((e) => [e.consultant_insight_id, e]))
   const ratedInsights = insights.filter((i) => evalMap.has(i.id))
@@ -192,11 +204,15 @@ export function ConsultantFeedbackClient({ portals }: Props) {
               minWidth: '280px',
             }}
           >
-            {portals.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.evaluator_name} — {p.eval_count}/{p.insight_count} bewertet
-              </option>
-            ))}
+            {portals.map((p) => {
+              const total = (p.insight_count ?? 0) + (p.measure_count ?? 0)
+              const rated = (p.eval_count ?? 0) + (p.measure_eval_count ?? 0)
+              return (
+                <option key={p.id} value={p.id}>
+                  {p.evaluator_name} — {rated}/{total} bewertet (E:{p.eval_count} M:{p.measure_eval_count})
+                </option>
+              )
+            })}
           </select>
         </div>
         {selectedPortal && (
@@ -206,13 +222,40 @@ export function ConsultantFeedbackClient({ portals }: Props) {
         )}
       </div>
 
-      {loading && (
+      {/* Tab toggle — only shown when the selected portal has content on both sides */}
+      {selectedPortal && (selectedPortal.insight_count > 0 || selectedPortal.measure_count > 0) && (
+        <div className="flex rounded-xl border p-1 self-start" style={{ backgroundColor: '#ffffff', borderColor: '#E5E5E5' }}>
+          {([
+            { key: 'insights' as FeedbackTab, label: `Erkenntnisse (${selectedPortal.eval_count}/${selectedPortal.insight_count})`, disabled: selectedPortal.insight_count === 0 },
+            { key: 'measures' as FeedbackTab, label: `Maßnahmen (${selectedPortal.measure_eval_count}/${selectedPortal.measure_count})`, disabled: selectedPortal.measure_count === 0 },
+          ]).map(({ key, label, disabled }) => (
+            <button
+              key={key}
+              type="button"
+              disabled={disabled}
+              onClick={() => setFeedbackTab(key)}
+              className="rounded-lg px-4 py-1.5 text-xs font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              style={feedbackTab === key
+                ? { backgroundColor: '#1A2FEE', color: '#ffffff' }
+                : { backgroundColor: 'transparent', color: '#737373' }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {feedbackTab === 'measures' && selectedPortalId && (
+        <MeasureFeedbackSection portalId={selectedPortalId} />
+      )}
+
+      {feedbackTab === 'insights' && loading && (
         <div className="flex items-center justify-center py-16">
           <div className="size-6 animate-spin rounded-full border-2 border-transparent" style={{ borderTopColor: '#1A2FEE' }} />
         </div>
       )}
 
-      {!loading && evaluations.length > 0 && (
+      {feedbackTab === 'insights' && !loading && evaluations.length > 0 && (
         <>
           {/* Stats bar */}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
@@ -270,10 +313,10 @@ export function ConsultantFeedbackClient({ portals }: Props) {
         </>
       )}
 
-      {!loading && evaluations.length === 0 && selectedPortalId && (
+      {feedbackTab === 'insights' && !loading && evaluations.length === 0 && selectedPortalId && (
         <div className="flex flex-col items-center gap-2 py-16 text-center">
           <Users className="size-8" style={{ color: '#AEAEAE' }} />
-          <p className="text-sm" style={{ color: '#AEAEAE' }}>Noch keine Bewertungen für diesen Consultant.</p>
+          <p className="text-sm" style={{ color: '#AEAEAE' }}>Noch keine Erkenntnis-Bewertungen für diesen Consultant.</p>
         </div>
       )}
     </div>
