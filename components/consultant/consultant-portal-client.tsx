@@ -211,7 +211,7 @@ export function ConsultantPortalClient({
 
       {/* ── Header ── */}
       <div className="border-b shadow-sm" style={{ backgroundColor: '#00095B', borderColor: 'rgba(26,47,238,0.25)' }}>
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 md:px-10">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10">
           <div>
             <p className="text-base font-bold text-white">ecoplanet</p>
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>
@@ -237,7 +237,7 @@ export function ConsultantPortalClient({
 
       {/* ── Hero ── */}
       <div className="relative overflow-hidden" style={{ backgroundColor: '#00095B' }}>
-        <div className="relative mx-auto max-w-6xl px-6 pb-10 pt-6 md:px-10">
+        <div className="relative mx-auto max-w-7xl px-6 pb-10 pt-6 md:px-10">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: '#AEAEAE' }}>
@@ -279,7 +279,7 @@ export function ConsultantPortalClient({
       </div>
 
       {/* ── Main content ── */}
-      <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-6 md:px-10">
+      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-6 md:px-10">
 
         {/* Content type switcher — only when both have items */}
         {showContentSwitcher && (
@@ -532,7 +532,7 @@ export function ConsultantPortalClient({
 
       {/* ── Footer ── */}
       <footer style={{ backgroundColor: '#00095B' }}>
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 md:px-10">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
           <p className="text-xs font-bold text-white">ecoplanet</p>
           <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Energie-Intelligence für die Industrie</p>
         </div>

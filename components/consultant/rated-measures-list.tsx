@@ -67,7 +67,7 @@ export function RatedMeasuresList({ measures, evaluations, onReEvaluate }: Rated
                   {idx + 1}
                 </td>
 
-                <td style={{ padding: '10px 14px', minWidth: '200px', maxWidth: '280px' }}>
+                <td style={{ padding: '10px 14px', minWidth: '180px', maxWidth: '240px' }}>
                   <p style={{ fontSize: '12px', fontWeight: 600, color: '#00095B', lineHeight: 1.4 }}>
                     {measure.measure_title}
                   </p>
@@ -79,7 +79,7 @@ export function RatedMeasuresList({ measures, evaluations, onReEvaluate }: Rated
                 <td style={{ padding: '10px 14px', textAlign: 'center' }}>{scoreCell(ev.umsetzbarkeit)}</td>
                 <td style={{ padding: '10px 14px', textAlign: 'center' }}>{scoreCell(ev.gesamteindruck)}</td>
 
-                <td style={{ padding: '10px 14px', maxWidth: '200px' }}>
+                <td style={{ padding: '10px 12px', maxWidth: '140px' }}>
                   {ev.notes ? (
                     <p style={{ fontSize: '11px', color: '#737373', lineHeight: 1.4 }} title={ev.notes}>
                       {ev.notes.length > 60 ? ev.notes.slice(0, 60) + '…' : ev.notes}
@@ -89,7 +89,7 @@ export function RatedMeasuresList({ measures, evaluations, onReEvaluate }: Rated
                   )}
                 </td>
 
-                <td style={{ padding: '10px 14px', maxWidth: '200px' }}>
+                <td style={{ padding: '10px 12px', maxWidth: '140px' }}>
                   {ev.alternative_measures ? (
                     <p style={{ fontSize: '11px', color: '#737373', lineHeight: 1.4 }} title={ev.alternative_measures}>
                       {ev.alternative_measures.length > 60 ? ev.alternative_measures.slice(0, 60) + '…' : ev.alternative_measures}
