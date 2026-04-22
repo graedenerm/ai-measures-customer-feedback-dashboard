@@ -10,6 +10,7 @@ import { getInsightsForPortal } from '@/actions/consultant-insights'
 import { getEvaluationsForPortal } from '@/actions/consultant-evaluations'
 import type { ConsultantPortalWithStats, ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-types'
 import { MeasureFeedbackSection } from './measure-feedback-section'
+import { RatingTimeline } from './rating-timeline'
 
 type FeedbackTab = 'insights' | 'measures'
 
@@ -269,6 +270,9 @@ export function ConsultantFeedbackClient({ portals }: Props) {
 
           {/* Rating distribution */}
           <RatingDistribution evaluations={evaluations} />
+
+          {/* Timeline (collapsible) */}
+          <RatingTimeline evaluations={evaluations} />
 
           {/* Table */}
           <div className="overflow-x-auto rounded-xl border" style={{ borderColor: '#E5E5E5', backgroundColor: '#ffffff' }}>
