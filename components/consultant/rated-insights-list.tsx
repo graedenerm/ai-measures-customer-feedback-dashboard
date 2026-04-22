@@ -2,6 +2,7 @@
 
 import { Pencil } from 'lucide-react'
 import type { ConsultantInsight, ConsultantEvaluation } from '@/lib/consultant-types'
+import { ExpandableText } from './expandable-text'
 
 interface RatedInsightsListProps {
   insights: ConsultantInsight[]
@@ -82,11 +83,9 @@ export function RatedInsightsList({ insights, evaluations, onReEvaluate }: Rated
                 <td style={{ padding: '10px 14px', textAlign: 'center' }}>{scoreCell(ev.gesamteindruck)}</td>
 
                 {/* Comment */}
-                <td style={{ padding: '10px 14px', maxWidth: '200px' }}>
+                <td style={{ padding: '10px 14px', maxWidth: '200px', verticalAlign: 'top' }}>
                   {ev.notes ? (
-                    <p style={{ fontSize: '11px', color: '#737373', lineHeight: 1.4 }} title={ev.notes}>
-                      {ev.notes.length > 60 ? ev.notes.slice(0, 60) + '…' : ev.notes}
-                    </p>
+                    <ExpandableText text={ev.notes} />
                   ) : (
                     <span style={{ fontSize: '11px', color: '#AEAEAE' }}>—</span>
                   )}
