@@ -2,10 +2,35 @@
 
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import { MapPin, ChevronRight, Lightbulb, Wrench } from 'lucide-react'
+import { MapPin, ChevronRight, Lightbulb, Wrench, Activity } from 'lucide-react'
 import { InsightList } from '@/components/insights/insight-list'
 import { MeasureInlineCard } from '@/components/measures/measure-inline-card'
 import type { RunDetail } from '@/lib/types'
+
+type CategoryKey = 'trend' | 'changepoint' | 'anomaly' | 'structural'
+
+const CATEGORY_META: Record<CategoryKey, { label: string; color: string; bg: string }> = {
+  trend:       { label: 'Trend',         color: '#7c3aed', bg: 'rgba(168,85,247,0.08)' },
+  changepoint: { label: 'Niveauwechsel', color: '#ea580c', bg: 'rgba(234,88,12,0.08)' },
+  anomaly:     { label: 'Anomalie',      color: '#dc2626', bg: 'rgba(220,38,38,0.08)' },
+  structural:  { label: 'Strukturell',   color: '#1A2FEE', bg: 'rgba(26,47,238,0.08)' },
+}
+const CATEGORY_ORDER: CategoryKey[] = ['trend', 'changepoint', 'anomaly', 'structural']
+
+function categoryOf(type: string): CategoryKey {
+  if (type.includes('anomaly')) return 'anomaly'
+  if (type.includes('changepoint')) return 'changepoint'
+  if (type.includes('trend')) return 'trend'
+  return 'structural'
+}
+
+function activeOf(raw: unknown): boolean | null {
+  if (raw && typeof raw === 'object' && 'active' in raw) {
+    const v = (raw as { active?: unknown }).active
+    if (typeof v === 'boolean') return v
+  }
+  return null
+}
 
 interface RunDetailClientProps {
   run: RunDetail
@@ -27,9 +52,73 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
   }, [run.locations])
 
   const [activeLocation, setActiveLocation] = useState<string>('all')
+  const [selectedCategories, setSelectedCategories] = useState<Set<CategoryKey>>(new Set())
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'ended'>('all')
   const [view, setView] = useState<'insights' | 'measures'>('insights')
 
   const handleEvaluationSubmitted = () => router.refresh()
+
+  const locationFiltered = useMemo(
+    () =>
+      activeLocation === 'all'
+        ? run.insights
+        : run.insights.filter((i) => i.location_id === activeLocation),
+    [run.insights, activeLocation]
+  )
+
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<CategoryKey, number>()
+    for (const i of locationFiltered) {
+      const k = categoryOf(i.type)
+      counts.set(k, (counts.get(k) ?? 0) + 1)
+    }
+    return counts
+  }, [locationFiltered])
+
+  const presentCategories = useMemo(
+    () => CATEGORY_ORDER.filter((k) => (categoryCounts.get(k) ?? 0) > 0),
+    [categoryCounts]
+  )
+
+  const statusCounts = useMemo(() => {
+    let active = 0
+    let ended = 0
+    let total = 0
+    for (const i of locationFiltered) {
+      const a = activeOf(i.raw_json)
+      if (a === true) active++
+      else if (a === false) ended++
+      if (a !== null) total++
+    }
+    return { active, ended, total }
+  }, [locationFiltered])
+
+  const showStatusFilter = statusCounts.total > 0
+
+  const visibleInsights = useMemo(() => {
+    return locationFiltered.filter((i) => {
+      if (selectedCategories.size > 0 && !selectedCategories.has(categoryOf(i.type))) return false
+      if (statusFilter !== 'all') {
+        const a = activeOf(i.raw_json)
+        if (statusFilter === 'active' && a !== true) return false
+        if (statusFilter === 'ended' && a !== false) return false
+      }
+      return true
+    })
+  }, [locationFiltered, selectedCategories, statusFilter])
+
+  const visibleMeasures = useMemo(
+    () => visibleInsights.flatMap((i) => i.measures),
+    [visibleInsights]
+  )
+
+  const toggleCategory = (k: CategoryKey) =>
+    setSelectedCategories((prev) => {
+      const next = new Set(prev)
+      if (next.has(k)) next.delete(k)
+      else next.add(k)
+      return next
+    })
 
   if (run.insights.length === 0) {
     return (
@@ -40,16 +129,6 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
       </div>
     )
   }
-
-  const visibleInsights =
-    activeLocation === 'all'
-      ? run.insights
-      : run.insights.filter((i) => i.location_id === activeLocation)
-
-  const visibleMeasures = useMemo(
-    () => visibleInsights.flatMap((i) => i.measures),
-    [visibleInsights]
-  )
 
   return (
     <div className="p-6 max-w-6xl mx-auto w-full">
@@ -129,6 +208,86 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
               )
             })}
           </div>
+        </div>
+      )}
+
+      {/* ── Category & status filters ── */}
+      {(presentCategories.length > 1 || showStatusFilter) && (
+        <div className="mb-6 flex flex-col gap-4">
+
+          {presentCategories.length > 1 && (
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
+                Kategorie
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedCategories(new Set())}
+                  className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-all"
+                  style={{
+                    borderColor: selectedCategories.size === 0 ? '#1A2FEE' : '#E5E5E5',
+                    backgroundColor: selectedCategories.size === 0 ? 'rgba(26,47,238,0.06)' : '#FFFFFF',
+                    color: selectedCategories.size === 0 ? '#1A2FEE' : '#737373',
+                  }}
+                >
+                  Alle ({locationFiltered.length})
+                </button>
+                {presentCategories.map((k) => {
+                  const meta = CATEGORY_META[k]
+                  const isOn = selectedCategories.has(k)
+                  return (
+                    <button
+                      key={k}
+                      onClick={() => toggleCategory(k)}
+                      className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-all"
+                      style={{
+                        borderColor: isOn ? meta.color : '#E5E5E5',
+                        backgroundColor: isOn ? meta.bg : '#FFFFFF',
+                        color: isOn ? meta.color : '#737373',
+                      }}
+                    >
+                      {meta.label} ({categoryCounts.get(k) ?? 0})
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {showStatusFilter && (
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-wider" style={{ color: '#AEAEAE' }}>
+                Status
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {(
+                  [
+                    { key: 'all',    label: 'Alle',    color: '#1A2FEE', bg: 'rgba(26,47,238,0.06)' },
+                    { key: 'active', label: 'Aktiv',   color: '#dc2626', bg: 'rgba(220,38,38,0.08)' },
+                    { key: 'ended',  label: 'Beendet', color: '#737373', bg: 'rgba(0,0,0,0.05)' },
+                  ] as const
+                ).map(({ key, label, color, bg }) => {
+                  const isOn = statusFilter === key
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => setStatusFilter(key)}
+                      className="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all"
+                      style={{
+                        borderColor: isOn ? color : '#E5E5E5',
+                        backgroundColor: isOn ? bg : '#FFFFFF',
+                        color: isOn ? color : '#737373',
+                      }}
+                    >
+                      {key !== 'all' && <Activity className="size-3" />}
+                      {label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
         </div>
       )}
 
