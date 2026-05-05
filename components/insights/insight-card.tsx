@@ -6,6 +6,7 @@ import {
   TrendingUp, AlertTriangle, ChevronDown, ChevronUp,
   Shield, Euro, Zap, MapPin, Wrench, Target, Info,
   ThumbsUp, ThumbsDown, Minus, FileText, Gauge,
+  Calendar, Activity,
 } from 'lucide-react'
 import { InlineRating } from '@/components/rating/inline-rating'
 import type { InsightWithMeasures } from '@/lib/types'
@@ -16,9 +17,40 @@ import { MeasureList } from '@/components/measures/measure-list'
 function typeStyle(type: string) {
   if (type.includes('anomaly'))
     return { bg: 'rgba(220,38,38,0.08)', text: '#dc2626', label: 'Anomalie', isAnomaly: true }
+  if (type.includes('changepoint'))
+    return { bg: 'rgba(234,88,12,0.08)', text: '#ea580c', label: 'Niveauwechsel', isAnomaly: true }
   if (type.includes('trend'))
     return { bg: 'rgba(168,85,247,0.08)', text: '#7c3aed', label: 'Trend', isAnomaly: false }
   return { bg: 'rgba(26,47,238,0.08)', text: '#1A2FEE', label: 'Strukturell', isAnomaly: false }
+}
+
+function activeStyle(active: unknown) {
+  if (typeof active !== 'boolean') return null
+  return active
+    ? { bg: 'rgba(220,38,38,0.08)', text: '#dc2626', label: 'Aktiv' }
+    : { bg: 'rgba(0,0,0,0.05)', text: '#737373', label: 'Beendet' }
+}
+
+function formatDateDe(d: unknown): string | null {
+  if (typeof d !== 'string') return null
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d)
+  if (!m) return d
+  return `${m[3]}.${m[2]}.${m[1]}`
+}
+
+function periodLabel(raw: Record<string, unknown>, type: string): string | null {
+  if (type.includes('trend')) {
+    const start = formatDateDe(raw.trend_start_date)
+    const end = formatDateDe(raw.trend_end_date)
+    if (start && end) return `${start} – ${end}`
+    if (start) return `ab ${start}`
+    return null
+  }
+  if (type.includes('changepoint')) {
+    const onset = formatDateDe(raw.onset_date)
+    return onset ? `ab ${onset}` : null
+  }
+  return null
 }
 
 function confidenceStyle(c: number | null) {
@@ -92,6 +124,9 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
   const meters = Array.isArray(ctx?.meters)
     ? (ctx.meters as { meterTitle?: string; deviceId?: string; energyType?: string; isVirtual?: boolean; isDefault?: boolean }[]).filter(m => m.deviceId || m.meterTitle)
     : []
+  const meterId = typeof raw?.meter_id === 'string' ? raw.meter_id : null
+  const activeBadge = activeStyle(raw?.active)
+  const period = periodLabel(raw, insight.type)
 
   return (
     <motion.div
@@ -146,6 +181,16 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
                     <Wrench className="size-2.5" /> {insight.measures.length} Maßnahme{insight.measures.length > 1 ? 'n' : ''}
                   </span>
                 )}
+                {activeBadge && (
+                  <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: activeBadge.bg, color: activeBadge.text }}>
+                    <Activity className="size-2.5" /> {activeBadge.label}
+                  </span>
+                )}
+                {period && (
+                  <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: 'rgba(0,0,0,0.04)', color: '#444444' }}>
+                    <Calendar className="size-2.5" /> {period}
+                  </span>
+                )}
               </div>
 
               <h3 className="text-sm font-bold leading-snug" style={{ color: '#00095B' }}>
@@ -158,10 +203,20 @@ export function InsightCard({ insight, index, onEvaluationSubmitted }: InsightCa
                 </p>
               )}
 
-              {locationLabel && (
-                <div className="mt-1.5 flex items-center gap-1" style={{ color: '#AEAEAE' }}>
-                  <MapPin className="size-3 shrink-0" />
-                  <span className="text-[11px]">{locationLabel}</span>
+              {(locationLabel || meterId) && (
+                <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-0.5" style={{ color: '#AEAEAE' }}>
+                  {locationLabel && (
+                    <span className="flex items-center gap-1">
+                      <MapPin className="size-3 shrink-0" />
+                      <span className="text-[11px]">{locationLabel}</span>
+                    </span>
+                  )}
+                  {meterId && (
+                    <span className="flex items-center gap-1">
+                      <Gauge className="size-3 shrink-0" />
+                      <span className="text-[11px] font-mono">{meterId}</span>
+                    </span>
+                  )}
                 </div>
               )}
 
