@@ -46,7 +46,7 @@ export async function uploadConsultantInsights(
   }
 
   if (rawInsights.length === 0) {
-    return { success: false, error: 'Keine Erkenntnisse in der Datei gefunden.' }
+    return { success: false, error: 'Keine Auffälligkeiten in der Datei gefunden.' }
   }
 
   const supabase = await createClient()

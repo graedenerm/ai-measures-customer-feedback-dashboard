@@ -215,7 +215,7 @@ export function ConsultantPortalClient({
           <div>
             <p className="text-base font-bold text-white">ecoplanet</p>
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>
-              {contentType === 'insights' ? 'Erkenntnis-Evaluierung' : 'Maßnahmen-Evaluierung'} · {evaluatorName}
+              {contentType === 'insights' ? 'Auffälligkeits-Evaluierung' : 'Maßnahmen-Evaluierung'} · {evaluatorName}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -242,13 +242,13 @@ export function ConsultantPortalClient({
             <div>
               <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: '#AEAEAE' }}>
                 {contentType === 'insights'
-                  ? 'Qualitätsbewertung KI-Erkenntnisse'
+                  ? 'Qualitätsbewertung KI-Auffälligkeiten'
                   : 'Qualitätsbewertung KI-Maßnahmen'}
               </p>
               <h1 className="text-2xl font-bold text-white md:text-3xl">{evaluatorName}</h1>
               <p className="mt-2 text-sm" style={{ color: '#AEAEAE' }}>
                 {contentType === 'insights'
-                  ? 'Bitte bewerten Sie jede Erkenntnis anhand der vier Qualitätskriterien.'
+                  ? 'Bitte bewerten Sie jede Auffälligkeit anhand der vier Qualitätskriterien.'
                   : 'Bitte bewerten Sie jede Maßnahme anhand der fünf Qualitätskriterien.'}
               </p>
             </div>
@@ -286,7 +286,7 @@ export function ConsultantPortalClient({
           <div className="mb-5 flex justify-center">
             <div className="flex rounded-xl border p-1" style={{ backgroundColor: '#ffffff', borderColor: '#E5E5E5' }}>
               {[
-                { key: 'insights' as ContentType, icon: Lightbulb, label: 'Erkenntnisse', count: insightTotalCount, rated: insightRatedCount },
+                { key: 'insights' as ContentType, icon: Lightbulb, label: 'Auffälligkeiten', count: insightTotalCount, rated: insightRatedCount },
                 { key: 'measures' as ContentType, icon: Wrench,    label: 'Maßnahmen',    count: measureTotalCount, rated: measureRatedCount },
               ].map(({ key, icon: Icon, label, count, rated }) => (
                 <button
@@ -409,7 +409,7 @@ export function ConsultantPortalClient({
 
             {(typeFilter !== 'all' || activeFilter !== 'all') && (
               <p className="text-[11px]" style={{ color: '#9ca3af' }}>
-                {filteredInsights.length} von {insights.length} Erkenntnissen entsprechen den Filtern
+                {filteredInsights.length} von {insights.length} Auffälligkeiten entsprechen den Filtern
               </p>
             )}
           </div>
@@ -420,7 +420,7 @@ export function ConsultantPortalClient({
           <>
             {filteredInsightToRate.length === 0 ? (
               <EmptyState
-                label={insightRatedCount === insightTotalCount && insightTotalCount > 0 ? 'Alle Erkenntnisse bewertet!' : 'Keine Erkenntnisse vorhanden'}
+                label={insightRatedCount === insightTotalCount && insightTotalCount > 0 ? 'Alle Auffälligkeiten bewertet!' : 'Keine Auffälligkeiten vorhanden'}
                 onSwitchToRated={() => setInsightTab('rated')}
                 hasRated={insightRatedCount > 0}
               />

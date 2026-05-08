@@ -124,7 +124,7 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border border-dashed p-16 text-center m-6" style={{ borderColor: '#E5E5E5' }}>
         <p className="text-sm font-medium" style={{ color: '#737373' }}>
-          Keine Erkenntnisse für diesen Durchlauf verfügbar.
+          Keine Auffälligkeiten für diesen Durchlauf verfügbar.
         </p>
       </div>
     )
@@ -161,7 +161,7 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
                   Alle Standorte
                 </p>
                 <p className="text-xs" style={{ color: '#AEAEAE' }}>
-                  {run.insights.length} Erkenntnisse
+                  {run.insights.length} Auffälligkeiten
                 </p>
               </div>
               <ChevronRight
@@ -197,7 +197,7 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
                       {title}
                     </p>
                     <p className="text-xs" style={{ color: '#AEAEAE' }}>
-                      {count} Erkenntnisse
+                      {count} Auffälligkeiten
                     </p>
                   </div>
                   <ChevronRight
@@ -295,7 +295,7 @@ export function RunDetailClient({ run }: RunDetailClientProps) {
       <div className="mb-6 flex gap-2">
         {(
           [
-            { key: 'insights', label: 'Erkenntnisse', Icon: Lightbulb, count: visibleInsights.length },
+            { key: 'insights', label: 'Auffälligkeiten', Icon: Lightbulb, count: visibleInsights.length },
             { key: 'measures', label: 'Maßnahmen',    Icon: Wrench,    count: visibleMeasures.length },
           ] as const
         ).map(({ key, label, Icon, count }) => {

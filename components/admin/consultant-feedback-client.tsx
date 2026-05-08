@@ -227,7 +227,7 @@ export function ConsultantFeedbackClient({ portals }: Props) {
       {selectedPortal && (selectedPortal.insight_count > 0 || selectedPortal.measure_count > 0) && (
         <div className="flex rounded-xl border p-1 self-start" style={{ backgroundColor: '#ffffff', borderColor: '#E5E5E5' }}>
           {([
-            { key: 'insights' as FeedbackTab, label: `Erkenntnisse (${selectedPortal.eval_count}/${selectedPortal.insight_count})`, disabled: selectedPortal.insight_count === 0 },
+            { key: 'insights' as FeedbackTab, label: `Auffälligkeiten (${selectedPortal.eval_count}/${selectedPortal.insight_count})`, disabled: selectedPortal.insight_count === 0 },
             { key: 'measures' as FeedbackTab, label: `Maßnahmen (${selectedPortal.measure_eval_count}/${selectedPortal.measure_count})`, disabled: selectedPortal.measure_count === 0 },
           ]).map(({ key, label, disabled }) => (
             <button
@@ -284,7 +284,7 @@ export function ConsultantFeedbackClient({ portals }: Props) {
                     Typ
                   </th>
                   <th style={{ padding: '10px 14px', fontSize: '10px', fontWeight: 700, color: '#AEAEAE', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Erkenntnis
+                    Auffälligkeit
                   </th>
                   <SortHeader label="Verständl." sortKeyVal="verstaendlichkeit" className="text-center" />
                   <SortHeader label="Plausib." sortKeyVal="plausibilitaet" className="text-center" />
@@ -320,7 +320,7 @@ export function ConsultantFeedbackClient({ portals }: Props) {
       {feedbackTab === 'insights' && !loading && evaluations.length === 0 && selectedPortalId && (
         <div className="flex flex-col items-center gap-2 py-16 text-center">
           <Users className="size-8" style={{ color: '#AEAEAE' }} />
-          <p className="text-sm" style={{ color: '#AEAEAE' }}>Noch keine Erkenntnis-Bewertungen für diesen Consultant.</p>
+          <p className="text-sm" style={{ color: '#AEAEAE' }}>Noch keine Auffälligkeits-Bewertungen für diesen Consultant.</p>
         </div>
       )}
     </div>

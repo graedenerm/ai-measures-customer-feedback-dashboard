@@ -31,7 +31,7 @@ export function RatedInsightsList({ insights, evaluations, onReEvaluate }: Rated
   if (ratedInsights.length === 0) {
     return (
       <div className="flex flex-col items-center gap-2 py-16 text-center">
-        <p className="text-sm" style={{ color: '#AEAEAE' }}>Noch keine Erkenntnisse bewertet.</p>
+        <p className="text-sm" style={{ color: '#AEAEAE' }}>Noch keine Auffälligkeiten bewertet.</p>
       </div>
     )
   }
@@ -41,7 +41,7 @@ export function RatedInsightsList({ insights, evaluations, onReEvaluate }: Rated
       <table className="w-full text-left" style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ borderBottom: '1px solid #E5E5E5' }}>
-            {['#', 'Erkenntnis', 'Verständl.', 'Plausib.', 'Aktionab.', 'Gesamt', 'Kommentar', 'Bewertet', ''].map((h) => (
+            {['#', 'Auffälligkeit', 'Verständl.', 'Plausib.', 'Aktionab.', 'Gesamt', 'Kommentar', 'Bewertet', ''].map((h) => (
               <th
                 key={h}
                 style={{

@@ -278,7 +278,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                         {portal.evaluator_name}
                       </p>
                       <p style={{ fontSize: '11px', color: '#9ca3af', marginTop: '1px' }}>
-                        /eval/{portal.slug} · {portal.insight_count} Erkenntnisse ({portal.eval_count} Bew.) · {portal.measure_count} Maßnahmen ({portal.measure_eval_count} Bew.)
+                        /eval/{portal.slug} · {portal.insight_count} Auffälligkeiten ({portal.eval_count} Bew.) · {portal.measure_count} Maßnahmen ({portal.measure_eval_count} Bew.)
                       </p>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -323,7 +323,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                         <label style={labelStyle}>Typ</label>
                         <div style={{ display: 'flex', gap: '6px' }}>
                           {([
-                            { key: 'insights' as UploadType, label: 'Erkenntnisse' },
+                            { key: 'insights' as UploadType, label: 'Auffälligkeiten' },
                             { key: 'measures' as UploadType, label: 'Maßnahmen'   },
                           ]).map(({ key, label }) => (
                             <button
@@ -354,7 +354,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                         </div>
                         <p style={hintStyle}>
                           {uploadType === 'insights'
-                            ? 'Statistische Erkenntnisse (statistical_insights*.json)'
+                            ? 'Statistische Auffälligkeiten (statistical_insights*.json)'
                             : 'Maßnahmen-Dateien (measures_output*.json)'}
                         </p>
                       </div>
@@ -372,7 +372,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                             <option key={c.id} value={c.id}>{c.name}</option>
                           ))}
                         </select>
-                        <p style={hintStyle}>Wird bei jeder Erkenntnis dieser Upload-Batch gespeichert</p>
+                        <p style={hintStyle}>Wird bei jeder Auffälligkeit dieser Upload-Batch gespeichert</p>
                       </div>
 
                       {/* Drop zone */}
@@ -429,7 +429,7 @@ export function ConsultantAdminClient({ portals: initialPortals, companies }: Co
                                 </span>
                                 {f.count !== null && (
                                   <span style={{ fontSize: '11px', color: '#6b7280' }}>
-                                    ({f.count} {uploadType === 'insights' ? 'Erkenntnisse' : 'Maßnahmen'})
+                                    ({f.count} {uploadType === 'insights' ? 'Auffälligkeiten' : 'Maßnahmen'})
                                   </span>
                                 )}
                                 {f.error && (

@@ -265,7 +265,7 @@ export function RatingTimeline({ evaluations, title = 'Zeitverlauf der Bewertung
           </span>
           <span className="text-[11px]" style={{ color: '#AEAEAE' }}>
             · Ø {overallAvg.toFixed(2)} über {points.length} Bewertungen
-            {observations.length > 0 && ` · ${observations.length} Erkenntnisse`}
+            {observations.length > 0 && ` · ${observations.length} Auffälligkeiten`}
           </span>
         </div>
         {open ? <ChevronUp className="size-4" style={{ color: '#737373' }} /> : <ChevronDown className="size-4" style={{ color: '#737373' }} />}

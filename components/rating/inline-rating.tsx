@@ -29,7 +29,7 @@ const impressionConfig = [
     value: 'positive' as const,
     icon: ThumbsUp,
     label: 'Positiv',
-    descriptionInsight: 'Die Erkenntnis ist korrekt und hilfreich',
+    descriptionInsight: 'Die Auffälligkeit ist korrekt und hilfreich',
     descriptionMeasure: 'Die Maßnahme ist plausibel und umsetzbar',
     selectedBg: '#059669',
     selectedBorder: '#059669',
@@ -40,7 +40,7 @@ const impressionConfig = [
     value: 'neutral' as const,
     icon: Minus,
     label: 'Neutral',
-    descriptionInsight: 'Diese Erkenntnis ist korrekt, bringt jedoch keinen Mehrwert',
+    descriptionInsight: 'Diese Auffälligkeit ist korrekt, bringt jedoch keinen Mehrwert',
     descriptionMeasure: 'Diese Maßnahme ist korrekt, bringt jedoch keinen Mehrwert',
     selectedBg: '#52525b',
     selectedBorder: '#52525b',
@@ -51,7 +51,7 @@ const impressionConfig = [
     value: 'negative' as const,
     icon: ThumbsDown,
     label: 'Negativ',
-    descriptionInsight: 'Die Erkenntnis ist inkorrekt',
+    descriptionInsight: 'Die Auffälligkeit ist inkorrekt',
     descriptionMeasure: 'Die Maßnahme ist nicht umsetzbar oder relevant',
     selectedBg: '#dc2626',
     selectedBorder: '#dc2626',
@@ -366,7 +366,7 @@ export function InlineRating({ itemType, itemId, evaluations = [], onSuccess }: 
               <MetricRating
                 label="Relevanz"
                 description={itemType === 'insight'
-                  ? 'Ist die Erkenntnis relevant für Sie und hinreichend konkret, um die nächsten Schritte davon abzuleiten?'
+                  ? 'Ist die Auffälligkeit relevant für Sie und hinreichend konkret, um die nächsten Schritte davon abzuleiten?'
                   : 'Ist die Maßnahme relevant für Sie und hinreichend konkret, um die nächsten Schritte davon abzuleiten?'}
                 value={relevance}
                 onChange={setRelevance}
@@ -374,7 +374,7 @@ export function InlineRating({ itemType, itemId, evaluations = [], onSuccess }: 
               <MetricRating
                 label="Plausibilität"
                 description={itemType === 'insight'
-                  ? 'Halten Sie die Erkenntnis sowie die damit verbundenen Einsparpotenziale für inhaltlich plausibel?'
+                  ? 'Halten Sie die Auffälligkeit sowie die damit verbundenen Einsparpotenziale für inhaltlich plausibel?'
                   : 'Halten Sie die Maßnahme sowie die damit verbundenen Einsparpotenziale für inhaltlich plausibel?'}
                 value={plausibility}
                 onChange={setPlausibility}

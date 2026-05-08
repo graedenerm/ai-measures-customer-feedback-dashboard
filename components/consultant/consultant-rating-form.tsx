@@ -15,17 +15,17 @@ const CATEGORIES = [
   {
     key: 'plausibilitaet' as const,
     label: 'Plausibilität',
-    description: 'Halten Sie die Erkenntnis sowie die damit verbunden Einsparpotenziale für inhaltlich plausibel?',
+    description: 'Halten Sie die Auffälligkeit sowie die damit verbunden Einsparpotenziale für inhaltlich plausibel?',
   },
   {
     key: 'aktionabilitaet' as const,
     label: 'Aktionabilität',
-    description: 'Ist die Erkenntnis hinreichend konkret, um die nächsten Schritte davon abzuleiten?',
+    description: 'Ist die Auffälligkeit hinreichend konkret, um die nächsten Schritte davon abzuleiten?',
   },
   {
     key: 'gesamteindruck' as const,
     label: 'Gesamteindruck',
-    description: 'Wie wertvoll finden Sie die Erkenntnis in Summe?',
+    description: 'Wie wertvoll finden Sie die Auffälligkeit in Summe?',
   },
 ] as const
 

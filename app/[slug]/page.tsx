@@ -78,7 +78,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
                 {company.name}
               </h1>
               <p className="mt-3 text-sm leading-relaxed" style={{ color: '#AEAEAE' }}>
-                Bitte bewerten Sie die folgenden KI-generierten Erkenntnisse und Maßnahmen.
+                Bitte bewerten Sie die folgenden KI-generierten Auffälligkeiten und Maßnahmen.
                 Ihre Rückmeldung hilft uns, die Qualität kontinuierlich zu verbessern.
               </p>
             </div>
@@ -91,7 +91,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
               <div className="flex gap-8">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#AEAEAE' }}>
-                    Erkenntnisse
+                    Auffälligkeiten
                   </p>
                   <p className="mt-1 font-mono text-3xl font-bold text-white">
                     {run.insights.length}
